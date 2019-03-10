@@ -12,39 +12,49 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { environment } from '../environments/environment';
+import { ReactiveFormsModule } from '@angular/forms';
 
+/**
+ * Get the JWT Options factory.
+ * @param storage
+ * @returns {{tokenGetter: () => any; whitelistedDomains: string[]}}
+ */
 export function jwtOptionsFactory(storage) {
-    return {
-        tokenGetter: () => {
-            return storage.get('access_token');
-        },
-        whitelistedDomains: [environment.url]
-    };
+  return {
+    tokenGetter: () => {
+      return storage.get('access_token');
+    },
+    whitelistedDomains: [environment.url],
+  };
 }
 
 @NgModule({
-    declarations: [AppComponent],
-    entryComponents: [],
-    imports: [
-        BrowserModule,
-        IonicModule.forRoot(),
-        AppRoutingModule,
-        HttpClientModule,
-        IonicStorageModule.forRoot(),
-        JwtModule.forRoot({
-            jwtOptionsProvider: {
-                provide: JWT_OPTIONS,
-                useFactory: jwtOptionsFactory,
-                deps: [Storage],
-            }
-        }),
-    ],
-    providers: [
-        StatusBar,
-        SplashScreen,
-        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
-    ],
-    bootstrap: [AppComponent]
+  declarations: [AppComponent],
+  entryComponents: [],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    IonicStorageModule.forRoot(),
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptionsFactory,
+        deps: [Storage],
+      },
+    }),
+  ],
+  providers: [
+    StatusBar,
+    SplashScreen,
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+  ],
+  bootstrap: [AppComponent],
 })
+/**
+ * Class AppModule
+ */
 export class AppModule {
 }
