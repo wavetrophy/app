@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AlertController, Platform } from '@ionic/angular';
 import { catchError, tap } from 'rxjs/operators';
+import { Storage } from '@ionic/storage';
 
 const TOKEN_KEY = 'access_token';
 
@@ -17,7 +18,7 @@ const TOKEN_KEY = 'access_token';
 export class AuthService {
   private url = environment.url;
   private user = null;
-  private authenticationState = new BehaviorSubject(false);
+  private _authenticationState = new BehaviorSubject(false);
 
   /**
    * AuthenticationService constructor
@@ -34,9 +35,17 @@ export class AuthService {
                      private alertController: AlertController,
   ) {
     this.plt.ready()
-        .then((): void => {
-          this.checkToken();
-        });
+      .then((): void => {
+        this.checkToken();
+      });
+  }
+
+  /**
+   * Get the authentication state
+   * @returns {BehaviorSubject<boolean>}
+   */
+  public get authenticationState() {
+    return this._authenticationState;
   }
 
   /**
@@ -44,19 +53,19 @@ export class AuthService {
    */
   public checkToken(): void {
     this.storage.get(TOKEN_KEY)
-        .then(token => {
-          if (token) {
-            const decoded = this.helper.decodeToken(token);
-            const isExpired = this.helper.isTokenExpired(token);
+      .then(token => {
+        if (token) {
+          const decoded = this.helper.decodeToken(token);
+          const isExpired = this.helper.isTokenExpired(token);
 
-            if (!isExpired) {
-              this.user = decoded;
-              this.authenticationState.next(true);
-            } else {
-              this.storage.remove(TOKEN_KEY);
-            }
+          if (!isExpired) {
+            this.user = decoded;
+            this._authenticationState.next(true);
+          } else {
+            this.storage.remove(TOKEN_KEY);
           }
-        });
+        }
+      });
   }
 
   /**
@@ -66,17 +75,17 @@ export class AuthService {
    */
   public login(credentials: { email: string, password: string }): Observable<any> {
     return this.http.post(`${this.url}/api/login`, credentials)
-        .pipe(
-            tap(res => {
-              this.storage.set(TOKEN_KEY, res['token']);
-              this.user = this.helper.decodeToken(res['token']);
-              this.authenticationState.next(true);
-            }),
-            catchError(e => {
-              this.showAlert(e.error.msg);
-              throw new Error(e);
-            }),
-        );
+      .pipe(
+        tap(res => {
+          this.storage.set(TOKEN_KEY, res['token']);
+          this.user = this.helper.decodeToken(res['token']);
+          this._authenticationState.next(true);
+        }),
+        catchError(e => {
+          this.showAlert(e.error.msg);
+          throw new Error(e);
+        }),
+      );
   }
 
   /**
@@ -84,7 +93,7 @@ export class AuthService {
    */
   public logout(): void {
     this.storage.remove(TOKEN_KEY).then(() => {
-      this.authenticationState.next(false);
+      this._authenticationState.next(false);
     });
   }
 
@@ -93,7 +102,7 @@ export class AuthService {
    * @returns {boolean}
    */
   public isAuthenticated(): boolean {
-    return this.authenticationState.value;
+    return this._authenticationState.value;
   }
 
   /**
