@@ -5,6 +5,9 @@
 export const environment = {
     production: false,
     url: 'http://localhost:5000',
+    api: {
+        url: 'https://wavetrophy.dev',
+    }
 };
 
 /*
