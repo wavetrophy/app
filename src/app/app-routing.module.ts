@@ -10,6 +10,7 @@ const routes: Routes = [
         loadChildren: './tabs/tabs.module#TabsPageModule',
         canActivate: [AuthGuard],
     },
+  { path: 'stream', loadChildren: './tabs/stream/stream.module#StreamPageModule' },
 ];
 
 @NgModule({
