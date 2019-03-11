@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
  */
 export class LoginPage implements OnInit {
   public form: FormGroup;
+  private isLoading: boolean = false;
 
   /**
    * LoginPage constructor.
@@ -19,6 +21,7 @@ export class LoginPage implements OnInit {
   constructor(
     private auth: AuthService,
     private formBuilder: FormBuilder,
+    private loading: LoadingController,
   ) {
   }
 
@@ -27,15 +30,25 @@ export class LoginPage implements OnInit {
    */
   public ngOnInit() {
     this.form = this.formBuilder.group({
-      username: ['', Validators.email],
-      password: [''],
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
     });
   }
 
   /**
    * Login
    */
-  public login() {
-    this.auth.login(this.form.value).subscribe(response => console.log(response));
+  public async login() {
+    const loader = await this.loading.create({
+      message: 'Logging in',
+      spinner: 'crescent',
+    });
+    loader.present();
+    this.isLoading = true;
+
+    this.auth.login(this.form.value).subscribe(() => {
+      this.isLoading = false;
+      loader.dismiss();
+    });
   }
 }
