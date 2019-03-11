@@ -16,7 +16,7 @@ const TOKEN_KEY = 'access_token';
  * Class Authentication Service
  */
 export class AuthService {
-  private url = environment.url;
+  private url = environment.api.url;
   private user = null;
   private _authenticationState = new BehaviorSubject(false);
 
@@ -74,7 +74,7 @@ export class AuthService {
    * @returns {Observable<any>}
    */
   public login(credentials: { email: string, password: string }): Observable<any> {
-    return this.http.post(`${this.url}/api/login`, credentials)
+    return this.http.post(`${this.url}/auth/login`, credentials)
       .pipe(
         tap(res => {
           this.storage.set(TOKEN_KEY, res['token']);
