@@ -11,7 +11,7 @@
       <ion-input type="password" formControlName="password"></ion-input>
     </ion-item>
 
-    <ion-button expand="full" type="submit" [disabled]="!form.valid">Login</ion-button>
+    <ion-button expand="full" type="submit" [disabled]="!form.valid && !isLoading">Login</ion-button>
 
   </form>
 </ion-content>
