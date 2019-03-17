@@ -18,7 +18,7 @@ const TOKEN_REFRESH_KEY = 'token_refresh';
  */
 export class AuthService {
   private url = environment.api.url;
-  private user = null;
+  private _user = null;
   private _authenticationState = new BehaviorSubject(false);
 
   /**
@@ -50,6 +50,14 @@ export class AuthService {
   }
 
   /**
+   * Get the user.
+   * @returns {any}
+   */
+  public get user() {
+    return this._user;
+  }
+
+  /**
    * Check the token.
    */
   public async checkToken() {
@@ -59,7 +67,7 @@ export class AuthService {
           const isExpired = this.helper.isTokenExpired(token);
 
           if (!isExpired) {
-            this.user = decoded;
+            this._user = decoded;
             this._authenticationState.next(true);
           } else {
             const refreshToken = await this.storage.get(TOKEN_REFRESH_KEY);
@@ -79,7 +87,7 @@ export class AuthService {
         tap(res => {
           this.storage.set(TOKEN_KEY, res['token']);
           this.storage.set(TOKEN_REFRESH_KEY, res['refresh_token']);
-          this.user = this.helper.decodeToken(res['token']);
+          this._user = this.helper.decodeToken(res['token']);
           this._authenticationState.next(true);
         }),
         catchError(e => {
@@ -101,7 +109,7 @@ export class AuthService {
         tap(res => {
           this.storage.set(TOKEN_KEY, res['token']);
           this.storage.set(TOKEN_REFRESH_KEY, res['refresh_token']);
-          this.user = this.helper.decodeToken(res['token']);
+          this._user = this.helper.decodeToken(res['token']);
           this._authenticationState.next(true);
         }),
         catchError(e => {
