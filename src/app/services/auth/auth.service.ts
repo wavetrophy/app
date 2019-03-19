@@ -62,18 +62,20 @@ export class AuthService {
    */
   public async checkToken() {
     const token = await this.storage.get(TOKEN_KEY);
-        if (token) {
-          const decoded = this.helper.decodeToken(token);
-          const isExpired = this.helper.isTokenExpired(token);
+    if (token) {
+      const decoded = this.helper.decodeToken(token);
+      const isExpired = this.helper.isTokenExpired(token);
 
-          if (!isExpired) {
-            this._user = decoded;
-            this._authenticationState.next(true);
-          } else {
-            const refreshToken = await this.storage.get(TOKEN_REFRESH_KEY);
-            this.refresh(refreshToken);
-          }
-        }
+      if (!isExpired) {
+        this._user = decoded;
+        this._authenticationState.next(true);
+        return;
+      }
+    }
+    const refreshToken = await this.storage.get(TOKEN_REFRESH_KEY);
+    if (refreshToken) {
+      this.refresh(refreshToken);
+    }
   }
 
   /**
@@ -103,7 +105,6 @@ export class AuthService {
    * @returns {Observable<any>}
    */
   public refresh(refreshToken: string) {
-    this.storage.remove(TOKEN_KEY);
     return this.http.post(`${this.url}/auth/refresh`, {refresh_token: refreshToken})
       .pipe(
         tap(res => {
@@ -117,7 +118,7 @@ export class AuthService {
           this._authenticationState.next(false);
           throw new Error(e);
         }),
-      )
+      ).subscribe();
   }
 
   /**
