@@ -12,7 +12,7 @@ export class StreamService {
     this.url = environment.api.url + '/api';
   }
 
-  public getLocationsByWave(waveId: number) {
-    return this.http.get(`${this.url}/waves/${waveId}/locations`);
+  public getByUser(userId: number) {
+    return this.http.get(`${this.url}/users/${userId}/stream`);
   }
 }

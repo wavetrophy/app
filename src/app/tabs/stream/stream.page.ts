@@ -16,8 +16,8 @@ export class StreamPage implements OnInit {
   }
 
   ngOnInit() {
-    const waveId = this.auth.user.current_wave;
-    this.stream.getLocationsByWave(waveId).subscribe(res => {
+    const waveId = this.auth.user.user_id;
+    this.stream.getByUser(waveId).subscribe(res => {
       console.log(res);
     });
   }
