@@ -8,10 +8,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
-import { environment } from '../environments/environment';
+import { JwtHttpInterceptor } from './services/interceptors/jwt-http.interceptor';
 
 /**
  * Get the JWT Options factory.
@@ -21,9 +21,8 @@ import { environment } from '../environments/environment';
 export function jwtOptionsFactory(storage) {
   return {
     tokenGetter: () => {
-      return storage.get('access_token');
+      return storage.get('token_access');
     },
-    whitelistedDomains: [environment.url],
   };
 }
 
@@ -48,6 +47,7 @@ export function jwtOptionsFactory(storage) {
     StatusBar,
     SplashScreen,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true},
   ],
   bootstrap: [AppComponent],
 })
