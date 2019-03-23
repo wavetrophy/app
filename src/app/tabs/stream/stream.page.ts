@@ -27,9 +27,9 @@ export class StreamPage implements OnInit {
     loader.present();
 
     const userId = this.auth.user.user_id;
-    this.stream.getByUser(userId).subscribe(res => {
-      if (!res.success) {
-        this.errormessage = res.message;
+    this.stream.getByUser(userId).subscribe((res: any) => {
+      if (!res['success']) {
+        this.errormessage = res['message'];
       }
       console.log(res);
       loader.dismiss();
