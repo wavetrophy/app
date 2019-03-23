@@ -61,21 +61,4 @@ export class StreamPage implements OnInit {
       loader.dismiss();
     });
   }
-
-  loadData(event) {
-    setTimeout(() => {
-      console.log('Done');
-      event.target.complete();
-
-      // App logic to determine if all data is loaded
-      // and disable the infinite scroll
-      if (this.locations.length >= 1000) {
-        event.target.disabled = true;
-      }
-    }, 500);
-  }
-
-  toggleInfiniteScroll() {
-    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
-  }
 }
