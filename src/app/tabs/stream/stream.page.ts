@@ -8,10 +8,22 @@ import { LoadingController } from '@ionic/angular';
   templateUrl: './stream.page.html',
   styleUrls: ['./stream.page.scss'],
 })
+/**
+ * Class Streampage
+ */
 export class StreamPage implements OnInit {
-
+  /**
+   * Error message
+   * @type {string|null}
+   */
   public errormessage = null;
 
+  /**
+   * StreamPage constructor.
+   * @param {AuthService} auth
+   * @param {StreamService} stream
+   * @param {LoadingController} loading
+   */
   constructor(
     private auth: AuthService,
     private stream: StreamService,
@@ -19,6 +31,10 @@ export class StreamPage implements OnInit {
   ) {
   }
 
+  /**
+   * On init hook
+   * @returns {Promise<void>}
+   */
   async ngOnInit() {
     const loader = await this.loading.create({
       message: 'Loading',

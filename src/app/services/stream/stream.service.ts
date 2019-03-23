@@ -6,13 +6,25 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
+/**
+ * Class StreamService
+ */
 export class StreamService {
   private readonly url: string;
 
+  /**
+   * StreamService constructor
+   * @param {HttpClient} http
+   */
   constructor(private http: HttpClient) {
     this.url = environment.api.url + '/api';
   }
 
+  /**
+   * Get the stream of a user.
+   * @param {number} userId
+   * @returns {Observable<Object>}
+   */
   public getByUser(userId: number): Observable<Object> {
     return this.http.get(`${this.url}/users/${userId}/stream`);
   }
