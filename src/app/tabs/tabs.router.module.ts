@@ -36,14 +36,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/stream',
+        redirectTo: '/wave/stream',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/stream',
+    redirectTo: '/wave/stream',
     pathMatch: 'full'
   }
 ];

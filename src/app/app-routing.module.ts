@@ -3,14 +3,13 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './services/guards/auth.guard';
 
 const routes: Routes = [
-    {path: '', redirectTo: 'auth/login', pathMatch: 'full'},
+    {path: '', redirectTo: 'wave', pathMatch: 'full'},
     {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
     {
-        path: 'tabs',
+        path: 'wave',
         loadChildren: './tabs/tabs.module#TabsPageModule',
         canActivate: [AuthGuard],
     },
-  { path: 'stream', loadChildren: './tabs/stream/stream.module#StreamPageModule' },
 ];
 
 @NgModule({
