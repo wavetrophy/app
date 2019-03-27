@@ -83,7 +83,7 @@ export class AuthService {
           this._authenticationState.next(true);
         }),
         catchError(e => {
-          this.showAlert(e.error.msg);
+          this.showAlert(e.error.message);
           throw new Error(e);
         }),
       );
@@ -105,11 +105,11 @@ export class AuthService {
           this._authenticationState.next(true);
         }),
         catchError(e => {
-          this.showAlert(e.error.msg);
+          this.showAlert('Falsche Zugangsdaten');
           this._authenticationState.next(false);
           throw new Error(e);
         }),
-      )
+      );
   }
 
   /**
@@ -136,7 +136,7 @@ export class AuthService {
   public showAlert(msg: string): void {
     this.alertController.create({
       message: msg,
-      header: 'Error',
+      header: 'Fehler',
       buttons: ['OK'],
     }).then((alert) => {
       alert.present();
