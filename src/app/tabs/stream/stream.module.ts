@@ -1,17 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
 import { StreamPage } from './stream.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: StreamPage
-  }
+  {path: '', component: StreamPage},
+  {path: 'location/:id', loadChildren: '../../location/location.module#LocationPageModule'},
 ];
 
 @NgModule({
@@ -19,8 +17,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
-  declarations: [StreamPage]
+  declarations: [StreamPage],
 })
-export class StreamPageModule {}
+export class StreamPageModule {
+}
