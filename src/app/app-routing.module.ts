@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: './location/location.module#LocationPageModule',
     canActivate: [AuthGuard],
   },
+  {
+    path: 'profile',
+    loadChildren: './profile/profile.module#ProfilePageModule',
+    canActivate: [AuthGuard],
+  },
   {path: '**', redirectTo: 'stream', pathMatch: 'full'},
 ];
 
