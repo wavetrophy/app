@@ -42,7 +42,7 @@ export class AppComponent {
 
       this.authService.authenticationState.subscribe(state => {
         if (state) {
-          this.router.navigate(['stream']);
+          this.router.navigate(['wave']);
         } else {
           this.router.navigate(['auth', 'login']);
         }
