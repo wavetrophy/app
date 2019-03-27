@@ -12,8 +12,17 @@ import { LoadingController } from '@ionic/angular';
  * Class LoginPage
  */
 export class LoginPage implements OnInit {
+  /**
+   * The login form
+   * @type {FormGroup}
+   */
   public form: FormGroup;
-  private isLoading: boolean = false;
+
+  /**
+   * Indicates if the page is loading.
+   * @type {boolean}
+   */
+  private isLoading = false;
 
   /**
    * LoginPage constructor.
