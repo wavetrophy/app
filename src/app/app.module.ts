@@ -12,6 +12,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { JwtHttpInterceptor } from './services/interceptors/jwt-http.interceptor';
+import { SuperTabsModule } from '@ionic-super-tabs/angular';
 
 /**
  * Get the JWT Options factory.
@@ -35,6 +36,7 @@ export function jwtOptionsFactory(storage) {
     AppRoutingModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
+    SuperTabsModule.forRoot(),
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,
