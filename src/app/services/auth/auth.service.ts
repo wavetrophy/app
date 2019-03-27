@@ -93,7 +93,7 @@ export class AuthService {
           this._authenticationState.next(true);
         }),
         catchError(e => {
-          this.showAlert(e.error.message);
+          this.showAlert('Falsche Zugangsdaten');
           throw new Error(e);
         }),
       );
