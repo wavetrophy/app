@@ -39,7 +39,7 @@ export class LoginPage implements OnInit {
    */
   public ngOnInit() {
     this.form = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }
@@ -55,9 +55,13 @@ export class LoginPage implements OnInit {
     loader.present();
     this.isLoading = true;
 
-    this.auth.login(this.form.value).subscribe(() => {
-      this.isLoading = false;
-      loader.dismiss();
-    });
+    this.auth.login(this.form.value)
+      .subscribe(() => {
+        this.isLoading = false;
+        loader.dismiss();
+      }, () => {
+        this.isLoading = false;
+        loader.dismiss();
+      });
   }
 }
