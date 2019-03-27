@@ -10,6 +10,7 @@ import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { StreamPageModule } from './stream/stream.module';
 import { Tab2PageModule } from '../tab2/tab2.module';
 import { Tab3PageModule } from '../tab3/tab3.module';
+import { MainOptionsPageModule } from '../popover/main-options/main-options.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { Tab3PageModule } from '../tab3/tab3.module';
     FormsModule,
     TabsPageRoutingModule,
     StreamPageModule,
+    MainOptionsPageModule,
     Tab2PageModule,
     Tab3PageModule,
     SuperTabsModule,

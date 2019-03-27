@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-main-options',
   templateUrl: './main-options.page.html',
   styleUrls: ['./main-options.page.scss'],
 })
-export class MainOptionsPage implements OnInit {
+export class MainOptionsPage {
 
-  constructor() { }
+  constructor(private popoverCtrl: PopoverController) {
 
-  ngOnInit() {
   }
 
+  async dismiss() {
+    try {
+      await this.popoverCtrl.dismiss();
+    } catch (e) {
+      // click more than one time popover throws error, so ignore...
+    }
+
+  }
 }

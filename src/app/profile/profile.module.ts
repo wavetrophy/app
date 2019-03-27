@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -10,8 +10,13 @@ import { ProfilePage } from './profile.page';
 const routes: Routes = [
   {
     path: '',
-    component: ProfilePage
-  }
+    children: [
+      {
+        path: '',
+        component: ProfilePage,
+      },
+    ],
+  },
 ];
 
 @NgModule({
@@ -19,8 +24,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
-  declarations: [ProfilePage]
+  declarations: [ProfilePage],
 })
-export class ProfilePageModule {}
+export class ProfilePageModule {
+}

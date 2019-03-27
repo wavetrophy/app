@@ -9,7 +9,6 @@ import { StreamPage } from './stream.page';
 
 const routes: Routes = [
   {path: '', component: StreamPage},
-  {path: 'location/:id', loadChildren: '../../location/location.module#LocationPageModule'},
 ];
 
 @NgModule({
