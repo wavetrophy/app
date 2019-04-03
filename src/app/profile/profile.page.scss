@@ -1,0 +1,94 @@
+@import "variables";
+
+$profilePictureSize: 30;
+
+ion-content {
+  --ion-background-color: #{$ion-color-light};
+
+  ion-row.avatar-row {
+    min-height: #{$profilePictureSize}vw;
+    margin: 4vw auto 3vw;
+
+    ion-avatar {
+      width: #{$profilePictureSize}vw !important;
+      max-width: #{$profilePictureSize}vw !important;
+      height: #{$profilePictureSize}vw !important;
+      max-height: #{$profilePictureSize}vw !important;
+      background-position: 50% 50%;
+      background-size: cover;
+
+      position: absolute;
+      display: inline;
+
+
+      ion-img {
+        object-fit: cover;
+      }
+
+      & + ion-fab-button {
+        margin-top: #{($profilePictureSize / 3) * 2}vw;
+        margin-left: #{($profilePictureSize / 3) * 2}vw;
+        position: relative;
+        display: inline;
+      }
+    }
+  }
+
+  ion-row.heading-row {
+    width: 100% !important;
+    background-color: #{$white};
+    border-bottom: none;
+    box-shadow: none;
+    padding: 0 1rem !important;
+  }
+
+  ion-row.info-row {
+    width: 100% !important;
+    background-color: #{$white};
+    border-bottom: 2px solid #{$ion-color-light-shade};
+
+    &:not([no-padding]) {
+      padding: 0 1rem !important;
+    }
+
+    .info-text {
+      color: #{lighten($black, 30)};
+    }
+
+    ion-fab-button {
+      --color: #{$ion-color-primary};
+      --color-activated: #{$ion-color-primary-tint};
+      --color-focused: #{$ion-color-primary-tint};
+      --background: #{$white};
+      --background-activated: #{darken($white, 10)};
+      --background-focused: #{darken($white, 20)};
+      --border-color: transparent;
+      --box-shadow: none;
+    }
+  }
+
+  ion-item {
+    width: 100% !important;
+    --ion-background-color: #{$white};
+    --ion-safe-area-right: 0;
+    --ion-safe-area-left: 0;
+    --ion-safe-area-bottom: 0;
+    --ion-safe-area-top: 0;
+    --border-color: transparent;
+    box-shadow: none;
+    padding: 0 !important;
+    border: none !important;
+
+    & > ion-row.ion-justify-content-between {
+      width: 100%;
+
+      &:not([no-padding]) {
+        padding: 0 1rem !important;
+      }
+    }
+  }
+
+  ion-text p.info-text {
+    padding: 0 1rem;
+  }
+}
