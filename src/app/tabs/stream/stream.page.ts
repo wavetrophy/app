@@ -50,7 +50,7 @@ export class StreamPage implements OnInit {
     });
     loader.present();
 
-    const userId = this.auth.user.user_id;
+    const userId = this.auth.data.user_id;
     this.stream.getByUser(userId).subscribe((res: any) => {
       loader.dismiss();
       if (!res['success']) {

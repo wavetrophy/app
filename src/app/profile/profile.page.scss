@@ -2,6 +2,19 @@
 
 $profilePictureSize: 30;
 
+@mixin ion-fab-button() {
+  ion-fab-button {
+    --color: #{$ion-color-primary};
+    --color-activated: #{$ion-color-primary-tint};
+    --color-focused: #{$ion-color-primary-tint};
+    --background: #{$white};
+    --background-activated: #{darken($white, 10)};
+    --background-focused: #{darken($white, 20)};
+    --border-color: transparent;
+    --box-shadow: none;
+  }
+}
+
 ion-content {
   --ion-background-color: #{$ion-color-light};
 
@@ -40,6 +53,8 @@ ion-content {
     border-bottom: none;
     box-shadow: none;
     padding: 0 1rem !important;
+
+    @include ion-fab-button();
   }
 
   ion-row.info-row {
@@ -51,20 +66,15 @@ ion-content {
       padding: 0 1rem !important;
     }
 
+    &.padding-bottom {
+      padding: 0 1rem 1rem 1rem !important;
+    }
+
     .info-text {
       color: #{lighten($black, 30)};
     }
 
-    ion-fab-button {
-      --color: #{$ion-color-primary};
-      --color-activated: #{$ion-color-primary-tint};
-      --color-focused: #{$ion-color-primary-tint};
-      --background: #{$white};
-      --background-activated: #{darken($white, 10)};
-      --background-focused: #{darken($white, 20)};
-      --border-color: transparent;
-      --box-shadow: none;
-    }
+    @include ion-fab-button();
   }
 
   ion-item {

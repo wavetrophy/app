@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { AlertController, Platform } from '@ionic/angular';
 import { catchError, tap } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
+import { AuthData } from './types/authdata';
 
 const TOKEN_KEY = 'token_access';
 const TOKEN_REFRESH_KEY = 'token_refresh';
@@ -18,7 +19,7 @@ const TOKEN_REFRESH_KEY = 'token_refresh';
  */
 export class AuthService {
   private url = environment.api.url;
-  private _user = null;
+  private _authData: AuthData = null;
   private _authenticationState = new BehaviorSubject(false);
 
   /**
@@ -53,23 +54,23 @@ export class AuthService {
    * Get the user.
    * @returns {any}
    */
-  public get user() {
-    return this._user;
+  public get data(): AuthData {
+    return this._authData;
   }
 
   /**
    * Check the token.
    */
-  public async checkToken() {
+  public async checkToken(): Promise<boolean> {
     const token = await this.storage.get(TOKEN_KEY);
     if (token) {
-      const decoded = this.helper.decodeToken(token);
+      const decoded = <AuthData>this.helper.decodeToken(token);
       const isExpired = this.helper.isTokenExpired(token);
 
       if (!isExpired) {
-        this._user = decoded;
+        this._authData = decoded;
         this._authenticationState.next(true);
-        return;
+        return this._authenticationState.value;
       }
     }
     const refreshToken = await this.storage.get(TOKEN_REFRESH_KEY);
@@ -89,7 +90,7 @@ export class AuthService {
         tap(res => {
           this.storage.set(TOKEN_KEY, res['token']);
           this.storage.set(TOKEN_REFRESH_KEY, res['refresh_token']);
-          this._user = this.helper.decodeToken(res['token']);
+          this._authData = <AuthData>this.helper.decodeToken(res['token']);
           this._authenticationState.next(true);
         }),
         catchError(e => {
@@ -110,7 +111,7 @@ export class AuthService {
         tap(res => {
           this.storage.set(TOKEN_KEY, res['token']);
           this.storage.set(TOKEN_REFRESH_KEY, res['refresh_token']);
-          this._user = this.helper.decodeToken(res['token']);
+          this._authData = <AuthData>this.helper.decodeToken(res['token']);
           this._authenticationState.next(true);
         }),
         catchError(e => {
