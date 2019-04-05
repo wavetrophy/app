@@ -38,7 +38,7 @@ export class AuthService {
   ) {
     this.plt.ready()
       .then((): void => {
-        this.checkToken();
+        this.checkToken().then(() => console.log('checked'));
       });
   }
 
@@ -74,8 +74,8 @@ export class AuthService {
       }
     }
     const refreshToken = await this.storage.get(TOKEN_REFRESH_KEY);
-    if (refreshToken) {
-      this.refresh(refreshToken);
+    if (!!refreshToken) {
+      this.refresh(refreshToken).subscribe();
     }
   }
 
@@ -102,7 +102,6 @@ export class AuthService {
 
   /**
    * Refresh a JWT Token.
-   * @param {string} refreshToken
    * @returns {Observable<any>}
    */
   public refresh(refreshToken: string) {
@@ -119,7 +118,7 @@ export class AuthService {
           this._authenticationState.next(false);
           throw new Error(e);
         }),
-      ).subscribe();
+      );
   }
 
   /**
