@@ -60,7 +60,12 @@ ion-content {
   ion-row.info-row {
     width: 100% !important;
     background-color: #{$white};
-    border-bottom: 2px solid #{$ion-color-light-shade};
+
+    border-bottom: 1px solid #{$ion-color-light-shade};
+
+    &:last-of-type {
+      border-bottom: 2px solid #{$ion-color-light-shade};
+    }
 
     &:not([no-padding]) {
       padding: 0 1rem !important;
