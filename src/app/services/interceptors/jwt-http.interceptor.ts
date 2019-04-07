@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Storage } from '@ionic/storage';
 import { from, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, concatMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable()
@@ -29,9 +29,14 @@ export class JwtHttpInterceptor implements HttpInterceptor {
    * @see https://stackoverflow.com/questions/45978813/use-a-promise-in-angular-httpclient-interceptor
    */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log('INTERCEPTOR ', request.url.toString());
+    if (request.url.includes('login')) {
+      console.log('INTERCEPTOR ignored');
+      return next.handle(request);
+    }
     return this.addToken(request)
       .pipe(
-        switchMap(clone => this.handleClone(next, clone)),
+        concatMap(clone => this.handleClone(next, clone)),
       );
   }
 
@@ -51,6 +56,7 @@ export class JwtHttpInterceptor implements HttpInterceptor {
    * @returns {Observable<HttpSentEvent | HttpHeaderResponse | HttpResponse<any> | HttpProgressEvent | HttpUserEvent<any> | any>}
    */
   private handleClone(next, request) {
+    console.log('Handling ', request.url.toString());
     return next.handle(request).pipe(
       catchError(e => this.handleError(e, next, request)),
     );
@@ -64,11 +70,17 @@ export class JwtHttpInterceptor implements HttpInterceptor {
    * @returns {any}
    */
   private handleError(e, next, originalRequest) {
+    console.log('Request errored ', originalRequest.url.toString());
     if (e instanceof HttpErrorResponse && e.status === 401) {
-      return this.refreshToken().pipe(_ => {
+      console.log('Refreshing ...');
+      return this.refreshToken().pipe(concatMap(_ => {
+        console.log('Refreshed');
         // To recursively handle the error (if an unauthorized occurs) replace next.handle with this.handleClone (NOT RECOMMENDED)
-        return this.addToken(originalRequest).pipe(switchMap(clone => next.handle(clone)));
-      });
+        return this.addToken(originalRequest).pipe(concatMap(clone => {
+          console.log('Handling clone', clone.url.toString());
+          return next.handle(clone);
+        }));
+      }));
     }
 
     return throwError(e);
@@ -79,7 +91,9 @@ export class JwtHttpInterceptor implements HttpInterceptor {
    * @returns {Observable<Observable<any>>}
    */
   private refreshToken() {
-    return from(this.storage.get('token_refresh').then(refreshToken => this.auth.refresh(refreshToken)));
+    return from(this.storage.get('token_refresh').then(refreshToken => {
+      return this.auth.refresh(refreshToken).toPromise();
+    }));
   }
 
   /**

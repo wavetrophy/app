@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AlertController, Platform } from '@ionic/angular';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, concatMap, tap } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
 import { AuthData } from './types/authdata';
 
@@ -107,11 +107,14 @@ export class AuthService {
   public refresh(refreshToken: string) {
     return this.http.post(`${this.url}/auth/refresh`, {refresh_token: refreshToken})
       .pipe(
-        tap(res => {
-          this.storage.set(TOKEN_KEY, res['token']);
-          this.storage.set(TOKEN_REFRESH_KEY, res['refresh_token']);
-          this._authData = <AuthData>this.helper.decodeToken(res['token']);
-          this._authenticationState.next(true);
+        concatMap(res => {
+          return from(this.storage.set(TOKEN_KEY, res['token'])
+            .then(() => this.storage.set(TOKEN_REFRESH_KEY, res['refresh_token']))
+            .then(() => {
+              this._authData = <AuthData>this.helper.decodeToken(res['token']);
+              this._authenticationState.next(true);
+            }),
+          );
         }),
         catchError(e => {
           this.showAlert('Falsche Zugangsdaten');

@@ -41,9 +41,10 @@ export class AppComponent {
       this.splashScreen.hide();
 
       this.authService.authenticationState.subscribe(state => {
-        if (state) {
+        if (window.location.pathname.includes('login') && state === true) {
           this.router.navigate(['wave']);
-        } else {
+        }
+        if (state === false) {
           this.router.navigate(['auth', 'login']);
         }
       });
