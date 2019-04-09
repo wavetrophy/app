@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ProfilePage } from './profile.page';
+import { EditPageModule } from '../modal/edit/edit.module';
 
 const routes: Routes = [
   {

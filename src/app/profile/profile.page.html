@@ -21,7 +21,7 @@
     <div>
         <ion-row class="ion-justify-content-between info-row">
             <p>USERNAME</p>
-            <ion-fab-button translucent="true" size="small">
+            <ion-fab-button translucent="true" size="small" (click)="editUsername()">
                 <ion-icon name="create"></ion-icon>
             </ion-fab-button>
         </ion-row>
@@ -44,7 +44,7 @@
                 <ion-item>
                     <ion-row class="ion-justify-content-between">
                         <p>{{email.email}}</p>
-                        <ion-fab-button translucent="true" size="small">
+                        <ion-fab-button translucent="true" size="small" (click)="edit(email)">
                             <ion-icon name="create"></ion-icon>
                         </ion-fab-button>
                     </ion-row>
@@ -58,7 +58,7 @@
             </ion-item-sliding>
         </ion-row>
     </div>
-    <ion-row class="info-row    padding-bottom ion-justify-content-center" *ngIf="!emails">
+    <ion-row class="info-row padding-bottom ion-justify-content-center" *ngIf="!emails">
         <ion-spinner name="crescent"></ion-spinner>
     </ion-row>
 

@@ -13,6 +13,7 @@ import { IonicStorageModule, Storage } from '@ionic/storage';
 import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { JwtHttpInterceptor } from './services/interceptors/jwt-http.interceptor';
 import { SuperTabsModule } from '@ionic-super-tabs/angular';
+import { ModalModule } from './modal/modal.module';
 
 /**
  * Get the JWT Options factory.
@@ -35,6 +36,7 @@ export function jwtOptionsFactory(storage) {
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    ModalModule,
     IonicStorageModule.forRoot(),
     SuperTabsModule.forRoot(),
     JwtModule.forRoot({
