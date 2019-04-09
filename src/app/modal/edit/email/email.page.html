@@ -1,7 +1,7 @@
-<ion-content padding class="modal-content">
+<div class="modal-content" padding>
     <h3>{{title}}</h3>
     <ion-item>
-        <ion-input type="text" value="{{value}}" #input></ion-input>
+        <ion-input type="text" value="{{value}}" #focus></ion-input>
     </ion-item>
     <ion-row justify-content-between margin-top="1vh">
         <span></span>
@@ -10,4 +10,4 @@
             <ion-button fill="clear" (click)="save()">Save</ion-button>
         </div>
     </ion-row>
-</ion-content>
+</div>

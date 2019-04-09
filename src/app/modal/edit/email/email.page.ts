@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonInput, ModalController } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { Modal } from '../../modal';
 import { Observable } from 'rxjs';
 
@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./email.page.scss'],
 })
 export class EmailPage extends Modal {
-  @ViewChild('input') input: IonInput;
 
   public constructor(modal: ModalController) {
     super(modal);
@@ -28,10 +27,5 @@ export class EmailPage extends Modal {
       cssClass: 'modal-auto-height modal-end',
     });
     modal.present();
-  }
-
-
-  ionViewDidEnter() {
-    this.input.setFocus();
   }
 }

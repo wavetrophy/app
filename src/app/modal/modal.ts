@@ -1,9 +1,10 @@
-import { Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Input, ViewChild } from '@angular/core';
+import { IonInput, ModalController } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
 
 export class Modal {
 
+  @ViewChild('focus') autofocus: IonInput;
   @Input() public value: any;
   @Input() public title: any;
   @Input() public onSave: (value: any) => boolean | Promise<boolean> | Observable<boolean>;
@@ -21,5 +22,9 @@ export class Modal {
         this.modal.dismiss({type: 'success'});
       }
     });
+  }
+
+  ionViewDidEnter() {
+    this.autofocus.setFocus();
   }
 }

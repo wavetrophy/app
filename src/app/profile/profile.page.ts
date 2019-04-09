@@ -5,7 +5,6 @@ import { AuthService } from '../services/auth/auth.service';
 import { ModalController } from '@ionic/angular';
 import { EmailPage } from '../modal/edit/email/email.page';
 import { UsernamePage } from '../modal/edit/username/username.page';
-import { EditPage } from '../modal/edit/edit.page';
 
 @Component({
   selector: 'profile',
@@ -40,18 +39,7 @@ export class ProfilePage implements OnInit {
   }
 
   async edit(email: Email) {
-    const modal = await this.modal.create({
-      component: EditPage,
-      componentProps: {
-        value: email.email,
-        title: 'Edit email',
-        onSave: this.save,
-      },
-      showBackdrop: true,
-      backdropDismiss: true,
-      cssClass: 'modal-auto-height modal-end',
-    });
-    modal.present();
+    EmailPage.asModal(this.modal, email.email, this.save);
   }
 
   private save(email: string): Promise<boolean> {
