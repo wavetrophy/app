@@ -1,13 +1,14 @@
-import { Input, ViewChild } from '@angular/core';
+import { ViewChild } from '@angular/core';
 import { IonInput, ModalController } from '@ionic/angular';
-import { Observable, of } from 'rxjs';
+import { from, Observable } from 'rxjs';
 
 export class Modal {
 
   @ViewChild('focus') autofocus: IonInput;
-  @Input() public value: any;
-  @Input() public title: any;
-  @Input() public onSave: (value: any) => boolean | Promise<boolean> | Observable<boolean>;
+  public value: any;
+  public title: any;
+  public onSave: (value: any) => boolean | Promise<boolean> | Observable<boolean>;
+  public isSaving:boolean = false;
 
   public constructor(protected modal: ModalController) {
   }
@@ -17,7 +18,9 @@ export class Modal {
   }
 
   public save() {
-    of(this.onSave(this.value)).subscribe(result => {
+    this.isSaving = true;
+    from(this.onSave(this.value)).subscribe(result => {
+      this.isSaving = false;
       if (result) {
         this.modal.dismiss({type: 'success'});
       }

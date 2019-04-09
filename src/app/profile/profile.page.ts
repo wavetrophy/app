@@ -35,14 +35,18 @@ export class ProfilePage implements OnInit {
   }
 
   async editUsername() {
-    UsernamePage.asModal(this.modal, 'USERNAME', this.save);
+    UsernamePage.asModal(this.modal, 'USERNAME', this.saveUsername);
   }
 
   async edit(email: Email) {
-    EmailPage.asModal(this.modal, email.email, this.save);
+    EmailPage.asModal(this.modal, email.email, this.saveEmail);
   }
 
-  private save(email: string): Promise<boolean> {
+  private saveEmail(email: string): Promise<boolean> {
+    return new Promise(resolve => setTimeout(() => resolve(true), 3000));
+  }
+
+  private saveUsername() {
     return new Promise(resolve => setTimeout(() => resolve(true), 3000));
   }
 }

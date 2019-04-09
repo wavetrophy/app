@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Modal } from '../../modal';
 import { Observable } from 'rxjs';
@@ -9,6 +9,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./username.page.scss'],
 })
 export class UsernamePage extends Modal {
+  @Input() public value: any;
+  @Input() public title: any;
+  @Input() public onSave: (value: any) => boolean | Promise<boolean> | Observable<boolean>;
 
   public constructor(modal: ModalController) {
     super(modal);
