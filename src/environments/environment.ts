@@ -6,7 +6,8 @@ export const environment = {
     production: false,
     url: 'http://localhost:8100',
     api: {
-        url: 'https://wavetrophy.dev',
+        url: 'https://wave.d4rkmindz.ch',
+        // url: 'https://wavetrophy.dev',
     }
 };
 

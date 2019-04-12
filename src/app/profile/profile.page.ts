@@ -13,6 +13,7 @@ import { UsernamePage } from '../modal/edit/username/username.page';
 })
 export class ProfilePage implements OnInit {
   public emails: Email[];
+  public username: string;
 
   /**
    * Constructor
@@ -31,22 +32,15 @@ export class ProfilePage implements OnInit {
     this.userService.getEmails(this.auth.data.user_id).subscribe((emails: Email[]) => {
       this.emails = emails;
     });
+    this.username = this.auth.data.username;
     // todo add profile picture upload from gallery
   }
 
   async editUsername() {
-    UsernamePage.asModal(this.modal, 'USERNAME', this.saveUsername);
+    UsernamePage.asModal(this.modal, 'USERNAME');
   }
 
   async edit(email: Email) {
-    EmailPage.asModal(this.modal, email.email, this.saveEmail);
-  }
-
-  private saveEmail(email: string): Promise<boolean> {
-    return new Promise(resolve => setTimeout(() => resolve(true), 3000));
-  }
-
-  private saveUsername() {
-    return new Promise(resolve => setTimeout(() => resolve(true), 3000));
+    EmailPage.asModal(this.modal, email, this.username);
   }
 }

@@ -1,10 +1,16 @@
 <div class="modal-content" padding>
     <h3>{{title}}</h3>
     <ion-item>
-        <ion-input type="text" value="{{value}}" #focus></ion-input>
+        <ion-input type="text" [(ngModel)]="email.email" #focus></ion-input>
     </ion-item>
-    <ion-row justify-content-between margin-top="1vh">
-        <span></span>
+    <ion-label color="danger" *ngIf="username === email.email">
+        Your email equals your username, which is used for authentication. If you change it now, you have to log in again!
+    </ion-label>
+    <ion-row justify-content-end margin-top="1vh">
+        <p style="margin-top:.6rem">Public</p>
+        <ion-toggle [(ngModel)]="email.is_public"></ion-toggle>
+    </ion-row>
+    <ion-row justify-content-end>
         <div>
             <ion-button fill="clear" (click)="close()">Cancel</ion-button>
             <ion-button fill="clear" (click)="save()" [disabled]="isSaving">Save</ion-button>

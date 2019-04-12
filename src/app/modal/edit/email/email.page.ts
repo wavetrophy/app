@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Modal } from '../../modal';
-import { Observable } from 'rxjs';
+import { Email } from '../../../services/user/types/email';
+import { UserService } from '../../../services/user/user.service';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-email',
@@ -9,26 +11,58 @@ import { Observable } from 'rxjs';
   styleUrls: ['./email.page.scss'],
 })
 export class EmailPage extends Modal {
-  @Input() public value: any;
+  @Input() public email: Email;
+  @Input() public username: string;
   @Input() public title: any;
-  @Input() public onSave: (value: any) => boolean | Promise<boolean> | Observable<boolean>;
 
-  public constructor(modal: ModalController) {
+  /**
+   * Constructor
+   * @param {ModalController} modal
+   * @param {UserService} userService
+   * @param {AuthService} auth
+   */
+  public constructor(
+    modal: ModalController,
+    private userService: UserService,
+    private auth: AuthService,
+  ) {
     super(modal);
   }
 
-  public static async asModal(modalController: ModalController, email: string, onSave: (value: string) => boolean | Promise<boolean> | Observable<boolean>) {
+  /**
+   * As modal.
+   * @param {ModalController} modalController
+   * @param {Email} email
+   * @param {string} username
+   * @returns {Promise<void>}
+   */
+  public static async asModal(
+    modalController: ModalController,
+    email: Email,
+    username: string,
+  ) {
     const modal = await modalController.create({
       component: EmailPage,
       componentProps: {
-        value: email,
+        username: username,
+        email: email,
         title: 'Edit email',
-        onSave: onSave,
       },
       showBackdrop: true,
       backdropDismiss: true,
       cssClass: 'modal-auto-height modal-end',
     });
     modal.present();
+  }
+
+
+  /**
+   * On Save hook
+   * @returns {Promise<boolean>}
+   */
+  public async onSave(): Promise<boolean> {
+    const res = await this.userService.updateEmail(this.email).toPromise();
+    this.email = res;
+    return true;
   }
 }

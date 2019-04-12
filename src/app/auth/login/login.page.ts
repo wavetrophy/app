@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +32,7 @@ export class LoginPage implements OnInit {
     private auth: AuthService,
     private formBuilder: FormBuilder,
     private loading: LoadingController,
+    private router: Router,
   ) {
   }
 
@@ -58,6 +60,7 @@ export class LoginPage implements OnInit {
     this.auth.login(this.form.value)
       .subscribe(() => {
         this.isLoading = false;
+        this.router.navigate(['wave']);
         loader.dismiss();
       }, () => {
         this.isLoading = false;

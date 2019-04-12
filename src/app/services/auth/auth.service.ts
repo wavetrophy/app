@@ -36,10 +36,6 @@ export class AuthService {
                      private plt: Platform,
                      private alertController: AlertController,
   ) {
-    this.plt.ready()
-      .then((): void => {
-        this.checkToken().then(() => console.log('checked'));
-      });
   }
 
   /**
@@ -75,7 +71,7 @@ export class AuthService {
     }
     const refreshToken = await this.storage.get(TOKEN_REFRESH_KEY);
     if (!!refreshToken) {
-      this.refresh(refreshToken).subscribe();
+      return await this.refresh(refreshToken).toPromise();
     }
   }
 

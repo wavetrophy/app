@@ -3,8 +3,10 @@
     <ion-item>
         <ion-input type="text" value="{{value}}" #focus></ion-input>
     </ion-item>
-    <ion-row justify-content-between margin-top="1vh">
-        <span></span>
+    <ion-label color="danger">
+        If you change your username, you have to log in again!
+    </ion-label>
+    <ion-row justify-content-end margin-top="1vh">
         <div>
             <ion-button fill="clear" (click)="close()">Cancel</ion-button>
             <ion-button fill="clear" (click)="save()" [disabled]="isSaving">Save</ion-button>

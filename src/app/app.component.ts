@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 /**
  * Class AppComponent
  */
-export class AppComponent {
+export class AppComponent implements OnInit {
   /**
    * AppComponent constructor.
    * @param {Platform} platform The platform
@@ -39,15 +39,17 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
-      this.authService.authenticationState.subscribe(state => {
-        if (window.location.pathname.includes('login') && state === true) {
-          this.router.navigate(['wave']);
-        }
-        if (state === false) {
-          this.router.navigate(['auth', 'login']);
-        }
-      });
     });
+  }
+
+  public async ngOnInit() {
+    await this.authService.checkToken();
+    const state = this.authService.authenticationState.getValue();
+
+    if (state === true) {
+      this.router.navigate(['wave']);
+    } else {
+      this.router.navigate(['auth', 'login']);
+    }
   }
 }

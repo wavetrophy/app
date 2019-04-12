@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Modal } from '../../modal';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-username',
@@ -11,24 +10,44 @@ import { Observable } from 'rxjs';
 export class UsernamePage extends Modal {
   @Input() public value: any;
   @Input() public title: any;
-  @Input() public onSave: (value: any) => boolean | Promise<boolean> | Observable<boolean>;
 
+  /**
+   * Constructor
+   * @param {ModalController} modal
+   */
   public constructor(modal: ModalController) {
     super(modal);
   }
 
-  public static async asModal(modalController: ModalController, username: string, onSave: (value: string) => boolean | Promise<boolean> | Observable<boolean>) {
+  /**
+   * As modal
+   * @param {ModalController} modalController
+   * @param {string} username
+   * @returns {Promise<void>}
+   */
+  public static async asModal(
+    modalController: ModalController,
+    username: string,
+  ) {
     const modal = await modalController.create({
       component: UsernamePage,
       componentProps: {
         value: username,
         title: 'Edit username',
-        onSave: onSave,
       },
       showBackdrop: true,
       backdropDismiss: true,
       cssClass: 'modal-auto-height modal-end',
     });
     modal.present();
+  }
+
+
+  /**
+   * On save hook
+   * @returns {Promise<boolean>}
+   */
+  protected onSave() {
+    return new Promise(resolve => setTimeout(() => resolve(true), 3000));
   }
 }

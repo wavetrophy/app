@@ -72,6 +72,11 @@ export class JwtHttpInterceptor implements HttpInterceptor {
   private handleError(e, next, originalRequest) {
     console.log('Request errored ', originalRequest.url.toString());
     if (e instanceof HttpErrorResponse && e.status === 401) {
+      if (originalRequest.url.includes('refresh')) {
+        this.auth.logout();
+        next.handle(originalRequest);
+        return throwError('Authentication not possible');
+      }
       console.log('Refreshing ...');
       return this.refreshToken().pipe(concatMap(_ => {
         console.log('Refreshed');
