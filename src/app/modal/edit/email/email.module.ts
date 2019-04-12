@@ -24,4 +24,4 @@ const routes: Routes = [
   declarations: [EmailPage],
   exports: [EmailPage],
 })
-export class EmailPageModule {}
+export class EditEmailPageModule {}

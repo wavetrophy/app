@@ -1,18 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EmailPageModule } from './edit/email/email.module';
-import { UsernamePageModule } from './edit/username/username.module';
+import { EditEmailPageModule } from './edit/email/email.module';
+import { EditUsernamePageModule } from './edit/username/username.module';
+import { CreateEmailPageModule } from './create/email/email.module';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    EmailPageModule,
-    UsernamePageModule,
+    CreateEmailPageModule,
+    EditEmailPageModule,
+    EditUsernamePageModule,
   ],
   exports: [
-    EmailPageModule,
-    UsernamePageModule,
-  ]
+    EditEmailPageModule,
+    EditUsernamePageModule,
+    CreateEmailPageModule,
+  ],
 })
-export class ModalModule { }
+export class ModalModule {
+}

@@ -20,6 +20,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {path: '**', redirectTo: '', pathMatch: 'full'},
+  { path: 'email', loadChildren: './modal/create/email/email.module#EmailPageModule' },
 ];
 
 @NgModule({
