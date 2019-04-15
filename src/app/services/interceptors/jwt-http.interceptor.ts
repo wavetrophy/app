@@ -74,18 +74,27 @@ export class JwtHttpInterceptor implements HttpInterceptor {
     if (e instanceof HttpErrorResponse && e.status === 401) {
       if (originalRequest.url.includes('refresh')) {
         this.auth.logout();
-        next.handle(originalRequest);
         return throwError('Authentication not possible');
       }
       console.log('Refreshing ...');
-      return this.refreshToken().pipe(concatMap(_ => {
-        console.log('Refreshed');
-        // To recursively handle the error (if an unauthorized occurs) replace next.handle with this.handleClone (NOT RECOMMENDED)
-        return this.addToken(originalRequest).pipe(concatMap(clone => {
-          console.log('Handling clone', clone.url.toString());
-          return next.handle(clone);
-        }));
-      }));
+      return this.refreshToken().pipe(
+        concatMap(_ => {
+          console.log('Refreshed');
+          // To recursively handle the error (if an unauthorized occurs) replace next.handle with this.handleClone (NOT RECOMMENDED)
+          return this.addToken(originalRequest).pipe(concatMap(clone => {
+              console.log('Handling clone', clone.url.toString());
+              return next.handle(clone);
+            }),
+          );
+        }),
+        catchError(error => {
+          if (error.status === 401) {
+            this.auth.logout();
+          }
+          // TODO log error
+          return throwError(error);
+        }),
+      );
     }
 
     return throwError(e);

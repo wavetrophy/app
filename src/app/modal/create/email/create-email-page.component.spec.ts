@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EmailPage } from './email.page';
+import { CreateEmailPage } from './create-email-page.component';
 
 describe('EmailPage', () => {
-  let component: EmailPage;
-  let fixture: ComponentFixture<EmailPage>;
+  let component: CreateEmailPage;
+  let fixture: ComponentFixture<CreateEmailPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EmailPage ],
+      declarations: [ CreateEmailPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EmailPage);
+    fixture = TestBed.createComponent(CreateEmailPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

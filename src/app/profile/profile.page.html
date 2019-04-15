@@ -20,7 +20,7 @@
 
     <div>
         <ion-row class="ion-justify-content-between info-row">
-            <p>USERNAME</p>
+            <p>{{username}}</p>
             <ion-fab-button translucent="true" size="small" (click)="editUsername()">
                 <ion-icon name="create"></ion-icon>
             </ion-fab-button>
@@ -33,7 +33,7 @@
         <ion-text color="primary">
             <p>Emails</p>
         </ion-text>
-        <ion-fab-button translucent="true" size="small">
+        <ion-fab-button translucent="true" size="small" (click)="addEmail()">
             <ion-icon name="add"></ion-icon>
         </ion-fab-button>
 
@@ -44,14 +44,14 @@
                 <ion-item>
                     <ion-row class="ion-justify-content-between">
                         <p>{{email.email}}</p>
-                        <ion-fab-button translucent="true" size="small" (click)="edit(email)">
+                        <ion-fab-button translucent="true" size="small" (click)="editEmail(email)">
                             <ion-icon name="create"></ion-icon>
                         </ion-fab-button>
                     </ion-row>
                 </ion-item>
 
                 <ion-item-options side="end">
-                    <ion-item-option color="danger">
+                    <ion-item-option color="danger" [disabled]="email.is_primary === true" (click)="removeEmail(email)">
                         Remove
                     </ion-item-option>
                 </ion-item-options>

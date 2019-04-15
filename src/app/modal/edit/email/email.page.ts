@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Modal } from '../../modal';
 import { Email } from '../../../services/user/types/email';
@@ -10,10 +10,11 @@ import { AuthService } from '../../../services/auth/auth.service';
   templateUrl: './email.page.html',
   styleUrls: ['./email.page.scss'],
 })
-export class EmailPage extends Modal {
+export class EmailPage extends Modal implements OnInit {
   @Input() public email: Email;
   @Input() public username: string;
   @Input() public title: any;
+  public isEmailEqualToUsername = false;
 
   /**
    * Constructor
@@ -34,7 +35,7 @@ export class EmailPage extends Modal {
    * @param {ModalController} modalController
    * @param {Email} email
    * @param {string} username
-   * @returns {Promise<void>}
+   * @returns {Promise<HTMLIonModalElement>}
    */
   public static async asModal(
     modalController: ModalController,
@@ -45,7 +46,8 @@ export class EmailPage extends Modal {
       component: EmailPage,
       componentProps: {
         username: username,
-        email: email,
+        // clone object to prevent editing the regular email...
+        email: Object.assign({}, email),
         title: 'Edit email',
       },
       showBackdrop: true,
@@ -53,6 +55,7 @@ export class EmailPage extends Modal {
       cssClass: 'modal-auto-height modal-end',
     });
     modal.present();
+    return modal;
   }
 
 
@@ -61,8 +64,14 @@ export class EmailPage extends Modal {
    * @returns {Promise<boolean>}
    */
   public async onSave(): Promise<boolean> {
-    const res = await this.userService.updateEmail(this.email).toPromise();
-    this.email = res;
-    return true;
+      this.email = await this.userService.updateEmail(this.email).toPromise();
+      return true;
+  }
+
+  /**
+   * Ng on init hook.
+   */
+  public ngOnInit(): void {
+    this.isEmailEqualToUsername = this.username === this.email.email;
   }
 }

@@ -36,3 +36,7 @@ ion-modal {
   }
 
 }
+
+.item-interactive.item-has-focus {
+  --highlight-background: var(--highlight-color-focused);
+}

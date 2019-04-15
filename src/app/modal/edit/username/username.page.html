@@ -1,7 +1,7 @@
 <div class="modal-content" padding>
     <h3>{{title}}</h3>
     <ion-item>
-        <ion-input type="text" value="{{value}}" #focus></ion-input>
+        <ion-input type="text" [(ngModel)]="value" #focus></ion-input>
     </ion-item>
     <ion-label color="danger">
         If you change your username, you have to log in again!

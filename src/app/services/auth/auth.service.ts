@@ -7,6 +7,7 @@ import { AlertController, Platform } from '@ionic/angular';
 import { catchError, concatMap, tap } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
 import { AuthData } from './types/authdata';
+import { Router } from '@angular/router';
 
 const TOKEN_KEY = 'token_access';
 const TOKEN_REFRESH_KEY = 'token_refresh';
@@ -27,12 +28,14 @@ export class AuthService {
    * @param {HttpClient} http The HTTP Client
    * @param {JwtHelperService} helper The JSON Web Token Helper
    * @param {Storage} storage The Storage
+   * @param {Router} router
    * @param {Platform} plt The platform (ionic)
    * @param {AlertController} alertController The Alert Controller
    */
   public constructor(private http: HttpClient,
                      private helper: JwtHelperService,
                      private storage: Storage,
+                     private router: Router,
                      private plt: Platform,
                      private alertController: AlertController,
   ) {
@@ -71,7 +74,7 @@ export class AuthService {
     }
     const refreshToken = await this.storage.get(TOKEN_REFRESH_KEY);
     if (!!refreshToken) {
-      return await this.refresh(refreshToken).toPromise();
+      return !!(await this.refresh(refreshToken).toPromise());
     }
   }
 
@@ -126,6 +129,7 @@ export class AuthService {
   public logout(): void {
     this.storage.remove(TOKEN_KEY).then(() => {
       this._authenticationState.next(false);
+      this.router.navigate(['auth', 'login']);
     });
   }
 

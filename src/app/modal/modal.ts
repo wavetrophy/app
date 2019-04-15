@@ -8,6 +8,7 @@ export abstract class Modal {
   public value: any;
   public title: any;
   public isSaving = false;
+  private _error: string;
 
   /**
    * The on save click hook.
@@ -34,18 +35,41 @@ export abstract class Modal {
    */
   public save() {
     this.isSaving = true;
-    from(this.onSave()).subscribe(result => {
-      this.isSaving = false;
-      if (result) {
-        this.modal.dismiss({type: 'success'});
-      }
-    });
+    from(this.onSave()).subscribe(
+      result => {
+        this.isSaving = false;
+        if (result) {
+          this.modal.dismiss({type: 'success'});
+        }
+      },
+      e => {
+        this.isSaving = false;
+        console.log(e);
+        this.error = e.error.violations[0].message || e.error.title || 'Something went wrong. Please try again later';
+      },
+    );
+  }
+
+  /**
+   * Set an error
+   * @param {string} error
+   */
+  protected set error(error: string) {
+    this._error = error;
+  }
+
+  /**
+   * Get error
+   * @returns {string | any}
+   */
+  public get error() {
+    return this._error;
   }
 
   /**
    * IonViewDidEnter hook.
    */
-  ionViewDidEnter() {
+  public ionViewDidEnter() {
     this.autofocus.setFocus();
   }
 }
