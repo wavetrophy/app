@@ -54,7 +54,7 @@ export abstract class Modal {
    * Set an error
    * @param {string} error
    */
-  protected set error(error: string) {
+  public set error(error: string) {
     this._error = error;
   }
 
