@@ -52,19 +52,22 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   async editUsername() {
     const modal = await UsernamePage.asModal(this.modal, this.auth.data.user_id, this.username);
-    await modal.onDidDismiss();
-    // The user has to log in if he changes the username.
-    this.auth.logout();
+    const dismiss = await modal.onDidDismiss();
+    if (dismiss.data.type === 'success') {
+      // The user has to log in if he changes the username.
+      this.auth.logout();
+    }
   }
 
   async editEmail(email: Email) {
     const modal = await EmailPage.asModal(this.modal, email, this.username);
     const dismiss = await modal.onDidDismiss();
-    if (email.email === this.username) {
-      // The user has to log in if he changes the username.
-      this.auth.logout();
-    }
     if (dismiss.data.type === 'success') {
+      if (email.email === this.username) {
+        // The user has to log in if he changes the username.
+        this.auth.logout();
+        return;
+      }
       this.getEmails();
     }
   }
