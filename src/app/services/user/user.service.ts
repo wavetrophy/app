@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { User } from './types/user';
+import { Phonenumber } from './types/phonenumber';
 
 @Injectable({
   providedIn: 'root',
@@ -62,6 +63,54 @@ export class UserService {
    */
   public removeEmail(email: Email): Observable<any> {
     const url = `${this.url}/user-emails/${email.id}`;
+    return this.http.delete(url);
+  }
+
+  /**
+   * Get all phonenumbers
+   * @param {number} userId
+   * @returns {Observable<Phonenumber[] | null>}
+   */
+  public getPhonenumbers(userId: number): Observable<Phonenumber[] | null> {
+    const url = `${this.url}/users/${userId}/phonenumbers`;
+    return this.http.get<Phonenumber[] | null>(url);
+  }
+
+  /**
+   * Create an phonenumber
+   * @param {number} userId
+   * @param {string} countryCode
+   * @param {string} phonenumber
+   * @param {boolean} isPublic
+   * @returns {Observable<Phonenumber[] | any>}
+   */
+  public createPhonenumber(userId: number, countryCode: string, phonenumber: string, isPublic: boolean) {
+    const url = `${this.url}/user-phonenumbers`;
+    return this.http.post<Phonenumber[] | any>(url, {
+      phonenumber: phonenumber,
+      country_code: countryCode,
+      is_public: isPublic,
+      user: `/api/users/${userId}`,
+    });
+  }
+
+  /**
+   * Update an phonenumber.
+   * @param {Phonenumber} phonenumber
+   * @returns {Observable<Phonenumber>}
+   */
+  public updatePhonenumber(phonenumber: Phonenumber): Observable<Phonenumber> {
+    const url = `${this.url}/user-phonenumbers/${phonenumber.id}`;
+    return this.http.put<Phonenumber>(url, phonenumber);
+  }
+
+  /**
+   * Remove an phonenumber.
+   * @param {Phonenumber} phonenumber
+   * @returns {Observable<boolean>}
+   */
+  public removePhonenumber(phonenumber: Phonenumber): Observable<any> {
+    const url = `${this.url}/user-phonenumbers/${phonenumber.id}`;
     return this.http.delete(url);
   }
 

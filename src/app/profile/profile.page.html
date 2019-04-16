@@ -19,6 +19,11 @@
     </ion-row>
 
     <div>
+        <ion-row class="heading-row ion-justify-content-between">
+            <ion-text color="primary">
+                <p>Username</p>
+            </ion-text>
+        </ion-row>
         <ion-row class="ion-justify-content-between info-row">
             <p>{{username}}</p>
             <ion-fab-button translucent="true" size="small" (click)="editUsername()">
@@ -61,6 +66,51 @@
     <ion-row class="info-row padding-bottom ion-justify-content-center" *ngIf="!emails">
         <ion-spinner name="crescent"></ion-spinner>
     </ion-row>
+    <ion-text color="dark">
+        <p class="info-text">
+            This are your available emails. Those emails will be displayed publicly if you allowed it by enabling the
+            "Public" switch
+        </p>
+    </ion-text>
+    <br>
+    <ion-row class="heading-row ion-justify-content-between">
+        <ion-text color="primary">
+            <p>Phonenumbers</p>
+        </ion-text>
+        <ion-fab-button translucent="true" size="small" (click)="addPhonenumber()">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-row>
+    <div *ngIf="phonenumbers">
+        <ion-row class="info-row" no-padding *ngFor="let phonenumber of phonenumbers">
+            <ion-item-sliding>
+                <ion-item>
+                    <ion-row class="ion-justify-content-between">
+                        <p>{{phonenumber.country_code}} {{phonenumber.phonenumber}}</p>
+                        <ion-fab-button translucent="true" size="small" (click)="editPhonenumber(phonenumber)">
+                            <ion-icon name="create"></ion-icon>
+                        </ion-fab-button>
+                    </ion-row>
+                </ion-item>
+
+                <ion-item-options side="end">
+                    <ion-item-option color="danger" (click)="removePhonenumber(phonenumber)">
+                        Remove
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-row>
+    </div>
+    <ion-row class="info-row padding-bottom ion-justify-content-center" *ngIf="!phonenumbers">
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
+    <ion-text>
+        <p class="info-text">
+            This are your available phonenumbers. Those phonenumbers will be displayed publicly if you allowed it by
+            enabling the
+            "Public" switch
+        </p>
+    </ion-text>
 
 
 </ion-content>

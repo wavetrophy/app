@@ -103,7 +103,7 @@ export class AuthService {
    * Refresh a JWT Token.
    * @returns {Observable<any>}
    */
-  public refresh(refreshToken: string) {
+  public refresh(refreshToken: string): Observable<any> {
     return this.http.post(`${this.url}/auth/refresh`, {refresh_token: refreshToken})
       .pipe(
         concatMap(res => {
