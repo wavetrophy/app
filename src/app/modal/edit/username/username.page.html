@@ -1,0 +1,15 @@
+<div class="modal-content" padding>
+    <h3>{{title}}</h3>
+    <ion-item>
+        <ion-input type="text" [(ngModel)]="value" #focus></ion-input>
+    </ion-item>
+    <ion-label color="danger">
+        If you change your username, you have to log in again!
+    </ion-label>
+    <ion-row justify-content-end margin-top="1vh">
+        <div>
+            <ion-button fill="clear" (click)="close()">Cancel</ion-button>
+            <ion-button fill="clear" (click)="save()" [disabled]="isSaving">Save</ion-button>
+        </div>
+    </ion-row>
+</div>

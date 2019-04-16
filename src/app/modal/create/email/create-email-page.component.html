@@ -1,0 +1,17 @@
+<div class="modal-content" padding>
+  <h3>{{title}}</h3>
+  <ion-item>
+    <ion-input type="text" [(ngModel)]="email" #focus></ion-input>
+  </ion-item>
+  <ion-label color="danger" *ngIf="error">{{error}}</ion-label>
+  <ion-row justify-content-end margin-top="1vh">
+    <p style="margin-top:.6rem">Public</p>
+    <ion-toggle [(ngModel)]="isPublic"></ion-toggle>
+  </ion-row>
+  <ion-row justify-content-end>
+    <div>
+      <ion-button fill="clear" (click)="close()">Cancel</ion-button>
+      <ion-button fill="clear" (click)="save()" [disabled]="isSaving">Save</ion-button>
+    </div>
+  </ion-row>
+</div>

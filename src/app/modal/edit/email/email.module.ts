@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { StreamPage } from './stream.page';
+import { EmailPage } from './email.page';
 
 const routes: Routes = [
-  {path: '', component: StreamPage},
+  {
+    path: '',
+    component: EmailPage
+  }
 ];
 
 @NgModule({
@@ -16,9 +19,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
+    RouterModule.forChild(routes)
   ],
-  declarations: [StreamPage],
+  declarations: [EmailPage],
+  exports: [EmailPage],
 })
-export class StreamPageModule {
-}
+export class EditEmailPageModule {}

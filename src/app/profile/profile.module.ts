@@ -5,10 +5,18 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { StreamPage } from './stream.page';
+import { ProfilePage } from './profile.page';
 
 const routes: Routes = [
-  {path: '', component: StreamPage},
+  {
+    path: '',
+    children: [
+      {
+        path: '',
+        component: ProfilePage,
+      },
+    ],
+  },
 ];
 
 @NgModule({
@@ -18,7 +26,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [StreamPage],
+  declarations: [ProfilePage],
 })
-export class StreamPageModule {
+export class ProfilePageModule {
 }

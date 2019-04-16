@@ -3,9 +3,40 @@
 @import '~@ionic/angular/css/normalize.css';
 @import '~@ionic/angular/css/structure.css';
 @import '~@ionic/angular/css/typography.css';
-
 @import '~@ionic/angular/css/padding.css';
 @import '~@ionic/angular/css/float-elements.css';
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+
+ion-modal {
+  &.modal-auto-height {
+    //&.bottom {
+    //  align-items: flex-end;
+    //}
+
+    --height: auto;
+
+    .ion-page {
+      position: relative;
+      display: block;
+      contain: content;
+
+      .inner-content {
+        max-height: 80vh;
+        overflow: auto;
+        padding: 10px;
+      }
+    }
+  }
+
+  &.modal-end {
+    align-items: flex-end !important;
+  }
+
+}
+
+.item-interactive.item-has-focus {
+  --highlight-background: var(--highlight-color-focused);
+}

@@ -50,15 +50,18 @@ export class StreamPage implements OnInit {
     });
     loader.present();
 
-    const userId = this.auth.user.user_id;
+    const userId = this.auth.data.user_id;
     this.stream.getByUser(userId).subscribe((res: any) => {
+      loader.dismiss();
       if (!res['success']) {
         this.errormessage = res['message'];
         return;
       }
       console.log(res);
       this.locations = res.locations;
+    }, (res: any) => {
       loader.dismiss();
+      this.errormessage = res['message'] || 'Es ist ein Fehler aufgetreten';
     });
   }
 }
