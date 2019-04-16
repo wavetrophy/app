@@ -11,6 +11,7 @@ import { StreamPageModule } from './stream/stream.module';
 import { Tab2PageModule } from '../tab2/tab2.module';
 import { Tab3PageModule } from '../tab3/tab3.module';
 import { MainOptionsPageModule } from '../popover/main-options/main-options.module';
+import { ContactsPageModule } from './contacts/contacts.module';
 
 @NgModule({
   imports: [
@@ -18,11 +19,12 @@ import { MainOptionsPageModule } from '../popover/main-options/main-options.modu
     CommonModule,
     FormsModule,
     TabsPageRoutingModule,
+    SuperTabsModule,
     StreamPageModule,
+    ContactsPageModule,
     MainOptionsPageModule,
     Tab2PageModule,
     Tab3PageModule,
-    SuperTabsModule,
   ],
   declarations: [TabsPage],
 })

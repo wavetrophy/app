@@ -12,8 +12,8 @@ const routes: Routes = [
         loadChildren: './stream/stream.module#StreamPageModule',
       },
       {
-        path: 'tab2',
-        loadChildren: '../tab2/tab2.module#Tab2PageModule',
+        path: 'contacts',
+        loadChildren: './contacts/contacts.module#ContactsPageModule',
       },
       {
         path: 'tab3',
