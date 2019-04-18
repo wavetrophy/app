@@ -8,7 +8,6 @@ import { TabsPageRoutingModule } from './tabs.router.module';
 import { TabsPage } from './tabs.page';
 import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { StreamPageModule } from './stream/stream.module';
-import { Tab2PageModule } from '../tab2/tab2.module';
 import { Tab3PageModule } from '../tab3/tab3.module';
 import { MainOptionsPageModule } from '../popover/main-options/main-options.module';
 import { ContactsPageModule } from './contacts/contacts.module';
@@ -23,7 +22,6 @@ import { ContactsPageModule } from './contacts/contacts.module';
     StreamPageModule,
     ContactsPageModule,
     MainOptionsPageModule,
-    Tab2PageModule,
     Tab3PageModule,
   ],
   declarations: [TabsPage],
