@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { StreamService } from '../../services/stream/stream.service';
 import { IonInfiniteScroll } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-stream',
@@ -24,6 +25,11 @@ export class StreamPage implements OnInit {
    * @type {Array|null}
    */
   public locations = [];
+
+  /**
+   * @type {Subscription[]}
+   */
+  public subs: Subscription[] = [];
 
   /**
    * @type {boolean}
@@ -57,7 +63,7 @@ export class StreamPage implements OnInit {
     this.isLoading = true;
 
     const userId = this.auth.data.user_id;
-    this.stream.getByUser(userId).subscribe((res: any) => {
+    const sub = this.stream.getByUser(userId).subscribe((res: any) => {
       this.isLoading = false;
       if (!res['success']) {
         this.errormessage = res['message'];
@@ -69,5 +75,6 @@ export class StreamPage implements OnInit {
       this.isLoading = false;
       this.errormessage = res['message'] || 'Es ist ein Fehler aufgetreten';
     });
+    this.subs.push(sub);
   }
 }
