@@ -1,4 +1,7 @@
 <ion-content padding>
+    <ion-row class="ion-justify-content-center" *ngIf="isLoading">
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
     <p *ngIf="errormessage">{{errormessage}}</p>
 
     <ion-list>

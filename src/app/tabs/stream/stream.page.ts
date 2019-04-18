@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { StreamService } from '../../services/stream/stream.service';
-import { IonInfiniteScroll, LoadingController } from '@ionic/angular';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'app-stream',
@@ -21,21 +21,23 @@ export class StreamPage implements OnInit {
   public errormessage = null;
 
   /**
-   *
    * @type {Array|null}
    */
   public locations = [];
 
   /**
+   * @type {boolean}
+   */
+  public isLoading = false;
+
+  /**
    * StreamPage constructor.
    * @param {AuthService} auth
    * @param {StreamService} stream
-   * @param {LoadingController} loading
    */
   constructor(
     private auth: AuthService,
     private stream: StreamService,
-    private loading: LoadingController,
   ) {
   }
 
@@ -43,16 +45,20 @@ export class StreamPage implements OnInit {
    * On init hook
    * @returns {Promise<void>}
    */
-  async ngOnInit() {
-    const loader = await this.loading.create({
-      message: 'Loading',
-      spinner: 'crescent',
-    });
-    loader.present();
+  public async ngOnInit() {
+    await this.getStream();
+  }
+
+  /**
+   * Get the stream
+   * @returns {Promise<void>}
+   */
+  public async getStream() {
+    this.isLoading = true;
 
     const userId = this.auth.data.user_id;
     this.stream.getByUser(userId).subscribe((res: any) => {
-      loader.dismiss();
+      this.isLoading = false;
       if (!res['success']) {
         this.errormessage = res['message'];
         return;
@@ -60,7 +66,7 @@ export class StreamPage implements OnInit {
       console.log(res);
       this.locations = res.locations;
     }, (res: any) => {
-      loader.dismiss();
+      this.isLoading = false;
       this.errormessage = res['message'] || 'Es ist ein Fehler aufgetreten';
     });
   }
