@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ContactService } from '../../services/contacts/contact.service';
-import { Contact } from '../../services/contacts/interfaces';
+import { Contact, Group } from '../../services/contacts/interfaces';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { environment } from '../../../environments/environment';
@@ -11,11 +11,11 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./contacts.page.scss'],
 })
 export class ContactsPage implements OnInit, OnDestroy {
-  public contacts: Contact[];
+  public contacts: { group: Group, users: Contact[] }[] = [];
   public errormessage: string;
   public isLoading = false;
   public readonly server: string;
-  private subs: Subscription[];
+  private subs: Subscription[] = [];
 
   /**
    * Contacts page constructor
@@ -54,8 +54,25 @@ export class ContactsPage implements OnInit, OnDestroy {
         this.errormessage = res['message'];
         return;
       }
-      console.log(res);
-      this.contacts = res.contacts;
+      const contacts = [];
+      res.contacts.map((contact) => {
+        const group = contact.group || {
+          id: 0,
+          name: 'User',
+        };
+        if (!(group.id in contacts)) {
+          contacts[group.id] = {
+            group: group,
+            users: [],
+          };
+        }
+        contacts[group.id].users.push(contact);
+      });
+
+      this.contacts = contacts.filter(function (el) {
+        return el != null;
+      });
+      console.log(this.contacts);
     }, (res: any) => {
       this.isLoading = false;
       this.errormessage = res['message'] || 'Es ist ein Fehler aufgetreten';
