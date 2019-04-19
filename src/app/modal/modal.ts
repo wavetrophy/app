@@ -70,6 +70,9 @@ export abstract class Modal {
    * IonViewDidEnter hook.
    */
   public ionViewDidEnter() {
+    if (!(this.autofocus instanceof IonInput)) {
+      return;
+    }
     this.autofocus.setFocus();
   }
 }

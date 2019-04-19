@@ -20,6 +20,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   public emails: Email[];
   public phonenumbers: Phonenumber[];
   public username: string;
+  public profilePicture: {url: string} | any;
   private subs: Subscription[] = [];
 
   /**
@@ -41,15 +42,23 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.getEmails();
     this.getPhonenumbers();
     this.username = this.auth.data.username;
+    this.profilePicture = this.auth.data.profile_picture || {url: 'default/profile-picture.svg'};
     // todo add profile picture upload from gallery
   }
 
+  /**
+   * On destroy hook.
+   */
   ngOnDestroy() {
     this.subs.forEach((sub) => {
       sub.unsubscribe();
     });
   }
 
+  /**
+   * Edit username.
+   * @returns {Promise<void>}
+   */
   async editUsername() {
     const modal = await UsernamePage.asModal(this.modal, this.auth.data.user_id, this.username);
     const dismiss = await modal.onDidDismiss();
@@ -59,6 +68,11 @@ export class ProfilePage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Edit email.
+   * @param {Email} email
+   * @returns {Promise<void>}
+   */
   async editEmail(email: Email) {
     const modal = await EmailPage.asModal(this.modal, email, this.username);
     const dismiss = await modal.onDidDismiss();
@@ -72,6 +86,10 @@ export class ProfilePage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Add email.
+   * @returns {Promise<void>}
+   */
   async addEmail() {
     const modal = await CreateEmailPage.asModal(this.modal, this.auth.data.user_id);
     const dismiss = await modal.onDidDismiss();
@@ -80,6 +98,11 @@ export class ProfilePage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Remove email.
+   * @param {Email} email
+   * @returns {Promise<void>}
+   */
   async removeEmail(email: Email) {
     if (email.is_primary) {
       const error = await this.alert.create({
@@ -126,6 +149,11 @@ export class ProfilePage implements OnInit, OnDestroy {
     alert.present();
   }
 
+  /**
+   * Edit phonenumber.
+   * @param {Phonenumber} phonenumber
+   * @returns {Promise<void>}
+   */
   async editPhonenumber(phonenumber: Phonenumber) {
     const modal = await PhonenumberPage.asModal(this.modal, phonenumber);
     const dismiss = await modal.onDidDismiss();
@@ -134,6 +162,10 @@ export class ProfilePage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Add phonenumber
+   * @returns {Promise<void>}
+   */
   async addPhonenumber() {
     const modal = await CreatePhonenumberPage.asModal(this.modal, this.auth.data.user_id);
     const dismiss = await modal.onDidDismiss();
@@ -142,6 +174,11 @@ export class ProfilePage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Remove phonenumber.
+   * @param {Phonenumber} phonenumber
+   * @returns {Promise<void>}
+   */
   async removePhonenumber(phonenumber: Phonenumber) {
     const message = 'You remove this phonenumber from your public contact by deleting this phonenumber.' +
       ' Other people wont see the phonenummber anymore (if the phonenumber is public). Are you sure?';
@@ -179,6 +216,9 @@ export class ProfilePage implements OnInit, OnDestroy {
     alert.present();
   }
 
+  /**
+   * Get emails.
+   */
   private getEmails() {
     const sub = this.userService.getEmails(this.auth.data.user_id).subscribe((emails: Email[]) => {
       this.emails = emails;
@@ -186,6 +226,9 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.subs.push(sub);
   }
 
+  /**
+   * Get phonenumbers
+   */
   private getPhonenumbers() {
     const sub = this.userService.getPhonenumbers(this.auth.data.user_id).subscribe((phonenumbers: Phonenumber[]) => {
       this.phonenumbers = phonenumbers;

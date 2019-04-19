@@ -8,4 +8,5 @@ export interface AuthData {
   team_id: number;
   user_id: number;
   username: string;
+  profile_picture: string;
 }

@@ -1,4 +1,5 @@
 import { Email } from '../user/types/email';
+import { Phonenumber } from '../user/types/phonenumber';
 
 export interface Team {
   id: number;
@@ -20,5 +21,5 @@ export interface Contact {
   team: Team;
   group: Group;
   emails: Email[];
-  phonenumbers: any[];
+  phonenumbers: Phonenumber[];
 }

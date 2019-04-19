@@ -4,6 +4,8 @@ import { Contact, Group } from '../../services/contacts/interfaces';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { environment } from '../../../environments/environment';
+import { ViewContactPage } from '../../modal/contacts/view-contact/view-contact.page';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-contacts',
@@ -21,10 +23,12 @@ export class ContactsPage implements OnInit, OnDestroy {
    * Contacts page constructor
    * @param {ContactService} contactService
    * @param {AuthService} auth
+   * @param {ModalController} modal
    */
   public constructor(
     private contactService: ContactService,
     private auth: AuthService,
+    private modal: ModalController,
   ) {
     this.server = environment.api.url;
   }
@@ -41,6 +45,14 @@ export class ContactsPage implements OnInit, OnDestroy {
    */
   public ngOnDestroy() {
     this.subs.forEach(sub => sub.unsubscribe());
+  }
+
+  /**
+   * View a contact.
+   * @param {Contact} contact
+   */
+  public async viewContact(contact: Contact) {
+    ViewContactPage.asModal(this.modal, contact);
   }
 
   /**

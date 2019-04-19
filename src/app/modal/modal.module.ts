@@ -5,6 +5,7 @@ import { EditUsernamePageModule } from './edit/username/username.module';
 import { CreateEmailPageModule } from './create/email/create-email.module';
 import { CreatePhonenumberPageModule } from './create/create-phonenumber/create-phonenumber.module';
 import { PhonenumberPageModule } from './edit/phonenumber/phonenumber.module';
+import { ViewContactPageModule } from './contacts/view-contact/view-contact.module';
 
 @NgModule({
   declarations: [],
@@ -15,6 +16,7 @@ import { PhonenumberPageModule } from './edit/phonenumber/phonenumber.module';
     EditUsernamePageModule,
     PhonenumberPageModule,
     CreatePhonenumberPageModule,
+    ViewContactPageModule,
   ],
   exports: [
     EditEmailPageModule,
@@ -22,6 +24,7 @@ import { PhonenumberPageModule } from './edit/phonenumber/phonenumber.module';
     CreateEmailPageModule,
     PhonenumberPageModule,
     CreatePhonenumberPageModule,
+    ViewContactPageModule,
   ],
 })
 export class ModalModule {
