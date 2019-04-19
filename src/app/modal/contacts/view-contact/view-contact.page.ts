@@ -49,7 +49,7 @@ export class ViewContactPage extends Modal {
   }
 
   public call(phonenumber: Phonenumber) {
-    document.location.href = `tel:${phonenumber.phonenumber}`;
+    document.location.href = `tel:${phonenumber.country_code}${phonenumber.phonenumber}`;
   }
 
   public sendEmail(email: Email) {

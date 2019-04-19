@@ -20,37 +20,29 @@
         <p>{{title}} has no public email or phone number</p>
     </ion-text>
     <ion-list *ngIf="contact.phonenumbers">
-        <ion-item-sliding *ngFor="let phonenumber of contact.phonenumbers">
-            <ion-item-options side="end">
-                <ion-item-option (click)="call(phonenumber)">Call</ion-item-option>
-            </ion-item-options>
-            <ion-item>
-                <ion-label>
-                    <ion-text>
-                        <p>{{phonenumber.country_code}} {{phonenumber.phonenumber}}</p>
-                    </ion-text>
-                </ion-label>
-            </ion-item>
-        </ion-item-sliding>
+        <ion-item *ngFor="let phonenumber of contact.phonenumbers" (click)="call(phonenumber)" class="ion-activatable">
+            <ion-ripple-effect></ion-ripple-effect>
+            <ion-label>
+                <ion-text>
+                    <p>{{phonenumber.country_code}} {{phonenumber.phonenumber}}</p>
+                </ion-text>
+            </ion-label>
+        </ion-item>
     </ion-list>
     <ion-list *ngIf="contact.emails">
-        <ion-item-sliding *ngFor="let email of contact.emails">
-            <ion-item-options side="end">
-                <ion-item-option (click)="sendEmail(email)">Message</ion-item-option>
-            </ion-item-options>
-            <ion-item>
-                <ion-label>
-                    <ion-text class="inline">
-                        <p>
-                            {{email.email}}
-                        </p>
-                    </ion-text>
-                    <ion-icon name="checkmark-circle"
-                              class="inline verified"
-                              color="success"
-                              *ngIf="email.confirmed"></ion-icon>
-                </ion-label>
-            </ion-item>
-        </ion-item-sliding>
+        <ion-item *ngFor="let email of contact.emails" (click)="sendEmail(email)" class="ion-activatable">
+            <ion-ripple-effect></ion-ripple-effect>
+            <ion-label>
+                <ion-text class="inline">
+                    <p>
+                        {{email.email}}
+                    </p>
+                </ion-text>
+                <ion-icon name="checkmark-circle"
+                          class="inline verified"
+                          color="success"
+                          *ngIf="email.confirmed"></ion-icon>
+            </ion-label>
+        </ion-item>
     </ion-list>
 </ion-content>

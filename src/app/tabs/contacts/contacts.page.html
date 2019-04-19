@@ -8,7 +8,8 @@
         <ion-list-header>
             <ion-label>{{group.group.name}}</ion-label>
         </ion-list-header>
-        <ion-item *ngFor="let contact of group.users" (click)="viewContact(contact)">
+        <ion-item *ngFor="let contact of group.users" (click)="viewContact(contact)" class="ion-activatable">
+            <ion-ripple-effect></ion-ripple-effect>
             <ion-avatar slot="end">
                 <ion-img src="{{server}}/{{contact.profile_picture.url}}"
                          alt="{{server}}/default/profile-picture.svg">
