@@ -9,7 +9,16 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "clear": "rm -rf node_modules www platforms plugins && npm install",
+    "android": "ionic cordova run android -l --ssl --debug --device --dev",
+    "android:add": "ionic cordova platform add android && npm run android:build",
+    "android:build": "ionic cordova build android",
+    "android:clear": "ionic cordova platform rm android && npm run android:add",
+    "ios": "ionic cordova run ios -l --ssl --debug --device",
+    "ios:add": "ionic cordova platform add ios && npm run ios:build",
+    "ios:build": "ionic cordova build ios",
+    "ios:clear": "ionic cordova platform rm ios && npm run ios:add"
   },
   "private": true,
   "dependencies": {
