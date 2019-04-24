@@ -60,7 +60,7 @@ export class ContactsPage implements OnInit, OnDestroy {
    */
   private getContacts() {
     this.isLoading = true;
-    const sub = this.contactService.getContacts(this.auth.data.current_wave).subscribe((res: any) => {
+    const sub = this.contactService.getContacts(this.auth.data.current_wave.id).subscribe((res: any) => {
       this.isLoading = false;
       if (!res['success']) {
         this.errormessage = res['message'];
