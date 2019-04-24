@@ -18,6 +18,7 @@ import { Firebase } from '@ionic-native/firebase/ngx';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 /**
  * Get the JWT Options factory.
@@ -57,6 +58,7 @@ export function jwtOptionsFactory(storage) {
     StatusBar,
     SplashScreen,
     Firebase,
+    LocalNotifications,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true},
   ],
