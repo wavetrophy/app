@@ -14,6 +14,8 @@ import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { JwtHttpInterceptor } from './services/interceptors/jwt-http.interceptor';
 import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { ModalModule } from './modal/modal.module';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { Contacts } from '@ionic-native/contacts';
 
 /**
  * Get the JWT Options factory.
@@ -50,6 +52,8 @@ export function jwtOptionsFactory(storage) {
   providers: [
     StatusBar,
     SplashScreen,
+    Diagnostic,
+    Contacts,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true},
   ],

@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { environment } from '../../../environments/environment';
 import { ViewContactPage } from '../../modal/contacts/view-contact/view-contact.page';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-contacts',
@@ -29,6 +29,7 @@ export class ContactsPage implements OnInit, OnDestroy {
     private contactService: ContactService,
     private auth: AuthService,
     private modal: ModalController,
+    private loading: LoadingController,
   ) {
     this.server = environment.api.url;
   }
@@ -60,7 +61,7 @@ export class ContactsPage implements OnInit, OnDestroy {
    */
   private getContacts() {
     this.isLoading = true;
-    const sub = this.contactService.getContacts(this.auth.data.current_wave).subscribe((res: any) => {
+    const sub = this.contactService.getContacts(this.auth.data.current_wave.id).subscribe((res: any) => {
       this.isLoading = false;
       if (!res['success']) {
         this.errormessage = res['message'];
@@ -90,5 +91,25 @@ export class ContactsPage implements OnInit, OnDestroy {
       this.errormessage = res['message'] || 'Es ist ein Fehler aufgetreten';
     });
     this.subs.push(sub);
+  }
+
+  /**
+   * Save many contacts
+   * @returns {Promise<void>}
+   */
+  private async saveContacts() {
+    const contacts = [];
+    for (let i = 0; i < this.contacts.length; i++) {
+      contacts.push(...this.contacts[i].users);
+    }
+
+    const loader = await this.loading.create({
+      message: 'Saving contacts',
+      spinner: 'crescent',
+    });
+    loader.present();
+    const result = await this.contactService.saveMany(contacts);
+    console.log(result);
+    loader.dismiss();
   }
 }

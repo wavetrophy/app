@@ -4,6 +4,8 @@
     </ion-row>
     <p *ngIf="errormessage">{{errormessage}}</p>
 
+    <ion-button (click)="saveContacts()">Save all</ion-button>
+
     <ion-list *ngFor="let group of contacts">
         <ion-list-header>
             <ion-label>{{group.group.name}}</ion-label>
