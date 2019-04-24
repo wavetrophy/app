@@ -14,6 +14,7 @@ import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { JwtHttpInterceptor } from './services/interceptors/jwt-http.interceptor';
 import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { ModalModule } from './modal/modal.module';
+import { Firebase } from '@ionic-native/firebase/ngx';
 
 /**
  * Get the JWT Options factory.
@@ -50,6 +51,7 @@ export function jwtOptionsFactory(storage) {
   providers: [
     StatusBar,
     SplashScreen,
+    Firebase,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true},
   ],
