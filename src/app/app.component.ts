@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
+import { PushNotificationService } from './services/firebase/cloud-messaging/push-notification.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,13 @@ import { Router } from '@angular/router';
 /**
  * Class AppComponent
  */
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  /**
+   * Subscription array
+   * @type {any[]}
+   */
+  private subs: Subscription[] = [];
+
   /**
    * AppComponent constructor.
    * @param {Platform} platform The platform
@@ -28,6 +36,7 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private authService: AuthService,
     private router: Router,
+    private pushNotifications: PushNotificationService,
   ) {
     this.initializeApp();
   }
@@ -39,9 +48,14 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.setupNotifications();
     });
   }
 
+  /**
+   * On init hook
+   * @returns {Promise<void>}
+   */
   public async ngOnInit() {
     await this.authService.checkToken();
     const state = this.authService.authenticationState.getValue();
@@ -51,5 +65,29 @@ export class AppComponent implements OnInit {
     } else {
       this.router.navigate(['auth', 'login']);
     }
+  }
+
+  /**
+   * On destroy hook.
+   */
+  public ngOnDestroy(): void {
+    this.subs.forEach(sub => sub.unsubscribe());
+  }
+
+  /**
+   * Setup notification listening
+   */
+  public setupNotifications() {
+    this.pushNotifications.getToken();
+    const sub = this.pushNotifications.onNotification().subscribe(notification => {
+      let message = '';
+      if (this.platform.is('ios')) {
+        message = notification.aps.alert;
+      } else {
+        message = notification.body;
+      }
+      // TODO handle message
+    });
+    this.subs.push(sub);
   }
 }
