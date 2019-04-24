@@ -87,4 +87,5 @@
         <variable name="UPDATE_METHOD" value="background" />
         <variable name="APP_ID" value="b87b16f8" />
     </plugin>
+    <engine name="android" spec="7.1.4" />
 </widget>
