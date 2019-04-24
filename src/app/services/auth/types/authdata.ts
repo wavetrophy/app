@@ -1,5 +1,7 @@
+import { Wave } from '../../wave/types/wave';
+
 export interface AuthData {
-  current_wave: string;
+  current_wave: Wave;
   exp: number;
   iat: number;
   group_id: number;
