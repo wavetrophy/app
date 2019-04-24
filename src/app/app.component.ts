@@ -48,7 +48,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.setupNotifications();
     });
   }
 
@@ -61,8 +60,10 @@ export class AppComponent implements OnInit, OnDestroy {
     const state = this.authService.authenticationState.getValue();
 
     if (state === true) {
+      this.setupNotifications();
       this.router.navigate(['wave']);
     } else {
+      // Dont setup notifications if the user is not logged in.
       this.router.navigate(['auth', 'login']);
     }
   }

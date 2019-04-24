@@ -8,6 +8,7 @@ import { catchError, concatMap, tap } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
 import { AuthData } from './types/authdata';
 import { Router } from '@angular/router';
+import { Firebase } from '@ionic-native/firebase/ngx';
 
 const TOKEN_KEY = 'token_access';
 const TOKEN_REFRESH_KEY = 'token_refresh';
@@ -31,13 +32,16 @@ export class AuthService {
    * @param {Router} router
    * @param {Platform} plt The platform (ionic)
    * @param {AlertController} alertController The Alert Controller
+   * @param {Firebase} firebase
    */
-  public constructor(private http: HttpClient,
-                     private helper: JwtHelperService,
-                     private storage: Storage,
-                     private router: Router,
-                     private plt: Platform,
-                     private alertController: AlertController,
+  public constructor(
+    private http: HttpClient,
+    private helper: JwtHelperService,
+    private storage: Storage,
+    private router: Router,
+    private plt: Platform,
+    private alertController: AlertController,
+    private firebase: Firebase,
   ) {
   }
 
@@ -111,6 +115,8 @@ export class AuthService {
             .then(() => this.storage.set(TOKEN_REFRESH_KEY, res['refresh_token']))
             .then(() => {
               this._authData = <AuthData>this.helper.decodeToken(res['token']);
+              // Because its set to anonymous if the user is not logged in
+              this.firebase.setUserId(this._authData.user_id.toString());
               this._authenticationState.next(true);
             }),
           );

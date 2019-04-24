@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firebase } from '@ionic-native/firebase/ngx';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Platform } from '@ionic/angular';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +13,13 @@ export class PushNotificationService {
    * @param {Firebase} firebase
    * @param {AngularFirestore} firestore
    * @param {Platform} platform
+   * @param {AuthService} auth
    */
   constructor(
     private firebase: Firebase,
     private firestore: AngularFirestore,
     private platform: Platform,
+    private auth: AuthService,
   ) {
   }
 
@@ -53,7 +56,7 @@ export class PushNotificationService {
 
     const data = {
       token,
-      userId: 'testUserId',
+      userId: this.auth.data.user_id || 'anonymous',
     };
 
     return devicesRef.doc(token).set(data);
