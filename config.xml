@@ -88,4 +88,5 @@
         <variable name="APP_ID" value="b87b16f8" />
     </plugin>
     <engine name="android" spec="7.1.4" />
+    <engine name="ios" spec="5.0.1" />
 </widget>
