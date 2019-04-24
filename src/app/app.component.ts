@@ -29,6 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {StatusBar} statusBar The status bar
    * @param {AuthService} authService The auth service
    * @param {Router} router The router
+   * @param {PushNotificationService} pushNotifications
    */
   public constructor(
     private platform: Platform,
