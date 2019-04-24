@@ -15,6 +15,9 @@ import { JwtHttpInterceptor } from './services/interceptors/jwt-http.interceptor
 import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { ModalModule } from './modal/modal.module';
 import { Firebase } from '@ionic-native/firebase/ngx';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
 
 /**
  * Get the JWT Options factory.
@@ -38,6 +41,8 @@ export function jwtOptionsFactory(storage) {
     AppRoutingModule,
     HttpClientModule,
     ModalModule,
+    AngularFirestoreModule,
+    AngularFireModule.initializeApp(environment.firebase),
     IonicStorageModule.forRoot(),
     SuperTabsModule.forRoot(),
     JwtModule.forRoot({
