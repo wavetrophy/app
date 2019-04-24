@@ -69,4 +69,20 @@ export class PushNotificationService {
   public onNotification() {
     return this.firebase.onNotificationOpen();
   }
+
+  /**
+   * Subscribe to topic
+   * @param {string} topic
+   */
+  public subscribeTo(topic: string) {
+    this.firebase.subscribe(topic);
+  }
+
+  /**
+   * Unsubscribe from topic
+   * @param {string} topic
+   */
+  public unsubscribeFrom(topic: string) {
+    this.firebase.unsubscribe(topic);
+  }
 }
