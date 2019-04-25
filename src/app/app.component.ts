@@ -7,6 +7,7 @@ import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
 import { PushNotificationService } from './services/firebase/cloud-messaging/push-notification.service';
 import { Subscription } from 'rxjs';
+import { LocalNotificationService } from './services/firebase/cloud-messaging/local-notification.service';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {AuthService} authService The auth service
    * @param {Router} router The router
    * @param {PushNotificationService} pushNotifications
+   * @param {LocalNotificationService} localNotifications
    */
   public constructor(
     private platform: Platform,
@@ -38,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private pushNotifications: PushNotificationService,
+    private localNotifications: LocalNotificationService,
   ) {
     this.initializeApp();
   }
@@ -88,7 +91,7 @@ export class AppComponent implements OnInit, OnDestroy {
       } else {
         message = notification.body;
       }
-      // TODO handle message
+      this.localNotifications.info(message);
     });
     this.subs.push(sub);
   }

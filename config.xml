@@ -3,7 +3,7 @@
     <name>WAVE Trophy</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="bjoern@pfoster.ch" href="https://darkmindz.ch">Darkmindz Development Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.0.18:8101" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -87,6 +87,7 @@
         <variable name="UPDATE_METHOD" value="background" />
         <variable name="APP_ID" value="b87b16f8" />
     </plugin>
-    <engine name="android" spec="7.1.4" />
+    <allow-navigation href="http://192.168.0.18:8101" sessionid="e694fc43" />
     <engine name="ios" spec="5.0.1" />
+    <engine name="android" spec="7.1.4" />
 </widget>
