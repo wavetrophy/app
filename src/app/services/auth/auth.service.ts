@@ -9,6 +9,7 @@ import { Storage } from '@ionic/storage';
 import { AuthData } from './types/authdata';
 import { Router } from '@angular/router';
 import { Firebase } from '@ionic-native/firebase/ngx';
+import { Wave } from '../wave/types/wave';
 
 const TOKEN_KEY = 'token_access';
 const TOKEN_REFRESH_KEY = 'token_refresh';

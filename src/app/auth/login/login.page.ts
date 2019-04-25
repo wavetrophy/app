@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -33,6 +34,7 @@ export class LoginPage implements OnInit {
     private formBuilder: FormBuilder,
     private loading: LoadingController,
     private router: Router,
+    private notifications: NotificationService,
   ) {
   }
 
@@ -60,6 +62,7 @@ export class LoginPage implements OnInit {
     this.auth.login(this.form.value)
       .subscribe(() => {
         this.isLoading = false;
+        this.notifications.register();
         this.router.navigate(['wave']);
         loader.dismiss();
       }, () => {

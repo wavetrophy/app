@@ -15,8 +15,9 @@ export class LocalNotificationService {
   ) {
   }
 
-  public info(message: string) {
+  public info(title: string, message: string) {
     const notification: LocalNotification = {
+      title: title,
       text: message,
     };
     this.schedule(notification);

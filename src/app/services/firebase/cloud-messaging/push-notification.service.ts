@@ -54,9 +54,14 @@ export class PushNotificationService {
 
     const devicesRef = this.firestore.collection('devices');
 
+    let userId = 'anonymous';
+    if (this.auth.data && 'user_id' in this.auth.data) {
+      userId = this.auth.data.user_id.toString();
+    }
+
     const data = {
       token,
-      userId: this.auth.data.user_id || 'anonymous',
+      userId: userId,
     };
 
     return devicesRef.doc(token).set(data);

@@ -5,9 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
-import { PushNotificationService } from './services/firebase/cloud-messaging/push-notification.service';
 import { Subscription } from 'rxjs';
-import { LocalNotificationService } from './services/firebase/cloud-messaging/local-notification.service';
+import { NotificationService } from './services/firebase/cloud-messaging/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -30,8 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {StatusBar} statusBar The status bar
    * @param {AuthService} authService The auth service
    * @param {Router} router The router
-   * @param {PushNotificationService} pushNotifications
-   * @param {LocalNotificationService} localNotifications
+   * @param {NotificationService} notifications
    */
   public constructor(
     private platform: Platform,
@@ -39,8 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private statusBar: StatusBar,
     private authService: AuthService,
     private router: Router,
-    private pushNotifications: PushNotificationService,
-    private localNotifications: LocalNotificationService,
+    private notifications: NotificationService,
   ) {
     this.initializeApp();
   }
@@ -64,10 +61,10 @@ export class AppComponent implements OnInit, OnDestroy {
     const state = this.authService.authenticationState.getValue();
 
     if (state === true) {
-      this.setupNotifications();
+      // Dont setup notifications if the user is not logged in.
+      this.notifications.register();
       this.router.navigate(['wave']);
     } else {
-      // Dont setup notifications if the user is not logged in.
       this.router.navigate(['auth', 'login']);
     }
   }
@@ -77,22 +74,6 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public ngOnDestroy(): void {
     this.subs.forEach(sub => sub.unsubscribe());
-  }
-
-  /**
-   * Setup notification listening
-   */
-  public setupNotifications() {
-    this.pushNotifications.getToken();
-    const sub = this.pushNotifications.onNotification().subscribe(notification => {
-      let message = '';
-      if (this.platform.is('ios')) {
-        message = notification.aps.alert;
-      } else {
-        message = notification.body;
-      }
-      this.localNotifications.info(message);
-    });
-    this.subs.push(sub);
+    this.notifications.unregister();
   }
 }
