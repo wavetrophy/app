@@ -51,15 +51,15 @@ export class StreamPage implements OnInit {
    * On init hook
    * @returns {Promise<void>}
    */
-  public async ngOnInit() {
-    await this.getStream();
+  public ngOnInit() {
+    this.getStream();
   }
 
   /**
    * Get the stream
    * @returns {Promise<void>}
    */
-  public async getStream() {
+  public getStream() {
     this.isLoading = true;
 
     const userId = this.auth.data.user_id;
