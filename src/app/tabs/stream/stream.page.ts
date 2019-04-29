@@ -66,7 +66,7 @@ export class StreamPage implements OnInit {
     const sub = this.stream.getByUser(userId).subscribe((res: any) => {
       this.isLoading = false;
       if (!res['success']) {
-        this.errormessage = res['message'];
+        this.errormessage = res['message'] || 'Keine Daten verfügbar';
         return;
       }
       console.log(res);

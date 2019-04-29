@@ -63,7 +63,7 @@ export class ContactsPage implements OnInit, OnDestroy {
     const sub = this.contactService.getContacts(this.auth.data.current_wave.id).subscribe((res: any) => {
       this.isLoading = false;
       if (!res['success']) {
-        this.errormessage = res['message'];
+        this.errormessage = res['message'] || 'Keine Kontakte verfügbar';
         return;
       }
       const contacts = [];
