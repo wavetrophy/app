@@ -20,6 +20,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {path: '**', redirectTo: '', pathMatch: 'full'},
+  { path: 'faq', loadChildren: './tabs/faq/faq.module#FaqPageModule' },
 ];
 
 @NgModule({
