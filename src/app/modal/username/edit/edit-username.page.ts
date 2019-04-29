@@ -6,10 +6,10 @@ import { User } from '../../../services/user/types/user';
 
 @Component({
   selector: 'app-username',
-  templateUrl: './username.page.html',
-  styleUrls: ['./username.page.scss'],
+  templateUrl: './edit-username.page.html',
+  styleUrls: ['./edit-username.page.scss'],
 })
-export class UsernamePage extends Modal {
+export class EditUsernamePage extends Modal {
   @Input() public value: string;
   @Input() public userId: number;
   @Input() public title: any;
@@ -39,7 +39,7 @@ export class UsernamePage extends Modal {
     username: string,
   ) {
     const modal = await modalController.create({
-      component: UsernamePage,
+      component: EditUsernamePage,
       componentProps: {
         value: username,
         userId: userId,

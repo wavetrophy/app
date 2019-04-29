@@ -20,6 +20,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {path: '**', redirectTo: '', pathMatch: 'full'},
+  { path: 'create', loadChildren: './modal/faq/create/create.module#CreatePageModule' },
+  { path: 'create-question', loadChildren: './modal/faq/create-question/create-question.module#CreateQuestionPageModule' },
 ];
 
 @NgModule({

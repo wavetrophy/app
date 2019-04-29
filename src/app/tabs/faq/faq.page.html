@@ -1,9 +1,32 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>faq</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content padding>
+    <ion-row class="ion-justify-content-center" *ngIf="isLoading">
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
 
-<ion-content>
+    <ion-row class="ion-justify-content-center" *ngIf="errormessage">
+        <p>{{errormessage}}</p>
+    </ion-row>
+
+    <ion-list>
+        <ion-item *ngFor="let question of questions" (click)="viewQuestion(question)" class="ion-activatable">
+            <ion-ripple-effect></ion-ripple-effect>
+            <ion-label>
+                <h2>
+                    <ion-icon name="checkmark-circle"
+                              class="inline verified"
+                              color="success"
+                              *ngIf="question.resolved"></ion-icon>
+                    {{question.title}}
+                </h2>
+                <h3>Answers: {{question.answers.length}}</h3>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="primary" (click)="addQuestion()">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 
 </ion-content>

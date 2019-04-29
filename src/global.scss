@@ -39,3 +39,13 @@ ion-modal {
 .item-interactive.item-has-focus {
   --highlight-background: var(--highlight-color-focused);
 }
+
+.inline {
+  display: inline-block;
+}
+
+.verified {
+  position: fixed;
+  font-size: 1.3rem;
+  margin-right: .3rem;
+}

@@ -1,20 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Modal } from '../../modal';
-import { Email } from '../../../services/user/types/email';
 import { UserService } from '../../../services/user/user.service';
+import { Modal } from '../../modal';
+import { Phonenumber } from '../../../services/user/types/phonenumber';
 import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
-  selector: 'app-email',
-  templateUrl: './email.page.html',
-  styleUrls: ['./email.page.scss'],
+  selector: 'app-phonenumber',
+  templateUrl: './edit-phonenumber.page.html',
+  styleUrls: ['./edit-phonenumber.page.scss'],
 })
-export class EmailPage extends Modal implements OnInit {
-  @Input() public email: Email;
-  @Input() public username: string;
+export class EditPhonenumberPage extends Modal {
+  @Input() public phonenumber: Phonenumber;
   @Input() public title: any;
-  public isEmailEqualToUsername = false;
 
   /**
    * Constructor
@@ -33,22 +31,19 @@ export class EmailPage extends Modal implements OnInit {
   /**
    * As modal.
    * @param {ModalController} modalController
-   * @param {Email} email
-   * @param {string} username
+   * @param {Phonenumber} phonenumber
    * @returns {Promise<HTMLIonModalElement>}
    */
   public static async asModal(
     modalController: ModalController,
-    email: Email,
-    username: string,
+    phonenumber: Phonenumber,
   ) {
     const modal = await modalController.create({
-      component: EmailPage,
+      component: EditPhonenumberPage,
       componentProps: {
-        username: username,
-        // clone object to prevent editing the regular email...
-        email: Object.assign({}, email),
-        title: 'Edit email',
+        // clone object to prevent editing the regular phonenumber...
+        phonenumber: Object.assign({}, phonenumber),
+        title: 'Edit phonenumber',
       },
       showBackdrop: true,
       backdropDismiss: true,
@@ -64,14 +59,8 @@ export class EmailPage extends Modal implements OnInit {
    * @returns {Promise<boolean>}
    */
   public async onSave(): Promise<boolean> {
-      this.email = await this.userService.updateEmail(this.email).toPromise();
-      return true;
-  }
-
-  /**
-   * Ng on init hook.
-   */
-  public ngOnInit(): void {
-    this.isEmailEqualToUsername = this.username === this.email.email;
+    this.phonenumber = await this.userService.updatePhonenumber(this.phonenumber).toPromise();
+    return true;
   }
 }
+

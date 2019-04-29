@@ -5,8 +5,8 @@ import { UserService } from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-email',
-  templateUrl: './create-email-page.component.html',
-  styleUrls: ['./create-email-page.component.scss'],
+  templateUrl: './create-email.page.html',
+  styleUrls: ['./create-email.page.scss'],
 })
 export class CreateEmailPage extends Modal {
   @Input() public userId: number;

@@ -1,0 +1,18 @@
+<div class="modal-content" padding>
+  <h3>{{title}}</h3>
+  <ion-item>
+    <ion-label>Summary</ion-label>
+    <ion-input type="text" [(ngModel)]="summary" placeholder="I wonder where to charge my car in Lucerne" #focus></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Description</ion-label>
+    <ion-textarea [(ngModel)]="description" placeholder="I just arrived at lucerne Bellevue and there are no chargers. Where do i charge my car overnight?"></ion-textarea>
+  </ion-item>
+  <ion-label color="danger" *ngIf="error">{{error}}</ion-label>
+  <ion-row justify-content-end>
+    <div>
+      <ion-button fill="clear" (click)="close()">Cancel</ion-button>
+      <ion-button fill="clear" (click)="save()" [disabled]="isSaving">Save</ion-button>
+    </div>
+  </ion-row>
+</div>

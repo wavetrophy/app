@@ -4,7 +4,7 @@ import { Contact, Group } from '../../services/contacts/interfaces';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { environment } from '../../../environments/environment';
-import { ViewContactPage } from '../../modal/contacts/view-contact/view-contact.page';
+import { ViewContactPage } from '../../modal/contacts/view/view-contact.page';
 import { ModalController } from '@ionic/angular';
 
 @Component({
