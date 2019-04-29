@@ -28,12 +28,18 @@ export class NotificationService {
    * Register notification service
    */
   public register() {
+    debugger;
+    console.log('registering notifications');
     if (this.registered) {
+      console.log('cancelled registration');
       return;
     }
+    console.log('registering...');
     this.registered = true;
     this.push.getToken();
+    console.log('registered. ');
     this.sub = this.push.onNotification().subscribe(notification => {
+      console.log('[NOTIFICATION]', notification);
       let message = '';
       let title = 'WAVETROPHY';
       if (this.platform.is('ios')) {
@@ -46,6 +52,7 @@ export class NotificationService {
       }
       this.notification.info(title, message);
     });
+    console.log('registered. notifications');
   }
 
   /**

@@ -30,24 +30,30 @@ export class PushNotificationService {
   public async getToken() {
     let token;
 
+    const platforms = this.platform.platforms();
+    let platform = 'undefined';
+
     if (this.platform.is('android')) {
       token = await this.firebase.getToken();
+      platform = 'android';
     }
 
     if (this.platform.is('ios')) {
       token = await this.firebase.getToken();
       await this.firebase.grantPermission();
+      platform = 'ios';
     }
 
-    this.saveToken(token);
+    this.saveToken(token, platform);
   }
 
   /**
    * Save a token
-   * @param token
+   * @param {string|any} token
+   * @param {string} platform The current platform
    * @returns {Promise<void>}
    */
-  private saveToken(token) {
+  private saveToken(token, platform: string) {
     if (!token) {
       return;
     }
@@ -65,6 +71,7 @@ export class PushNotificationService {
       token: token,
       userId: userId,
       username: username,
+      platform: platform,
     };
 
     return devicesRef.doc(token).set(data);
