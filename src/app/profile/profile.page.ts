@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { Phonenumber } from '../services/user/types/phonenumber';
 import { CreatePhonenumberPage } from '../modal/phonenumber/create/create-phonenumber.page';
 import { EditPhonenumberPage } from '../modal/phonenumber/edit/edit-phonenumber.page';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'profile',
@@ -20,7 +21,8 @@ export class ProfilePage implements OnInit, OnDestroy {
   public emails: Email[];
   public phonenumbers: Phonenumber[];
   public username: string;
-  public profilePicture: {url: string} | any;
+  public profilePicture: { url: string } | any;
+  public server = '';
   private subs: Subscription[] = [];
 
   /**
@@ -33,6 +35,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     private alert: AlertController,
     private loading: LoadingController,
   ) {
+    this.server = environment.api.url;
   }
 
   /**
@@ -62,7 +65,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   async editUsername() {
     const modal = await EditUsernamePage.asModal(this.modal, this.auth.data.user_id, this.username);
     const dismiss = await modal.onDidDismiss();
-    if (dismiss.data.type === 'success') {
+    if (dismiss.data && dismiss.data.type === 'success') {
       // The user has to log in if he changes the username.
       this.auth.logout();
     }
@@ -76,7 +79,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   async editEmail(email: Email) {
     const modal = await EditEmailPage.asModal(this.modal, email, this.username);
     const dismiss = await modal.onDidDismiss();
-    if (dismiss.data.type === 'success') {
+    if (dismiss.data && dismiss.data.type === 'success') {
       if (email.email === this.username) {
         // The user has to log in if he changes the username.
         this.auth.logout();
@@ -93,7 +96,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   async addEmail() {
     const modal = await CreateEmailPage.asModal(this.modal, this.auth.data.user_id);
     const dismiss = await modal.onDidDismiss();
-    if (dismiss.data.type === 'success') {
+    if (dismiss.data && dismiss.data.type === 'success') {
       this.getEmails();
     }
   }
@@ -157,7 +160,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   async editPhonenumber(phonenumber: Phonenumber) {
     const modal = await EditPhonenumberPage.asModal(this.modal, phonenumber);
     const dismiss = await modal.onDidDismiss();
-    if (dismiss.data.type === 'success') {
+    if (dismiss.data && dismiss.data.type === 'success') {
       this.getPhonenumbers();
     }
   }
@@ -169,7 +172,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   async addPhonenumber() {
     const modal = await CreatePhonenumberPage.asModal(this.modal, this.auth.data.user_id);
     const dismiss = await modal.onDidDismiss();
-    if (dismiss.data.type === 'success') {
+    if (dismiss.data && dismiss.data.type === 'success') {
       this.getPhonenumbers();
     }
   }
