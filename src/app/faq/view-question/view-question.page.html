@@ -13,18 +13,19 @@
 <ion-content padding>
     <div *ngIf="question">
         <ion-row class="ion-justify-content-center">
-            <h2 class="title">{{question.title}}</h2>
-
-            <ion-icon name="checkmark-circle"
-                      class="inline verified icon"
-                      color="success"
-                      *ngIf="question.resolved">
-            </ion-icon>
+            <h2 class="title">
+                {{question.title}}
+                <ion-icon name="checkmark-circle"
+                          class="inline verified icon"
+                          color="success"
+                          *ngIf="question.resolved">
+                </ion-icon>
+            </h2>
         </ion-row>
 
         <ion-row>
             <ion-text>
-                <p>{{question.question}}</p>
+                <p [innerHTML]="question.question | nl2br" text-wrap></p>
             </ion-text>
         </ion-row>
 
@@ -54,19 +55,29 @@
     <div *ngIf="question && question.answers.length > 0">
         <ion-list *ngFor="let answer of question.answers">
             <ion-item class="ion-activatable">
-                <ion-label padding-end="2rem">
-                    <h3>{{answer.username}}</h3>
+                <ion-label>
+                    <ion-row>
+                        <ion-col size="1" *ngIf="answer.approved" padding-top="1rem">
+                            <ion-icon name="checkmark-circle" color="success" *ngIf="answer.approved"></ion-icon>
+                        </ion-col>
 
-                    <p text-wrap style="white-space: pre-wrap">{{answer.answer}}</p>
+                        <ion-col [size]="answer.approved ? 10 : 11" padding-top="1rem">
+                            <h3>{{answer.username}}</h3>
+                        </ion-col>
+
+                        <ion-col size="1">
+                            <ion-fab-button class="inline actions"
+                                            translucent="true"
+                                            size="small"
+                                            (click)="openOptions($event, answer)"
+                                            *ngIf="question.user.id === userId || answer.user_id === userId">
+                                <ion-icon name="more" color="primary"></ion-icon>
+                            </ion-fab-button>
+                        </ion-col>
+                    </ion-row>
+
+                    <p [innerHTML]="answer.answer | nl2br" text-wrap></p>
                 </ion-label>
-
-                <ion-icon name="checkmark-circle" class="ion-align-items-start" color="success" *ngIf="answer.approved">
-                </ion-icon>
-
-                <ion-fab-button translucent="true" size="small" (click)="openOptions($event, answer)"
-                                *ngIf="question.user.id === userId || answer.user_id === userId">
-                    <ion-icon name="more" class="inline icon" color="primary"></ion-icon>
-                </ion-fab-button>
             </ion-item>
         </ion-list>
     </div>

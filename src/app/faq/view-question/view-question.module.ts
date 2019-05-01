@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ViewQuestionPage } from './view-question.page';
+import { PipeModule } from '../../services/pipes/pipe.module';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
+    PipeModule,
   ],
   declarations: [ViewQuestionPage]
 })

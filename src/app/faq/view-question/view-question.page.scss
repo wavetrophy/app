@@ -2,9 +2,21 @@
 
 @include ion-inline-fab-button();
 
+
+.inline.actions {
+  margin: 0 .5rem 0 -1rem;
+}
+
 h2.title {
   margin-top: 0;
   margin-right: .75rem;
+}
+
+ion-item {
+  --ion-safe-area-right: 0;
+  --ion-safe-area-left: 0;
+  --ion-safe-area-bottom: 0;
+  --ion-safe-area-top: 0;
 }
 
 ion-icon {
