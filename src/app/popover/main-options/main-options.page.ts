@@ -28,6 +28,10 @@ export class MainOptionsPage {
     }
   }
 
+  /**
+   * Logout a user.
+   * @return {Promise<void>}
+   */
   async logout() {
     this.dismiss();
     await this.auth.logout();

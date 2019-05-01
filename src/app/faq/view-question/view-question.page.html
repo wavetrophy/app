@@ -63,19 +63,9 @@
                 <ion-icon name="checkmark-circle" class="ion-align-items-start" color="success" *ngIf="answer.approved">
                 </ion-icon>
 
-                <ion-fab-button translucent="true" size="small" (click)="resolve(answer)"
-                                *ngIf="question.user.id === userId && !question.resolved">
-                    <ion-icon name="checkmark-circle-outline" class="inline icon" color="success"></ion-icon>
-                </ion-fab-button>
-
-                <ion-fab-button translucent="true" size="small" (click)="editAnswer(answer)"
-                                *ngIf="answer.user_id === userId && !answer.approved">
-                    <ion-icon name="create" class="inline icon"></ion-icon>
-                </ion-fab-button>
-
-                <ion-fab-button translucent="true" size="small" (click)="delete(answer)"
-                                *ngIf="answer.user_id === userId && !answer.approved">
-                    <ion-icon name="trash" class="inline icon" color="danger"></ion-icon>
+                <ion-fab-button translucent="true" size="small" (click)="openOptions($event, answer)"
+                                *ngIf="question.user.id === userId || answer.user_id === userId">
+                    <ion-icon name="more" class="inline icon" color="primary"></ion-icon>
                 </ion-fab-button>
             </ion-item>
         </ion-list>

@@ -2,14 +2,6 @@
 
 @include ion-inline-fab-button();
 
-ion-fab-button {
-  margin-right: 0;
-
-  &:last-of-type {
-    margin-right: -.5rem;
-  }
-}
-
 h2.title {
   margin-top: 0;
   margin-right: .75rem;

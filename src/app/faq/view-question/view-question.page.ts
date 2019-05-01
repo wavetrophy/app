@@ -6,9 +6,10 @@ import { Question } from '../../services/faq/types/question';
 import { Answer } from '../../services/faq/types/answer';
 import { AnswerService } from '../../services/faq/answer.service';
 import { AuthService } from '../../services/auth/auth.service';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, PopoverController } from '@ionic/angular';
 import { EditQuestionPage } from '../../modal/faq/edit-question/edit-question.page';
 import { EditAnswerPage } from '../../modal/faq/edit-answer/edit-answer.page';
+import { AnswerOptionsPage } from '../../popover/answer-options/answer-options.page';
 
 @Component({
   selector: 'app-view-question',
@@ -37,6 +38,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    * @param {AuthService} auth
    * @param {AlertController} alert
    * @param {ModalController} modal
+   * @param {PopoverController} popopver
    */
   constructor(
     private ar: ActivatedRoute,
@@ -45,6 +47,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
     private auth: AuthService,
     private alert: AlertController,
     private modal: ModalController,
+    private popopver: PopoverController,
   ) {
   }
 
@@ -77,11 +80,63 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
   }
 
   /**
+   * Open the options for an answer.
+   * @param {Event} event
+   * @param {Answer} answer
+   * @return {Promise<void>}
+   */
+  public async openOptions(event, answer: Answer) {
+    const popover = await this.popopver.create({
+      component: AnswerOptionsPage,
+      componentProps: {
+        showResolve: this.question.user.id === this.userId,
+        showEdit: answer.user_id === this.userId && !answer.approved,
+        showDelete: answer.user_id === this.userId && !answer.approved,
+      },
+      showBackdrop: false,
+      event: event,
+      translucent: false,
+    });
+    await popover.present();
+    const dismiss = await popover.onDidDismiss();
+
+    if (!dismiss.data) {
+      // Ensure that the data is present.
+      return;
+    }
+
+    if (dismiss.data.type === AnswerOptionsPage.TYPE_RESOLVE) {
+      this.resolveAnswer(answer);
+    }
+
+    if (dismiss.data.type === AnswerOptionsPage.TYPE_EDIT) {
+      this.editAnswer(answer);
+    }
+
+    if (dismiss.data.type === AnswerOptionsPage.TYPE_DELETE) {
+      this.deleteAnswer(answer);
+    }
+  }
+
+  /**
+   * Edit question
+   * @return {Promise<void>}
+   */
+  public async edit() {
+    const modal = await EditQuestionPage.asModal(this.modal, this.question);
+    const dismiss = await modal.onDidDismiss();
+    if (dismiss.data && dismiss.data.type === 'success') {
+      // The user has to log in if he changes the username.
+      this.getQuestion(this.id);
+    }
+  }
+
+  /**
    * Mark a question as resolved
    * @param {Answer} answer
    * @return {Promise<void>}
    */
-  public async resolve(answer: Answer) {
+  private async resolveAnswer(answer: Answer) {
     const alert = await this.alert.create({
       header: 'Accept answer',
       message: 'Are you sure to accept this answer as the best answer. You can only accept one answer once.',
@@ -103,11 +158,25 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
   }
 
   /**
+   * Edit an answer
+   * @param answer
+   * @return {Promise<void>}
+   */
+  private async editAnswer(answer) {
+    const modal = await EditAnswerPage.asModal(this.modal, answer);
+    const dismiss = await modal.onDidDismiss();
+    if (dismiss.data && dismiss.data.type === 'success') {
+      // The user has to log in if he changes the username.
+      this.getQuestion(this.id);
+    }
+  }
+
+  /**
    * Delete an answer
    * @param {Answer} answer
    * @return {Promise<void>}
    */
-  public async delete(answer: Answer) {
+  private async deleteAnswer(answer: Answer) {
     const alert = await this.alert.create({
       header: 'Accept answer',
       message: 'Are you sure to accept this answer as the best answer. You can only accept one answer once.',
@@ -126,33 +195,6 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
       ],
     });
     alert.present();
-  }
-
-  /**
-   * Edit question
-   * @return {Promise<void>}
-   */
-  public async edit() {
-    const modal = await EditQuestionPage.asModal(this.modal, this.question);
-    const dismiss = await modal.onDidDismiss();
-    if (dismiss.data && dismiss.data.type === 'success') {
-      // The user has to log in if he changes the username.
-      this.getQuestion(this.id);
-    }
-  }
-
-  /**
-   * Edit an answer
-   * @param answer
-   * @return {Promise<void>}
-   */
-  public async editAnswer(answer) {
-    const modal = await EditAnswerPage.asModal(this.modal, answer);
-    const dismiss = await modal.onDidDismiss();
-    if (dismiss.data && dismiss.data.type === 'success') {
-      // The user has to log in if he changes the username.
-      this.getQuestion(this.id);
-    }
   }
 
   /**

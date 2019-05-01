@@ -9,7 +9,6 @@ import { TabsPage } from './tabs.page';
 import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { StreamPageModule } from './stream/stream.module';
 import { Tab3PageModule } from '../tab3/tab3.module';
-import { MainOptionsPageModule } from '../popover/main-options/main-options.module';
 import { ContactsPageModule } from './contacts/contacts.module';
 import { FaqPageModule } from './faq/faq.module';
 
@@ -23,7 +22,6 @@ import { FaqPageModule } from './faq/faq.module';
     StreamPageModule,
     FaqPageModule,
     ContactsPageModule,
-    MainOptionsPageModule,
     Tab3PageModule,
   ],
   declarations: [TabsPage],
