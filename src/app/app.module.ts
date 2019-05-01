@@ -19,6 +19,9 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { MainOptionsPageModule } from './popover/main-options/main-options.module';
+import { AnswerOptionsPageModule } from './popover/answer-options/answer-options.module';
+import { PipeModule } from './services/pipes/pipe.module';
 
 /**
  * Get the JWT Options factory.
@@ -35,8 +38,9 @@ export function jwtOptionsFactory(storage) {
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
   imports: [
+    MainOptionsPageModule,
+    AnswerOptionsPageModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
@@ -44,6 +48,7 @@ export function jwtOptionsFactory(storage) {
     ModalModule,
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
+    PipeModule.forRoot(),
     IonicStorageModule.forRoot(),
     SuperTabsModule.forRoot(),
     JwtModule.forRoot({

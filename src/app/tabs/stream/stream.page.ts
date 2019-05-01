@@ -51,22 +51,22 @@ export class StreamPage implements OnInit {
    * On init hook
    * @returns {Promise<void>}
    */
-  public async ngOnInit() {
-    await this.getStream();
+  public ngOnInit() {
+    this.getStream();
   }
 
   /**
    * Get the stream
    * @returns {Promise<void>}
    */
-  public async getStream() {
+  public getStream() {
     this.isLoading = true;
 
     const userId = this.auth.data.user_id;
     const sub = this.stream.getByUser(userId).subscribe((res: any) => {
       this.isLoading = false;
       if (!res['success']) {
-        this.errormessage = res['message'];
+        this.errormessage = res['message'] || 'Keine Daten verfügbar';
         return;
       }
       console.log(res);

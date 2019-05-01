@@ -16,8 +16,8 @@ const routes: Routes = [
         loadChildren: './contacts/contacts.module#ContactsPageModule',
       },
       {
-        path: 'tab3',
-        loadChildren: '../tab3/tab3.module#Tab3PageModule',
+        path: 'faq',
+        loadChildren: './faq/faq.module#FaqPageModule',
       },
       {path: '', redirectTo: '/wave/stream', pathMatch: 'full'},
     ],

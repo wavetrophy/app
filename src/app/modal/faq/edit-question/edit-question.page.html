@@ -1,0 +1,30 @@
+<div class="modal-content" padding>
+  <h3>{{title}}</h3>
+
+  <ion-item>
+    <ion-input type="text"
+               [(ngModel)]="question.title"
+               placeholder="Summary: e.g. Where to charge in lucerne"
+               maxlength="40"
+               #focus>
+    </ion-input>
+  </ion-item>
+
+  <ion-label color="danger" *ngIf="existsError('title')">{{getError('title')}}</ion-label>
+
+  <ion-item>
+    <ion-textarea [(ngModel)]="question.question"
+                  rows="6"
+                  placeholder="Description: e.g. I just arrived at lucerne Bellevue and there are no chargers. Where do i charge my car overnight?">
+    </ion-textarea>
+  </ion-item>
+
+  <ion-label color="danger" *ngIf="existsError('question')">{{getError('question')}}</ion-label>
+
+  <ion-row justify-content-end>
+    <div>
+      <ion-button fill="clear" (click)="close()">Cancel</ion-button>
+      <ion-button fill="clear" (click)="save()" [disabled]="isSaving">Save</ion-button>
+    </div>
+  </ion-row>
+</div>

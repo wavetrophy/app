@@ -133,11 +133,11 @@ export class AuthService {
   /**
    * Log out a user.
    */
-  public logout(): void {
-    this.storage.remove(TOKEN_KEY).then(() => {
-      this._authenticationState.next(false);
-      this.router.navigate(['auth', 'login']);
-    });
+  public async logout(): Promise<any> {
+    await this.storage.remove(TOKEN_REFRESH_KEY);
+    await this.storage.remove(TOKEN_KEY);
+    this._authenticationState.next(false);
+    this.router.navigate(['auth', 'login']);
   }
 
   /**

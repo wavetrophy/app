@@ -2,7 +2,10 @@
     <ion-row class="ion-justify-content-center" *ngIf="isLoading">
         <ion-spinner name="crescent"></ion-spinner>
     </ion-row>
-    <p *ngIf="errormessage">{{errormessage}}</p>
+
+    <ion-row class="ion-justify-content-center" *ngIf="errormessage">
+        <p>{{errormessage}}</p>
+    </ion-row>
 
     <ion-list>
         <ion-item *ngFor="let location of locations">

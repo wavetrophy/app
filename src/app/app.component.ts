@@ -7,6 +7,7 @@ import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationService } from './services/firebase/cloud-messaging/notification.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -46,6 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Initialize the application.
    */
   public initializeApp() {
+    moment.locale('de');
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
@@ -63,6 +65,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (state === true) {
       // Dont setup notifications if the user is not logged in.
       this.notifications.register();
+      moment.locale(this.authService.data.locale.short);
       this.router.navigate(['wave']);
     } else {
       this.router.navigate(['auth', 'login']);

@@ -1,0 +1,19 @@
+<div class="modal-content" padding>
+  <h3>{{title}}</h3>
+
+  <ion-item>
+    <ion-textarea [(ngModel)]="answer.answer"
+                  rows="3"
+                  placeholder="Your response...">
+    </ion-textarea>
+  </ion-item>
+
+  <ion-label color="danger" *ngIf="existsError('answer')">{{getError('answer')}}</ion-label>
+
+  <ion-row justify-content-end>
+    <div>
+      <ion-button fill="clear" (click)="close()">Cancel</ion-button>
+      <ion-button fill="clear" (click)="save()" [disabled]="isSaving">Save</ion-button>
+    </div>
+  </ion-row>
+</div>
