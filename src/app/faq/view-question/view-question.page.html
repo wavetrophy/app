@@ -57,7 +57,7 @@
                 <ion-label padding-end="2rem">
                     <h3>{{answer.username}}</h3>
 
-                    <p text-wrap>{{answer.answer}}</p>
+                    <p text-wrap style="white-space: pre-wrap">{{answer.answer}}</p>
                 </ion-label>
 
                 <ion-icon name="checkmark-circle" class="ion-align-items-start" color="success" *ngIf="answer.approved">
@@ -66,6 +66,11 @@
                 <ion-fab-button translucent="true" size="small" (click)="resolve(answer)"
                                 *ngIf="question.user.id === userId && !question.resolved">
                     <ion-icon name="checkmark-circle-outline" class="inline icon" color="success"></ion-icon>
+                </ion-fab-button>
+
+                <ion-fab-button translucent="true" size="small" (click)="editAnswer(answer)"
+                                *ngIf="answer.user_id === userId && !answer.approved">
+                    <ion-icon name="create" class="inline icon"></ion-icon>
                 </ion-fab-button>
 
                 <ion-fab-button translucent="true" size="small" (click)="delete(answer)"

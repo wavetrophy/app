@@ -8,6 +8,7 @@ import { AnswerService } from '../../services/faq/answer.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { EditQuestionPage } from '../../modal/faq/edit-question/edit-question.page';
+import { EditAnswerPage } from '../../modal/faq/edit-answer/edit-answer.page';
 
 @Component({
   selector: 'app-view-question',
@@ -133,6 +134,20 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    */
   public async edit() {
     const modal = await EditQuestionPage.asModal(this.modal, this.question);
+    const dismiss = await modal.onDidDismiss();
+    if (dismiss.data && dismiss.data.type === 'success') {
+      // The user has to log in if he changes the username.
+      this.getQuestion(this.id);
+    }
+  }
+
+  /**
+   * Edit an answer
+   * @param answer
+   * @return {Promise<void>}
+   */
+  public async editAnswer(answer) {
+    const modal = await EditAnswerPage.asModal(this.modal, answer);
     const dismiss = await modal.onDidDismiss();
     if (dismiss.data && dismiss.data.type === 'success') {
       // The user has to log in if he changes the username.

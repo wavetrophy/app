@@ -8,6 +8,7 @@ import { EditPhonenumberPageModule } from './phonenumber/edit/edit-phonenumber.m
 import { ViewContactPageModule } from './contacts/view/view-contact.module';
 import { CreateQuestionPageModule } from './faq/create-question/create-question.module';
 import { EditQuestionPageModule } from './faq/edit-question/edit-question.module';
+import { EditAnswerPageModule } from './faq/edit-answer/edit-answer.module';
 
 @NgModule({
   declarations: [],
@@ -17,6 +18,7 @@ import { EditQuestionPageModule } from './faq/edit-question/edit-question.module
     EditUsernamePageModule,
     EditPhonenumberPageModule,
     EditQuestionPageModule,
+    EditAnswerPageModule,
     CreatePhonenumberPageModule,
     CreateEmailPageModule,
     CreateQuestionPageModule,
@@ -27,6 +29,7 @@ import { EditQuestionPageModule } from './faq/edit-question/edit-question.module
     EditUsernamePageModule,
     EditPhonenumberPageModule,
     EditQuestionPageModule,
+    EditAnswerPageModule,
     CreateEmailPageModule,
     CreatePhonenumberPageModule,
     CreateQuestionPageModule,
