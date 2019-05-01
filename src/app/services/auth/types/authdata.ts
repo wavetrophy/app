@@ -1,5 +1,9 @@
 export interface AuthData {
   current_wave: string;
+  locale: {
+    short: string,
+    long: string,
+  };
   exp: number;
   iat: number;
   group_id: number;

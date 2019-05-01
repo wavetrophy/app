@@ -15,6 +15,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'question/:id',
+    loadChildren: './faq/view-question/view-question.module#ViewQuestionPageModule',
+    canActivate: [AuthGuard],
+  },
+  {
     path: '',
     loadChildren: './tabs/tabs.module#TabsPageModule',
     canActivate: [AuthGuard],

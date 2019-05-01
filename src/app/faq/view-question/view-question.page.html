@@ -1,0 +1,79 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Question</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngIf="question">
+        <ion-row class="ion-justify-content-center">
+            <h2 class="title">{{question.title}}</h2>
+
+            <ion-icon name="checkmark-circle"
+                      class="inline verified icon"
+                      color="success"
+                      *ngIf="question.resolved">
+            </ion-icon>
+        </ion-row>
+
+        <ion-row>
+            <ion-text>
+                <p>{{question.question}}</p>
+            </ion-text>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-start">
+            <ion-text class="small">
+                <p>Submitted by {{question.user.username}}</p>
+            </ion-text>
+        </ion-row>
+
+        <ion-item margin-top="2rem">
+            <ion-textarea [(ngModel)]="answer" rows="4" placeholder="Write a response..."></ion-textarea>
+        </ion-item>
+
+        <ion-row class="ion-justify-content-end">
+            <ion-button fill="clear" (click)="saveAnswer()" [disabled]="isSaving">Post</ion-button>
+        </ion-row>
+    </div>
+
+    <ion-row class="ion-justify-content-center" *ngIf="isLoading">
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center" *ngIf="errormessage">
+        <p>{{errormessage}}</p>
+    </ion-row>
+
+    <div *ngIf="question && question.answers.length > 0">
+        <ion-list *ngFor="let answer of question.answers">
+            <ion-item class="ion-activatable">
+                <ion-label padding-end="2rem">
+                    <h3>{{answer.username}}</h3>
+
+                    <p text-wrap>{{answer.answer}}</p>
+                </ion-label>
+
+                <ion-icon name="checkmark-circle" class="ion-align-items-start" color="success" *ngIf="answer.approved">
+                </ion-icon>
+
+                <ion-fab-button translucent="true" size="small" (click)="resolve(answer)"
+                                *ngIf="question.user.id === userId && !question.resolved">
+                    <ion-icon name="checkmark-circle-outline" class="inline icon" color="success"></ion-icon>
+                </ion-fab-button>
+
+                <ion-fab-button translucent="true" size="small" (click)="delete(answer)"
+                                *ngIf="answer.user_id === userId && !answer.approved">
+                    <ion-icon name="trash" class="inline icon" color="danger"></ion-icon>
+                </ion-fab-button>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <ion-row class="ion-justify-content-center" *ngIf="question && question.answers.length <= 0 && !isLoading">
+        <p>There are no answers</p>
+    </ion-row>
+</ion-content>

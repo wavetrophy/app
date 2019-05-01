@@ -8,7 +8,8 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
-
+@import "variables";
+@import "mixins";
 
 ion-modal {
   &.modal-auto-height {
@@ -44,8 +45,16 @@ ion-modal {
   display: inline-block;
 }
 
-.verified {
+.fixed {
   position: fixed;
+}
+
+.verified {
   font-size: 1.3rem;
   margin-right: .3rem;
+}
+
+.small {
+  font-size: .65rem;
+  line-height: .8rem;
 }

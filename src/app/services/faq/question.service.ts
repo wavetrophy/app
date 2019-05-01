@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { AnswerService } from './answer.service';
+import { Question } from './types/question';
+import { Answer } from './types/answer';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +15,12 @@ export class QuestionService {
   /**
    * Question service constructor
    * @param {HttpClient} http
+   * @param {AnswerService} answerService
    */
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private answerService: AnswerService,
+  ) {
     this.server = environment.api.url + '/api';
   }
 
@@ -29,6 +36,15 @@ export class QuestionService {
       url = `${this.server}/waves/${waveId}/groups/${groupId}/questions`;
     }
     return this.http.get(url);
+  }
+
+  /**
+   * Get single questions
+   * @param {number} questionId
+   * @returns {Observable<object>}
+   */
+  public getQuestion(questionId: number): Observable<object> {
+    return this.http.get(`${this.server}/questions/${questionId}`);
   }
 
   /**
@@ -52,11 +68,13 @@ export class QuestionService {
 
   /**
    * Resolve a question
-   * @param {number} questionId
    * @returns {Promise<Observable<Object>>}
+   * @param question
+   * @param answer
    */
-  public async resolve(questionId: number) {
+  public resolve(question: Question, answer: Answer) {
     const data = {resolved: true};
-    return this.http.put(`${this.server}/questions/${questionId}`, JSON.stringify(data));
+    this.answerService.approveAnswer(answer.id).subscribe();
+    return this.http.put(`${this.server}/questions/${question.id}`, JSON.stringify(data));
   }
 }

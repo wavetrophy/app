@@ -1,19 +1,7 @@
+@import "mixins";
 @import "variables";
 
 $profilePictureSize: 30;
-
-@mixin ion-fab-button() {
-  ion-fab-button {
-    --color: #{$ion-color-primary};
-    --color-activated: #{$ion-color-primary-tint};
-    --color-focused: #{$ion-color-primary-tint};
-    --background: #{$white};
-    --background-activated: #{darken($white, 10)};
-    --background-focused: #{darken($white, 20)};
-    --border-color: transparent;
-    --box-shadow: none;
-  }
-}
 
 ion-content {
   --ion-background-color: #{$ion-color-light};
@@ -54,7 +42,7 @@ ion-content {
     box-shadow: none;
     padding: 0 1rem !important;
 
-    @include ion-fab-button();
+    @include ion-inline-fab-button();
   }
 
   ion-row.info-row {
@@ -79,7 +67,7 @@ ion-content {
       color: #{lighten($black, 30)};
     }
 
-    @include ion-fab-button();
+    @include ion-inline-fab-button();
   }
 
   ion-item {

@@ -1,4 +1,5 @@
 import { User } from '../../user/types/user';
+import { Answer } from './answer';
 
 export interface Question {
   id: number;
@@ -7,5 +8,6 @@ export interface Question {
   resolved: boolean;
   group?: any;
   user: User;
-  answers: any[];
+  answers: Answer[];
+  asked_at: string;
 }

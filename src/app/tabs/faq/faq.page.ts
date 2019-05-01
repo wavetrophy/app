@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { CreateQuestionPage } from '../../modal/faq/create-question/create-question.page';
 import { ModalController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-faq',
@@ -13,9 +14,11 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./faq.page.scss'],
 })
 export class FaqPage implements OnInit, OnDestroy {
+  public ObjectKeys = Object.keys;
   public isLoading = false;
+  public questionGroups: { [key: string]: Question[] } = {};
+  public moment = moment;
   public errormessage: string;
-  public questions: Question[] = [];
   public server = '';
   private subs: Subscription[] = [];
 
@@ -48,13 +51,6 @@ export class FaqPage implements OnInit, OnDestroy {
   }
 
   /**
-   * View a question
-   * @param {Question} question
-   */
-  public viewQuestion(question: Question) {
-  }
-
-  /**
    * Add question
    */
   public async askQuestion() {
@@ -69,19 +65,29 @@ export class FaqPage implements OnInit, OnDestroy {
    * Get all questions
    */
   private getQuestions() {
+    this.errormessage = null;
     this.isLoading = true;
     const sub = this.questionService.getQuestions(
       // @ts-ignore
       this.auth.data.current_wave.id,
       this.auth.data.group_id,
-    ).subscribe((res: any) => {
+    ).subscribe((res: [] | any) => {
       this.isLoading = false;
       if (!res) {
         this.errormessage = res['message'] || 'Keine Fragen verfügbar';
         return;
       }
-      console.log(res);
-      this.questions = res;
+      const questions = {};
+      res.forEach((question: Question) => {
+        const date = new Date(question.asked_at);
+        const key = `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDay()}`;
+        if (!Object.keys(questions).includes(key)) {
+          questions[key] = [];
+        }
+        questions[key].push(question);
+      });
+      console.log(questions);
+      this.questionGroups = questions;
     }, (res: any) => {
       this.isLoading = false;
       this.errormessage = res['message'] || 'Es ist ein Fehler aufgetreten';
