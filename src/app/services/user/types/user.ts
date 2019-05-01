@@ -1,6 +1,7 @@
 import { Email } from './email';
 import { Phonenumber } from './phonenumber';
 import { Team } from './team';
+import { ProfilePicture } from './profile-picture';
 
 export interface User {
   id: number;
@@ -8,7 +9,7 @@ export interface User {
   enabled: boolean;
   first_name: string;
   last_name: string;
-  profile_picture: string;
+  profile_picture: ProfilePicture;
   has_received_welcome_email: boolean;
   has_received_setup_app_email: boolean;
   must_reset_password: boolean;

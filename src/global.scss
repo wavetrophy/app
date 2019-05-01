@@ -8,7 +8,8 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
-
+@import "variables";
+@import "mixins";
 
 ion-modal {
   &.modal-auto-height {
@@ -38,4 +39,22 @@ ion-modal {
 
 .item-interactive.item-has-focus {
   --highlight-background: var(--highlight-color-focused);
+}
+
+.inline {
+  display: inline-block;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.verified {
+  font-size: 1.3rem;
+  margin-right: .3rem;
+}
+
+.small {
+  font-size: .65rem;
+  line-height: .8rem;
 }

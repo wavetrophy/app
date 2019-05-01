@@ -4,7 +4,7 @@ import { Contact, Group } from '../../services/contacts/interfaces';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { environment } from '../../../environments/environment';
-import { ViewContactPage } from '../../modal/contacts/view-contact/view-contact.page';
+import { ViewContactPage } from '../../modal/contacts/view/view-contact.page';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -60,10 +60,11 @@ export class ContactsPage implements OnInit, OnDestroy {
    */
   private getContacts() {
     this.isLoading = true;
+    // @ts-ignore
     const sub = this.contactService.getContacts(this.auth.data.current_wave.id).subscribe((res: any) => {
       this.isLoading = false;
       if (!res['success']) {
-        this.errormessage = res['message'];
+        this.errormessage = res['message'] || 'Keine Kontakte verfügbar';
         return;
       }
       const contacts = [];

@@ -14,6 +14,10 @@ import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { JwtHttpInterceptor } from './services/interceptors/jwt-http.interceptor';
 import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { ModalModule } from './modal/modal.module';
+import { MainOptionsPageModule } from './popover/main-options/main-options.module';
+import { AnswerOptionsPageModule } from './popover/answer-options/answer-options.module';
+import { Nl2brPipe } from './services/pipes/nl2br.pipe';
+import { PipeModule } from './services/pipes/pipe.module';
 
 /**
  * Get the JWT Options factory.
@@ -30,13 +34,15 @@ export function jwtOptionsFactory(storage) {
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
   imports: [
+    MainOptionsPageModule,
+    AnswerOptionsPageModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
     ModalModule,
+    PipeModule.forRoot(),
     IonicStorageModule.forRoot(),
     SuperTabsModule.forRoot(),
     JwtModule.forRoot({

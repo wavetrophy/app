@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
    * Initialize the application.
    */
   public initializeApp() {
+    moment.locale('de');
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
@@ -47,6 +49,7 @@ export class AppComponent implements OnInit {
     const state = this.authService.authenticationState.getValue();
 
     if (state === true) {
+      moment.locale(this.authService.data.locale.short);
       this.router.navigate(['wave']);
     } else {
       this.router.navigate(['auth', 'login']);

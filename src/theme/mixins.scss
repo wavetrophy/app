@@ -1,0 +1,14 @@
+@import "variables";
+
+@mixin ion-inline-fab-button() {
+  ion-fab-button {
+    --color: #{$ion-color-primary};
+    --color-activated: #{$ion-color-primary-tint};
+    --color-focused: #{$ion-color-primary-tint};
+    --background: #{$white};
+    --background-activated: #{darken($white, 10)};
+    --background-focused: #{darken($white, 20)};
+    --border-color: transparent;
+    --box-shadow: none;
+  }
+}

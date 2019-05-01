@@ -1,6 +1,7 @@
 import { ViewChild } from '@angular/core';
 import { IonInput, ModalController } from '@ionic/angular';
 import { from } from 'rxjs';
+import { ValidationError } from './types/validation-error';
 
 export abstract class Modal {
 
@@ -9,6 +10,7 @@ export abstract class Modal {
   public title: any;
   public isSaving = false;
   private _error: string;
+  private _errors: ValidationError[] = [];
 
   /**
    * The on save click hook.
@@ -46,6 +48,7 @@ export abstract class Modal {
         this.isSaving = false;
         console.log(e);
         this.error = e.error.violations[0].message || e.error.title || 'Something went wrong. Please try again later';
+        this.errors = e.error.violations;
       },
     );
   }
@@ -64,6 +67,55 @@ export abstract class Modal {
    */
   public get error() {
     return this._error;
+  }
+
+  /**
+   * Set all errors
+   * @param {string} errors
+   */
+  public set errors(errors: ValidationError[]) {
+    this._errors = errors;
+  }
+
+  /**
+   * Get errors
+   * @returns {ValidationError[]}
+   */
+  public get errors() {
+    return this._errors;
+  }
+
+  /**
+   * Check if error exists.
+   * @param {string} path
+   * @return {boolean}
+   */
+  public existsError(path: string): boolean {
+    if (this.errors.length < 1) {
+      return false;
+    }
+    const found = this.errors.find((value) => {
+      return value.propertyPath === path;
+    });
+    return !!found;
+  }
+
+  /**
+   * Get an error message
+   * @param {string} path
+   * @return {string}
+   */
+  public getError(path: string) {
+    if (this.errors.length < 1) {
+      return false;
+    }
+    const found = this.errors.find((value) => {
+      return value.propertyPath === path;
+    });
+    if (!found) {
+      return '';
+    }
+    return found.message;
   }
 
   /**
