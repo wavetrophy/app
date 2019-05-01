@@ -4,6 +4,9 @@
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-title>Question</ion-title>
+        <ion-buttons slot="end" *ngIf="question && question.user.id === userId">
+            <ion-button fill="clear" (click)="edit()" [disabled]="isLoading">Edit</ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 

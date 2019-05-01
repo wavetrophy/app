@@ -48,6 +48,19 @@ export class QuestionService {
   }
 
   /**
+   * Update a question
+   * @param {Question} question
+   * @return {Observable<Object>}
+   */
+  public updateQuestion(question: Question) {
+    const data = {
+      title: question.title,
+      question: question.question,
+    };
+    return this.http.put(`${this.server}/questions/${question.id}`, data);
+  }
+
+  /**
    * Create a question.
    * @param {number} groupId
    * @param {number} userId

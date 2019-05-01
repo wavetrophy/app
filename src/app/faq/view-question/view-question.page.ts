@@ -6,7 +6,8 @@ import { Question } from '../../services/faq/types/question';
 import { Answer } from '../../services/faq/types/answer';
 import { AnswerService } from '../../services/faq/answer.service';
 import { AuthService } from '../../services/auth/auth.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
+import { EditQuestionPage } from '../../modal/faq/edit-question/edit-question.page';
 
 @Component({
   selector: 'app-view-question',
@@ -34,6 +35,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    * @param {AnswerService} answerService
    * @param {AuthService} auth
    * @param {AlertController} alert
+   * @param {ModalController} modal
    */
   constructor(
     private ar: ActivatedRoute,
@@ -41,6 +43,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
     private answerService: AnswerService,
     private auth: AuthService,
     private alert: AlertController,
+    private modal: ModalController,
   ) {
   }
 
@@ -122,6 +125,19 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
       ],
     });
     alert.present();
+  }
+
+  /**
+   * Edit question
+   * @return {Promise<void>}
+   */
+  public async edit() {
+    const modal = await EditQuestionPage.asModal(this.modal, this.question);
+    const dismiss = await modal.onDidDismiss();
+    if (dismiss.data && dismiss.data.type === 'success') {
+      // The user has to log in if he changes the username.
+      this.getQuestion(this.id);
+    }
   }
 
   /**

@@ -7,6 +7,7 @@ import { CreatePhonenumberPageModule } from './phonenumber/create/create-phonenu
 import { EditPhonenumberPageModule } from './phonenumber/edit/edit-phonenumber.module';
 import { ViewContactPageModule } from './contacts/view/view-contact.module';
 import { CreateQuestionPageModule } from './faq/create-question/create-question.module';
+import { EditQuestionPageModule } from './faq/edit-question/edit-question.module';
 
 @NgModule({
   declarations: [],
@@ -15,19 +16,21 @@ import { CreateQuestionPageModule } from './faq/create-question/create-question.
     EditEmailPageModule,
     EditUsernamePageModule,
     EditPhonenumberPageModule,
+    EditQuestionPageModule,
     CreatePhonenumberPageModule,
     CreateEmailPageModule,
-    ViewContactPageModule,
     CreateQuestionPageModule,
+    ViewContactPageModule,
   ],
   exports: [
     EditEmailPageModule,
     EditUsernamePageModule,
-    CreateEmailPageModule,
     EditPhonenumberPageModule,
+    EditQuestionPageModule,
+    CreateEmailPageModule,
     CreatePhonenumberPageModule,
-    ViewContactPageModule,
     CreateQuestionPageModule,
+    ViewContactPageModule,
   ],
 })
 export class ModalModule {

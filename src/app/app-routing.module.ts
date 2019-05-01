@@ -25,6 +25,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {path: '**', redirectTo: '', pathMatch: 'full'},
+  { path: 'edit-question', loadChildren: './modal/faq/edit-question/edit-question.module#EditQuestionPageModule' },
 ];
 
 @NgModule({

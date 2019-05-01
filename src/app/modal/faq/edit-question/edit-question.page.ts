@@ -2,17 +2,15 @@ import { Component, Input } from '@angular/core';
 import { Modal } from '../../modal';
 import { ModalController } from '@ionic/angular';
 import { QuestionService } from '../../../services/faq/question.service';
+import { Question } from '../../../services/faq/types/question';
 
 @Component({
-  selector: 'app-create-question',
-  templateUrl: './create-question.page.html',
-  styleUrls: ['./create-question.page.scss'],
+  selector: 'app-edit-question',
+  templateUrl: './edit-question.page.html',
+  styleUrls: ['./edit-question.page.scss'],
 })
-export class CreateQuestionPage extends Modal {
-  @Input() public groupId: number;
-  @Input() public userId: number;
-  public summary: string;
-  public description: string;
+export class EditQuestionPage extends Modal {
+  @Input() public question: Question;
 
   /**
    * CreateQuestionPage constructor.
@@ -29,17 +27,15 @@ export class CreateQuestionPage extends Modal {
   /**
    * Get a create email page as modal.
    * @param {ModalController} modalController
-   * @param {number} groupId
-   * @param {number} userId
+   * @param {Question} question
    * @returns {Promise<HTMLIonModalElement>}
    */
-  public static async asModal(modalController: ModalController, groupId: number, userId: number) {
+  public static async asModal(modalController: ModalController, question: Question) {
     const modal = await modalController.create({
-      component: CreateQuestionPage,
+      component: EditQuestionPage,
       componentProps: {
-        groupId: groupId,
-        userId: userId,
-        title: 'Ask a question',
+        question: question,
+        title: 'Edit your question',
       },
       showBackdrop: true,
       backdropDismiss: true,
@@ -55,12 +51,7 @@ export class CreateQuestionPage extends Modal {
    * @return {Promise<any>}
    */
   protected async onSave(): Promise<any> {
-    const question = await this.questionService.createQuestion(
-      this.groupId,
-      this.userId,
-      this.summary,
-      this.description,
-    ).toPromise();
+    const question = await this.questionService.updateQuestion(this.question).toPromise();
 
     return Object.keys(question).includes('id');
   }
