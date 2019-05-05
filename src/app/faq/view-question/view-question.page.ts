@@ -94,7 +94,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
     const popover = await this.popopver.create({
       component: AnswerOptionsPage,
       componentProps: {
-        showResolve: this.question.user.id === this.userId,
+        showResolve: this.question.user.id === this.userId && this.question.resolved !== true,
         showEdit: answer.user_id === this.userId && !answer.approved,
         showDelete: answer.user_id === this.userId && !answer.approved,
       },
@@ -111,15 +111,18 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
     }
 
     if (dismiss.data.type === AnswerOptionsPage.TYPE_RESOLVE) {
-      this.resolveAnswer(answer);
+      await this.resolveAnswer(answer);
+      this.getQuestion(this.id);
     }
 
     if (dismiss.data.type === AnswerOptionsPage.TYPE_EDIT) {
-      this.editAnswer(answer);
+      await this.editAnswer(answer);
+      this.getQuestion(this.id);
     }
 
     if (dismiss.data.type === AnswerOptionsPage.TYPE_DELETE) {
-      this.deleteAnswer(answer);
+      await this.deleteAnswer(answer);
+      this.getQuestion(this.id);
     }
   }
 
