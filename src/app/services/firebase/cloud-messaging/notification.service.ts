@@ -33,7 +33,6 @@ export class NotificationService {
    * Register notification service
    */
   public register() {
-    debugger;
     console.log('registering notifications');
     if (this.registered) {
       console.log('cancelled registration');

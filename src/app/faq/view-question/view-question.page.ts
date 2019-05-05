@@ -184,7 +184,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
   private async deleteAnswer(answer: Answer) {
     const alert = await this.alert.create({
       header: 'Accept answer',
-      message: 'Are you sure to accept this answer as the best answer. You can only accept one answer once.',
+      message: 'Are you sure to delete this answer? It will remove your answer permanently',
       buttons: [
         {
           text: 'Cancel',
