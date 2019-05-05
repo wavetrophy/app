@@ -15,11 +15,13 @@
     "android": "ionic cordova run android -l --debug --device",
     "android:emulate": "ionic cordova emulate android -l --debug",
     "android:add": "ionic cordova platform add android && npm run android:build",
+    "android:resources": "ionic cordova resources android -sif",
     "android:build": "ionic cordova build android",
     "android:clear": "ionic cordova platform rm android && npm run android:add",
     "ios": "ionic cordova run ios -l --debug",
     "ios:emulate": "ionic cordova emulate ios -l --debug --target='iPhone-X, 12.2'",
     "ios:add": "ionic cordova platform add ios && npm run ios:build",
+    "ios:resources": "ionic cordova resources ios -sif",
     "ios:build": "ionic cordova build ios",
     "ios:clear": "ionic cordova platform rm ios && npm run ios:add"
   },

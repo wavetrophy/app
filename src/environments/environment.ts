@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   url: 'http://localhost:8100',
   api: {
-    //url: 'https://wave.d4rkmindz.ch',
-     url: 'https://wavetrophy.dev',
+    url: 'https://wave.d4rkmindz.ch',
+     // url: 'https://wavetrophy.dev',
   },
   firebase: {
     apiKey: 'AIzaSyDRPvblPfez5t1w0Qk8-IV83SG0lwdmrAA',

@@ -8,8 +8,13 @@ import { Subscription } from 'rxjs';
   providedIn: 'root',
 })
 export class NotificationService {
+  public static TOPIC_GENERAL = 'general';
+
   private registered = false;
   private sub: Subscription = null;
+
+  public static TOPIC_GROUP = (groupId: number) => `group-${groupId}`;
+  public static TOPIC_QUESTION = (questionId: number) => `question-${questionId}`;
 
   /**
    * Notification service constructor
@@ -38,6 +43,7 @@ export class NotificationService {
     this.registered = true;
     this.push.getToken();
     console.log('registered. ');
+    this.push.subscribeTo(NotificationService.TOPIC_GENERAL);
     this.sub = this.push.onNotification().subscribe(notification => {
       console.log('[NOTIFICATION]', notification);
       let message = '';

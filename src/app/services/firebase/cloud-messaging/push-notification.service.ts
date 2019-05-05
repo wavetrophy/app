@@ -77,6 +77,7 @@ export class PushNotificationService {
     return devicesRef.doc(token).set(data);
   }
 
+
   /**
    * On notification subscription
    * @returns {Observable<any>}
@@ -89,8 +90,8 @@ export class PushNotificationService {
    * Subscribe to topic
    * @param {string} topic
    */
-  public subscribeTo(topic: string) {
-    this.firebase.subscribe(topic);
+  public async subscribeTo(topic: string) {
+    await this.firebase.subscribe(topic);
   }
 
   /**

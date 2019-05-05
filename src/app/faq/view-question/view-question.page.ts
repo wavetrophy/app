@@ -10,6 +10,8 @@ import { AlertController, ModalController, PopoverController } from '@ionic/angu
 import { EditQuestionPage } from '../../modal/faq/edit-question/edit-question.page';
 import { EditAnswerPage } from '../../modal/faq/edit-answer/edit-answer.page';
 import { AnswerOptionsPage } from '../../popover/answer-options/answer-options.page';
+import { PushNotificationService } from '../../services/firebase/cloud-messaging/push-notification.service';
+import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
 
 @Component({
   selector: 'app-view-question',
@@ -39,6 +41,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    * @param {AlertController} alert
    * @param {ModalController} modal
    * @param {PopoverController} popopver
+   * @param {PushNotificationService} push
    */
   constructor(
     private ar: ActivatedRoute,
@@ -48,6 +51,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
     private alert: AlertController,
     private modal: ModalController,
     private popopver: PopoverController,
+    private push: PushNotificationService,
   ) {
   }
 
@@ -72,7 +76,8 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    * Save an answer.
    */
   public saveAnswer() {
-    const sub = this.answerService.answerQuestion(this.question, this.answer).subscribe(() => {
+    const sub = this.answerService.answerQuestion(this.question, this.answer).subscribe((response: any) => {
+      this.push.subscribeTo(NotificationService.TOPIC_QUESTION(this.id));
       this.getQuestion(this.id);
       this.answer = '';
     });

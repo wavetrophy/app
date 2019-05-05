@@ -7,6 +7,8 @@ import { CreateQuestionPage } from '../../modal/faq/create-question/create-quest
 import { ModalController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
+import { PushNotificationService } from '../../services/firebase/cloud-messaging/push-notification.service';
+import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
 
 @Component({
   selector: 'app-faq',
@@ -27,11 +29,13 @@ export class FaqPage implements OnInit, OnDestroy {
    * @param {QuestionService} questionService
    * @param {AuthService} auth
    * @param {ModalController} modal
+   * @param {PushNotificationService} push
    */
   constructor(
     private questionService: QuestionService,
     private auth: AuthService,
     private modal: ModalController,
+    private push: PushNotificationService,
   ) {
     this.server = environment.api.url;
   }
@@ -57,6 +61,8 @@ export class FaqPage implements OnInit, OnDestroy {
     const modal = await CreateQuestionPage.asModal(this.modal, this.auth.data.group_id, this.auth.data.user_id);
     const dismiss = await modal.onDidDismiss();
     if (dismiss.data && dismiss.data.type === 'success') {
+      // Subscribe user to his own questions
+      this.push.subscribeTo(NotificationService.TOPIC_QUESTION(dismiss.data.returned.id));
       this.getQuestions();
     }
   }
@@ -79,8 +85,8 @@ export class FaqPage implements OnInit, OnDestroy {
       }
       const questions = {};
       res.forEach((question: Question) => {
-        const date = new Date(question.asked_at);
-        const key = `${date.getUTCFullYear()}-${date.getUTCMonth()}-${date.getUTCDay()}`;
+        const date = moment(question.asked_at);
+        const key = date.format('YYYY-MM-DD');
         if (!Object.keys(questions).includes(key)) {
           questions[key] = [];
         }

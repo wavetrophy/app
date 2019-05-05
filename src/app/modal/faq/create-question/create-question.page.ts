@@ -62,6 +62,8 @@ export class CreateQuestionPage extends Modal {
       this.description,
     ).toPromise();
 
+    this.returnData = question;
+
     return Object.keys(question).includes('id');
   }
 }
