@@ -31,7 +31,7 @@ import { PipeModule } from './services/pipes/pipe.module';
 export function jwtOptionsFactory(storage) {
   return {
     tokenGetter: () => {
-      return storage.get('token_access');
+      return storage.get(environment.storage.TOKEN_KEY);
     },
   };
 }

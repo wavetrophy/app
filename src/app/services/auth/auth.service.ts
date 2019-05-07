@@ -11,9 +11,6 @@ import { Router } from '@angular/router';
 import { Firebase } from '@ionic-native/firebase/ngx';
 import { Wave } from '../wave/types/wave';
 
-const TOKEN_KEY = 'token_access';
-const TOKEN_REFRESH_KEY = 'token_refresh';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -66,7 +63,7 @@ export class AuthService {
    * Check the token.
    */
   public async checkToken(): Promise<boolean> {
-    const token = await this.storage.get(TOKEN_KEY);
+    const token = await this.storage.get(environment.storage.TOKEN_KEY);
     if (token) {
       const decoded = <AuthData>this.helper.decodeToken(token);
       const isExpired = this.helper.isTokenExpired(token);
@@ -77,7 +74,7 @@ export class AuthService {
         return this._authenticationState.value;
       }
     }
-    const refreshToken = await this.storage.get(TOKEN_REFRESH_KEY);
+    const refreshToken = await this.storage.get(environment.storage.TOKEN_REFRESH_KEY);
     if (!!refreshToken) {
       return !!(await this.refresh(refreshToken).toPromise());
     }
@@ -92,8 +89,8 @@ export class AuthService {
     return this.http.post(`${this.url}/auth/login`, credentials)
       .pipe(
         tap(res => {
-          this.storage.set(TOKEN_KEY, res['token']);
-          this.storage.set(TOKEN_REFRESH_KEY, res['refresh_token']);
+          this.storage.set(environment.storage.TOKEN_KEY, res['token']);
+          this.storage.set(environment.storage.TOKEN_REFRESH_KEY, res['refresh_token']);
           this._authData = <AuthData>this.helper.decodeToken(res['token']);
           this._authenticationState.next(true);
         }),
@@ -112,8 +109,8 @@ export class AuthService {
     return this.http.post(`${this.url}/auth/refresh`, {refresh_token: refreshToken})
       .pipe(
         concatMap(res => {
-          return from(this.storage.set(TOKEN_KEY, res['token'])
-            .then(() => this.storage.set(TOKEN_REFRESH_KEY, res['refresh_token']))
+          return from(this.storage.set(environment.storage.TOKEN_KEY, res['token'])
+            .then(() => this.storage.set(environment.storage.TOKEN_REFRESH_KEY, res['refresh_token']))
             .then(() => {
               this._authData = <AuthData>this.helper.decodeToken(res['token']);
               // Because its set to anonymous if the user is not logged in
@@ -134,8 +131,8 @@ export class AuthService {
    * Log out a user.
    */
   public async logout(): Promise<any> {
-    await this.storage.remove(TOKEN_REFRESH_KEY);
-    await this.storage.remove(TOKEN_KEY);
+    await this.storage.remove(environment.storage.TOKEN_REFRESH_KEY);
+    await this.storage.remove(environment.storage.TOKEN_KEY);
     this._authenticationState.next(false);
     this.router.navigate(['auth', 'login']);
   }

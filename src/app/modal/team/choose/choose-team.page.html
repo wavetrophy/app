@@ -1,0 +1,50 @@
+<div class="modal-content" padding>
+    <h3>{{title}}</h3>
+    <ion-row class="ion-justify-content-center" *ngIf="isLoading">
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center" *ngIf="error">
+        <p>{{error}}</p>
+    </ion-row>
+
+    <ion-select *ngIf="groups.length > 0"
+                placeholder="{{'Select a Group'}}"
+                interface="action-sheet"
+                [compareWith]="compareWith"
+                [(ngModel)]="selectedGroup"
+                (ionChange)="onGroupChange()"
+                [okText]="'Select'"
+                [cancelText]="'Cancel'"
+                [interfaceOptions]="groupSelectionOptions">
+        <ion-select-option *ngFor="let group of groups" [value]="group">{{group.name}}</ion-select-option>
+    </ion-select>
+
+
+    <ion-row class="ion-justify-content-center" *ngIf="isLoadingTeams">
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
+
+    <ion-select *ngIf="teams.length > 0"
+                class="with"
+                placeholder="{{'Select a Team'}}"
+                interface="action-sheet"
+                margin-top="1vh"
+                [compareWith]="compareWith"
+                [(ngModel)]="selectedTeam"
+                (ionChange)="onTeamChange()"
+                [okText]="'Select'"
+                [cancelText]="'Cancel'"
+                [interfaceOptions]="teamSelectionOptions">
+        <ion-select-option *ngFor="let team of teams" [value]="team">
+            {{team.start_number}} {{team.name}}
+        </ion-select-option>
+    </ion-select>
+
+    <ion-row class="ion-justify-content-end" margin-top="1vh">
+        <div>
+            <ion-button fill="clear" (click)="close()">{{'Cancel'}}</ion-button>
+            <ion-button fill="clear" (click)="save()" [disabled]="isSaving || !isSaveable">{{'Save'}}</ion-button>
+        </div>
+    </ion-row>
+</div>

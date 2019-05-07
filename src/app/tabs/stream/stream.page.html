@@ -5,6 +5,7 @@
 
     <ion-row class="ion-justify-content-center" *ngIf="errormessage">
         <p>{{errormessage}}</p>
+        <ion-button color="primary" *ngIf="!auth.data.team_id" (click)="openTeamChooser()">Join Team</ion-button>
     </ion-row>
 
     <ion-list>

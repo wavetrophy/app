@@ -9,11 +9,13 @@ import { ViewContactPageModule } from './contacts/view/view-contact.module';
 import { CreateQuestionPageModule } from './faq/create-question/create-question.module';
 import { EditQuestionPageModule } from './faq/edit-question/edit-question.module';
 import { EditAnswerPageModule } from './faq/edit-answer/edit-answer.module';
+import { ChooseTeamPageModule } from './team/choose/choose-team.module';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    ChooseTeamPageModule,
     EditEmailPageModule,
     EditUsernamePageModule,
     EditPhonenumberPageModule,
@@ -22,9 +24,10 @@ import { EditAnswerPageModule } from './faq/edit-answer/edit-answer.module';
     CreatePhonenumberPageModule,
     CreateEmailPageModule,
     CreateQuestionPageModule,
-    ViewContactPageModule,
+    ViewContactPageModule
   ],
   exports: [
+    ChooseTeamPageModule,
     EditEmailPageModule,
     EditUsernamePageModule,
     EditPhonenumberPageModule,
