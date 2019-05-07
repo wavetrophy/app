@@ -62,7 +62,7 @@ export class ProfilePage implements OnInit, OnDestroy {
    * Edit username.
    * @returns {Promise<void>}
    */
-  async editUsername() {
+  public async editUsername() {
     const modal = await EditUsernamePage.asModal(this.modal, this.auth.data.user_id, this.username);
     const dismiss = await modal.onDidDismiss();
     if (dismiss.data && dismiss.data.type === 'success') {
@@ -76,7 +76,7 @@ export class ProfilePage implements OnInit, OnDestroy {
    * @param {Email} email
    * @returns {Promise<void>}
    */
-  async editEmail(email: Email) {
+  public async editEmail(email: Email) {
     const modal = await EditEmailPage.asModal(this.modal, email, this.username);
     const dismiss = await modal.onDidDismiss();
     if (dismiss.data && dismiss.data.type === 'success') {
@@ -93,7 +93,7 @@ export class ProfilePage implements OnInit, OnDestroy {
    * Add email.
    * @returns {Promise<void>}
    */
-  async addEmail() {
+  public async addEmail() {
     const modal = await CreateEmailPage.asModal(this.modal, this.auth.data.user_id);
     const dismiss = await modal.onDidDismiss();
     if (dismiss.data && dismiss.data.type === 'success') {
@@ -106,7 +106,7 @@ export class ProfilePage implements OnInit, OnDestroy {
    * @param {Email} email
    * @returns {Promise<void>}
    */
-  async removeEmail(email: Email) {
+  public async removeEmail(email: Email) {
     if (email.is_primary) {
       const error = await this.alert.create({
         header: 'Error',
@@ -157,7 +157,7 @@ export class ProfilePage implements OnInit, OnDestroy {
    * @param {Phonenumber} phonenumber
    * @returns {Promise<void>}
    */
-  async editPhonenumber(phonenumber: Phonenumber) {
+  public async editPhonenumber(phonenumber: Phonenumber) {
     const modal = await EditPhonenumberPage.asModal(this.modal, phonenumber);
     const dismiss = await modal.onDidDismiss();
     if (dismiss.data && dismiss.data.type === 'success') {
@@ -169,7 +169,7 @@ export class ProfilePage implements OnInit, OnDestroy {
    * Add phonenumber
    * @returns {Promise<void>}
    */
-  async addPhonenumber() {
+  public async addPhonenumber() {
     const modal = await CreatePhonenumberPage.asModal(this.modal, this.auth.data.user_id);
     const dismiss = await modal.onDidDismiss();
     if (dismiss.data && dismiss.data.type === 'success') {
@@ -182,7 +182,7 @@ export class ProfilePage implements OnInit, OnDestroy {
    * @param {Phonenumber} phonenumber
    * @returns {Promise<void>}
    */
-  async removePhonenumber(phonenumber: Phonenumber) {
+  public async removePhonenumber(phonenumber: Phonenumber) {
     const message = 'You remove this phonenumber from your public contact by deleting this phonenumber.' +
       ' Other people wont see the phonenummber anymore (if the phonenumber is public). Are you sure?';
     const alert = await this.alert.create({
