@@ -60,6 +60,8 @@ export class StreamPage implements OnInit {
    */
   public ngOnInit() {
     this.getStream();
+    const sub = this.auth.onDataRefresh().subscribe(() => this.getStream());
+    this.subs.push(sub);
   }
 
   /**
@@ -71,7 +73,6 @@ export class StreamPage implements OnInit {
     if (dismiss.data && dismiss.data.type === 'success') {
       const refreshToken = await this.storage.get(environment.storage.TOKEN_REFRESH_KEY);
       await this.auth.refresh(refreshToken).toPromise();
-      this.getStream();
     }
   }
 

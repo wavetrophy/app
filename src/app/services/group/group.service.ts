@@ -18,6 +18,16 @@ export class GroupService {
   }
 
   /**
+   * Get a single group.
+   * @param {number} groupId
+   * @return {Observable<Object>}
+   */
+  public getGroup(groupId: number) {
+    const url = `${this.url}/groups/${groupId}`;
+    return this.http.get(url);
+  }
+
+  /**
    * Get all groups of a wave
    * @param {Wave} wave
    * @return {Observable<Object>}

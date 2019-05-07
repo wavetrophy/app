@@ -9,7 +9,6 @@ import { Storage } from '@ionic/storage';
 import { AuthData } from './types/authdata';
 import { Router } from '@angular/router';
 import { Firebase } from '@ionic-native/firebase/ngx';
-import { Wave } from '../wave/types/wave';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +20,7 @@ export class AuthService {
   private url = environment.api.url;
   private _authData: AuthData = null;
   private _authenticationState = new BehaviorSubject(false);
+  private _dataRefresh: BehaviorSubject<AuthData | null> = new BehaviorSubject(null);
 
   /**
    * AuthenticationService constructor
@@ -57,6 +57,14 @@ export class AuthService {
    */
   public get data(): AuthData {
     return this._authData;
+  }
+
+  /**
+   *
+   * @return {BehaviorSubject<AuthData>}
+   */
+  public onDataRefresh(): BehaviorSubject<AuthData> {
+    return this._dataRefresh;
   }
 
   /**
@@ -116,12 +124,14 @@ export class AuthService {
               // Because its set to anonymous if the user is not logged in
               this.firebase.setUserId(this._authData.user_id.toString());
               this._authenticationState.next(true);
+              this._dataRefresh.next(this.data);
             }),
           );
         }),
         catchError(e => {
           this.showAlert('Falsche Zugangsdaten');
           this._authenticationState.next(false);
+          this._authenticationState.next(null);
           throw new Error(e);
         }),
       );

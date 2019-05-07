@@ -16,8 +16,8 @@ import { AuthService } from '../../../services/auth/auth.service';
 })
 export class ChooseTeamPage extends Modal implements OnInit {
   @Input() public wave: Wave;
-  @Input() public selectedTeam: Team = null;
-  @Input() public selectedGroup: Group = null;
+  @Input() public team: Team = null;
+  @Input() public group: Group = null;
   public isLoading = false;
   public isLoadingTeams = false;
   public isSaveable = false;
@@ -93,17 +93,17 @@ export class ChooseTeamPage extends Modal implements OnInit {
    * On group change hook
    */
   public onGroupChange() {
-    if (!this.selectedGroup) {
+    if (!this.group) {
       return;
     }
-    this.getTeams(this.selectedGroup);
+    this.getTeams(this.group);
   }
 
   /**
    * On team change hook
    */
   public onTeamChange() {
-    this.isSaveable = !!this.selectedTeam;
+    this.isSaveable = !!this.team;
   }
 
   /**
@@ -111,8 +111,8 @@ export class ChooseTeamPage extends Modal implements OnInit {
    * @return {Promise<any>}
    */
   protected async onSave(): Promise<any> {
-    this.returnData = {group: this.selectedGroup, team: this.selectedTeam};
-    const user = await this.user.joinTeam(this.auth.data.user_id, this.selectedTeam).toPromise();
+    this.returnData = {group: this.group, team: this.team};
+    const user = await this.user.joinTeam(this.auth.data.user_id, this.team).toPromise();
     return Object.keys(user).includes('team') ? Object.keys(user.team).includes('id') : false;
   }
 
