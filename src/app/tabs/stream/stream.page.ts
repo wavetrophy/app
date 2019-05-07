@@ -70,7 +70,8 @@ export class StreamPage implements OnInit {
     const dismiss = await modal.onDidDismiss();
     if (dismiss.data && dismiss.data.type === 'success') {
       const refreshToken = await this.storage.get(environment.storage.TOKEN_REFRESH_KEY);
-      this.auth.refresh(refreshToken);
+      await this.auth.refresh(refreshToken).toPromise();
+      this.getStream();
     }
   }
 
