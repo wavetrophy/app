@@ -24,7 +24,7 @@ export class LoginPage implements OnInit {
    * Indicates if the page is loading.
    * @type {boolean}
    */
-  private isLoading = false;
+  public isLoading = false;
 
   /**
    * LoginPage constructor.
