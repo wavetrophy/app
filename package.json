@@ -12,11 +12,11 @@
     "e2e": "ng e2e",
     "purge": "npm run clear && npm run android:add && npm run ios:add",
     "clear": "rm -rf node_modules www platforms plugins && npm install",
-    "android": "ionic cordova run android -l --debug --device",
-    "android:emulate": "ionic cordova emulate android -l --debug",
+    "android": "cp ./resources/android/project.properties platforms/android && ionic cordova run android -l --debug --device",
+    "android:emulate": "cp ./resources/android/project.properties platforms/androidionic cordova emulate android -l --debug",
     "android:add": "ionic cordova platform add android && npm run android:build",
     "android:resources": "ionic cordova resources android -sif",
-    "android:build": "ionic cordova build android",
+    "android:build": "cp ./resources/android/project.properties platforms/android && ionic cordova build android",
     "android:clear": "ionic cordova platform rm android && npm run android:add",
     "ios": "ionic cordova run ios -l --debug --buildConfig ./build.json",
     "ios:emulate": "ionic cordova emulate ios -l --debug --target='iPhone-X, 12.2' --buildConfig ./build.json",
@@ -27,14 +27,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "^7.2.2",
-    "@angular/core": "^7.2.2",
+    "@angular/common": "^7.2.15",
+    "@angular/core": "^7.2.15",
     "@angular/fire": "^5.1.2",
-    "@angular/forms": "^7.2.2",
-    "@angular/http": "^7.2.2",
-    "@angular/platform-browser": "^7.2.2",
-    "@angular/platform-browser-dynamic": "^7.2.2",
-    "@angular/router": "^7.2.2",
+    "@angular/forms": "^7.2.15",
+    "@angular/http": "^7.2.15",
+    "@angular/platform-browser": "^7.2.15",
+    "@angular/platform-browser-dynamic": "^7.2.15",
+    "@angular/router": "^7.2.15",
     "@auth0/angular-jwt": "^2.1.0",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/firebase": "^5.5.0",
@@ -70,6 +70,11 @@
   "comments": {
     "devDependencies": {
       "@angular-devkit/build-angular": "This version is fixed due the sourcemap error: https://github.com/ionic-team/ionic/issues/16455#issuecomment-483589323"
+    },
+    "scripts": {
+      "android": "Current Bug https://forum.ionicframework.com/t/ionic-4-cordova-run-android-firebase-error-all-of-a-sudden/163204/67",
+      "android:build": "Current Bug https://forum.ionicframework.com/t/ionic-4-cordova-run-android-firebase-error-all-of-a-sudden/163204/67",
+      "android:emulate": "Current Bug https://forum.ionicframework.com/t/ionic-4-cordova-run-android-firebase-error-all-of-a-sudden/163204/67"
     }
   },
   "devDependencies": {
@@ -77,10 +82,10 @@
     "@angular-devkit/build-angular": "0.13.6",
     "@angular-devkit/core": "~7.2.3",
     "@angular-devkit/schematics": "~7.2.3",
-    "@angular/cli": "~7.3.1",
-    "@angular/compiler": "~7.2.2",
-    "@angular/compiler-cli": "~7.2.2",
-    "@angular/language-service": "~7.2.2",
+    "@angular/cli": "^7.3.9",
+    "@angular/compiler": "^7.2.15",
+    "@angular/compiler-cli": "^7.2.15",
+    "@angular/language-service": "^7.2.15",
     "@ionic/angular-toolkit": "~1.4.0",
     "@ionic/app-scripts": "^3.2.3",
     "@ionic/lab": "1.0.23",
@@ -127,8 +132,8 @@
       "cordova-plugin-local-notification": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   },
   "config": {

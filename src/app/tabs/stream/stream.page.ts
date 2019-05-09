@@ -82,6 +82,7 @@ export class StreamPage implements OnInit {
    */
   public getStream() {
     this.isLoading = true;
+    this.errormessage = '';
 
     const userId = this.auth.data.user_id;
     const sub = this.stream.getByUser(userId).subscribe((res: any) => {
