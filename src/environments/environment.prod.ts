@@ -1,4 +1,8 @@
 export const environment = {
+  storage: {
+    TOKEN_KEY: 'token_access',
+    TOKEN_REFRESH_KEY: 'token_refresh',
+  },
   production: true,
   url: 'http://localhost:8100',
   api: {

@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { ChooseTeamPage } from '../../modal/team/choose/choose-team.page';
 import { environment } from '../../../environments/environment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-stream',
@@ -17,27 +18,12 @@ import { environment } from '../../../environments/environment';
  */
 export class StreamPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-
-  /**
-   * Error message
-   * @type {string|null}
-   */
   public errormessage = null;
-
-  /**
-   * @type {Array|null}
-   */
   public locations = [];
-
-  /**
-   * @type {Subscription[]}
-   */
+  public server;
   public subs: Subscription[] = [];
-
-  /**
-   * @type {boolean}
-   */
   public isLoading = false;
+  public moment = moment;
 
   /**
    * StreamPage constructor.
@@ -52,6 +38,7 @@ export class StreamPage implements OnInit {
     private storage: Storage,
     private modal: ModalController,
   ) {
+    this.server = environment.api.url;
   }
 
   /**

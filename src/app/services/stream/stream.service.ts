@@ -25,7 +25,17 @@ export class StreamService {
    * @param {number} userId
    * @returns {Observable<Object>}
    */
-  public getByUser(userId: number): Observable<Object> {
+  public getByUser(userId: number) {
     return this.http.get(`${this.url}/users/${userId}/stream`);
+  }
+
+  /**
+   * Get a single location of the stream
+   * @param {number} userId
+   * @param {number} locationId
+   * @return {Observable<Object>}
+   */
+  public getLocationByUser(userId: number, locationId: number) {
+    return this.http.get(`${this.url}/users/${userId}/stream/${locationId}`);
   }
 }

@@ -1,12 +1,70 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>location</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+
+        <ion-title>{{'Location'}}</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-button fill="clear" href="geo://{{location.lat}},{{location.lon}}">{{'Navigate'}}</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<h1>hello {{id}}</h1>
+    <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+        <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
+    </ion-refresher>
+
+    <img src="{{server}}/media/thumbnails/locations/{{location.thumbnail}}"
+         alt="{{'Thumbnail loading failed'}}"
+         *ngIf="location && location.thumbnail"/>
+
+    <ion-row class="ion-justify-content-center" *ngIf="isLoading" padding>
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center" *ngIf="errormessage" padding>
+        <p>{{errormessage}}</p>
+    </ion-row>
+
+    <div *ngIf="location" padding-horizontal>
+        <ion-row class="ion-justify-content-center">
+            <h1>{{location.name}}</h1>
+        </ion-row>
+
+        <ion-row padding-start *ngIf="location.must_participate">
+            <ion-text color="danger">
+                <p>
+                    <ion-icon name="people"></ion-icon>&nbsp;{{'Your team must participate here'}}
+                </p>
+            </ion-text>
+        </ion-row>
+
+        <ion-row padding-start>
+            <p>
+                <ion-icon name="time"></ion-icon>&nbsp;{{moment(location.arrival).format('hh:mm')}}
+                - {{moment(location.departure).format('hh:mm')}}
+            </p>
+        </ion-row>
+
+        <ion-row>
+            <h3>{{'Events'}}</h3>
+            <ion-list>
+                <ion-item *ngFor="let event of location.events">
+                    <ion-label>
+                        <h5>{{event.name}}</h5>
+
+                        <p>
+                            <ion-icon name="time"></ion-icon>&nbsp;{{moment(event.start).format('hh:mm')}}
+                            - {{moment(event.end).format('hh:mm')}}
+                        </p>
+
+                        <p *ngIf="event.description">{{event.description}}</p>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-row>
+    </div>
 </ion-content>
