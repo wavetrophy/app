@@ -8,9 +8,7 @@ import { catchError, concatMap, tap } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
 import { AuthData } from './types/authdata';
 import { Router } from '@angular/router';
-
-const TOKEN_KEY = 'token_access';
-const TOKEN_REFRESH_KEY = 'token_refresh';
+import { Firebase } from '@ionic-native/firebase/ngx';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +20,7 @@ export class AuthService {
   private url = environment.api.url;
   private _authData: AuthData = null;
   private _authenticationState = new BehaviorSubject(false);
+  private _dataRefresh: BehaviorSubject<AuthData | null> = new BehaviorSubject(null);
 
   /**
    * AuthenticationService constructor
@@ -31,13 +30,16 @@ export class AuthService {
    * @param {Router} router
    * @param {Platform} plt The platform (ionic)
    * @param {AlertController} alertController The Alert Controller
+   * @param {Firebase} firebase
    */
-  public constructor(private http: HttpClient,
-                     private helper: JwtHelperService,
-                     private storage: Storage,
-                     private router: Router,
-                     private plt: Platform,
-                     private alertController: AlertController,
+  public constructor(
+    private http: HttpClient,
+    private helper: JwtHelperService,
+    private storage: Storage,
+    private router: Router,
+    private plt: Platform,
+    private alertController: AlertController,
+    private firebase: Firebase,
   ) {
   }
 
@@ -58,10 +60,18 @@ export class AuthService {
   }
 
   /**
+   *
+   * @return {BehaviorSubject<AuthData>}
+   */
+  public onDataRefresh(): BehaviorSubject<AuthData> {
+    return this._dataRefresh;
+  }
+
+  /**
    * Check the token.
    */
   public async checkToken(): Promise<boolean> {
-    const token = await this.storage.get(TOKEN_KEY);
+    const token = await this.storage.get(environment.storage.TOKEN_KEY);
     if (token) {
       const decoded = <AuthData>this.helper.decodeToken(token);
       const isExpired = this.helper.isTokenExpired(token);
@@ -72,7 +82,7 @@ export class AuthService {
         return this._authenticationState.value;
       }
     }
-    const refreshToken = await this.storage.get(TOKEN_REFRESH_KEY);
+    const refreshToken = await this.storage.get(environment.storage.TOKEN_REFRESH_KEY);
     if (!!refreshToken) {
       return !!(await this.refresh(refreshToken).toPromise());
     }
@@ -87,8 +97,8 @@ export class AuthService {
     return this.http.post(`${this.url}/auth/login`, credentials)
       .pipe(
         tap(res => {
-          this.storage.set(TOKEN_KEY, res['token']);
-          this.storage.set(TOKEN_REFRESH_KEY, res['refresh_token']);
+          this.storage.set(environment.storage.TOKEN_KEY, res['token']);
+          this.storage.set(environment.storage.TOKEN_REFRESH_KEY, res['refresh_token']);
           this._authData = <AuthData>this.helper.decodeToken(res['token']);
           this._authenticationState.next(true);
         }),
@@ -107,17 +117,21 @@ export class AuthService {
     return this.http.post(`${this.url}/auth/refresh`, {refresh_token: refreshToken})
       .pipe(
         concatMap(res => {
-          return from(this.storage.set(TOKEN_KEY, res['token'])
-            .then(() => this.storage.set(TOKEN_REFRESH_KEY, res['refresh_token']))
+          return from(this.storage.set(environment.storage.TOKEN_KEY, res['token'])
+            .then(() => this.storage.set(environment.storage.TOKEN_REFRESH_KEY, res['refresh_token']))
             .then(() => {
               this._authData = <AuthData>this.helper.decodeToken(res['token']);
+              // Because its set to anonymous if the user is not logged in
+              this.firebase.setUserId(this._authData.user_id.toString());
               this._authenticationState.next(true);
+              this._dataRefresh.next(this.data);
             }),
           );
         }),
         catchError(e => {
           this.showAlert('Falsche Zugangsdaten');
           this._authenticationState.next(false);
+          this._authenticationState.next(null);
           throw new Error(e);
         }),
       );
@@ -127,8 +141,8 @@ export class AuthService {
    * Log out a user.
    */
   public async logout(): Promise<any> {
-    await this.storage.remove(TOKEN_REFRESH_KEY);
-    await this.storage.remove(TOKEN_KEY);
+    await this.storage.remove(environment.storage.TOKEN_REFRESH_KEY);
+    await this.storage.remove(environment.storage.TOKEN_KEY);
     this._authenticationState.next(false);
     this.router.navigate(['auth', 'login']);
   }

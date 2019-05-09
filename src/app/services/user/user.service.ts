@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { User } from './types/user';
 import { Phonenumber } from './types/phonenumber';
+import { Team } from './types/team';
 
 @Injectable({
   providedIn: 'root',
@@ -132,5 +133,16 @@ export class UserService {
   public updateUser(user: User) {
     const url = `${this.url}/users/${user.id}`;
     return this.http.put<User>(url, user);
+  }
+
+  /**
+   * Join a team
+   * @param {number} userId
+   * @param {Team} team
+   * @return {Observable<User>}
+   */
+  public joinTeam(userId: number, team: Team) {
+    const url = `${this.url}/users/${userId}`;
+    return this.http.put<User>(url, {team: `/api/teams/${team.id}`});
   }
 }

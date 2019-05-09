@@ -8,7 +8,6 @@ import { TabsPageRoutingModule } from './tabs.router.module';
 import { TabsPage } from './tabs.page';
 import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { StreamPageModule } from './stream/stream.module';
-import { Tab3PageModule } from '../tab3/tab3.module';
 import { ContactsPageModule } from './contacts/contacts.module';
 import { FaqPageModule } from './faq/faq.module';
 
@@ -22,7 +21,6 @@ import { FaqPageModule } from './faq/faq.module';
     StreamPageModule,
     FaqPageModule,
     ContactsPageModule,
-    Tab3PageModule,
   ],
   declarations: [TabsPage],
 })

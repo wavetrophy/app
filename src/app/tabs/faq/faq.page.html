@@ -7,7 +7,7 @@
         <p>{{errormessage}}</p>
     </ion-row>
 
-    <ion-row class="ion-justify-content-center" *ngIf="questionGroups.length <=0 && !isLoading">
+    <ion-row class="ion-justify-content-center" *ngIf="ObjectKeys(questionGroups).length <= 0 && !isLoading">
         <ion-button color="primary" (click)="askQuestion()">Ask a question</ion-button>
     </ion-row>
 

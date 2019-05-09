@@ -76,7 +76,7 @@ export class QuestionService {
     if (groupId) {
       data['groupId'] = `/api/groups/${groupId}`;
     }
-    return this.http.post(`${this.server}/questions`, JSON.stringify(data));
+    return this.http.post(`${this.server}/questions`, data);
   }
 
   /**
@@ -88,6 +88,6 @@ export class QuestionService {
   public resolve(question: Question, answer: Answer) {
     const data = {resolved: true};
     this.answerService.approveAnswer(answer.id).subscribe();
-    return this.http.put(`${this.server}/questions/${question.id}`, JSON.stringify(data));
+    return this.http.put(`${this.server}/questions/${question.id}`, data);
   }
 }

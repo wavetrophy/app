@@ -10,6 +10,8 @@ import { AlertController, ModalController, PopoverController } from '@ionic/angu
 import { EditQuestionPage } from '../../modal/faq/edit-question/edit-question.page';
 import { EditAnswerPage } from '../../modal/faq/edit-answer/edit-answer.page';
 import { AnswerOptionsPage } from '../../popover/answer-options/answer-options.page';
+import { PushNotificationService } from '../../services/firebase/cloud-messaging/push-notification.service';
+import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
 
 @Component({
   selector: 'app-view-question',
@@ -39,6 +41,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    * @param {AlertController} alert
    * @param {ModalController} modal
    * @param {PopoverController} popopver
+   * @param {PushNotificationService} push
    */
   constructor(
     private ar: ActivatedRoute,
@@ -48,6 +51,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
     private alert: AlertController,
     private modal: ModalController,
     private popopver: PopoverController,
+    private push: PushNotificationService,
   ) {
   }
 
@@ -72,7 +76,8 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    * Save an answer.
    */
   public saveAnswer() {
-    const sub = this.answerService.answerQuestion(this.question, this.answer).subscribe(() => {
+    const sub = this.answerService.answerQuestion(this.question, this.answer).subscribe((response: any) => {
+      this.push.subscribeTo(NotificationService.TOPIC_QUESTION(this.id));
       this.getQuestion(this.id);
       this.answer = '';
     });
@@ -89,7 +94,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
     const popover = await this.popopver.create({
       component: AnswerOptionsPage,
       componentProps: {
-        showResolve: this.question.user.id === this.userId,
+        showResolve: this.question.user.id === this.userId && this.question.resolved !== true,
         showEdit: answer.user_id === this.userId && !answer.approved,
         showDelete: answer.user_id === this.userId && !answer.approved,
       },
@@ -106,15 +111,18 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
     }
 
     if (dismiss.data.type === AnswerOptionsPage.TYPE_RESOLVE) {
-      this.resolveAnswer(answer);
+      await this.resolveAnswer(answer);
+      this.getQuestion(this.id);
     }
 
     if (dismiss.data.type === AnswerOptionsPage.TYPE_EDIT) {
-      this.editAnswer(answer);
+      await this.editAnswer(answer);
+      this.getQuestion(this.id);
     }
 
     if (dismiss.data.type === AnswerOptionsPage.TYPE_DELETE) {
-      this.deleteAnswer(answer);
+      await this.deleteAnswer(answer);
+      this.getQuestion(this.id);
     }
   }
 
@@ -179,7 +187,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
   private async deleteAnswer(answer: Answer) {
     const alert = await this.alert.create({
       header: 'Accept answer',
-      message: 'Are you sure to accept this answer as the best answer. You can only accept one answer once.',
+      message: 'Are you sure to delete this answer? It will remove your answer permanently',
       buttons: [
         {
           text: 'Cancel',

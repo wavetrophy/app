@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { from, throwError } from 'rxjs';
 import { catchError, concatMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 /**
@@ -46,7 +47,7 @@ export class JwtHttpInterceptor implements HttpInterceptor {
    * @returns {Observable<HttpRequest<any>>}
    */
   private addToken(request) {
-    return from(this.storage.get('token_access').then(token => this.clone(request, token)));
+    return from(this.storage.get(environment.storage.TOKEN_KEY).then(token => this.clone(request, token)));
   }
 
   /**
@@ -105,7 +106,7 @@ export class JwtHttpInterceptor implements HttpInterceptor {
    * @returns {Observable<Observable<any>>}
    */
   private refreshToken() {
-    return from(this.storage.get('token_refresh').then(refreshToken => {
+    return from(this.storage.get(environment.storage.TOKEN_REFRESH_KEY).then(refreshToken => {
       return this.auth.refresh(refreshToken).toPromise();
     }));
   }

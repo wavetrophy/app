@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.wavetrophy.app" version="0.3.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>WAVE Trophy</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="bjoern@pfoster.ch" href="https://darkmindz.ch">Darkmindz Development Team</author>
-    <content src="index.html" />
+    <description>The Official WAVE Trophy Drivers Assistant</description>
+    <author email="contact@darker.dev" href="https://darker.dev">Darkmindz Development Team</author>
+    <content original-src="index.html" src="http://192.168.0.18:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -87,4 +87,9 @@
         <variable name="UPDATE_METHOD" value="background" />
         <variable name="APP_ID" value="b87b16f8" />
     </plugin>
+    <allow-navigation href="http://192.168.0.18:8101" sessionid="566b4db6" />
+    <plugin name="cordova-plugin-firebase" spec="git+https://github.com/rhanesoghlyan/cordova-plugin-firebase.git#master" />
+    <allow-navigation href="http://192.168.0.18:8100" sessionid="deaaf05c" />
+    <engine name="ios" spec="4.5.5" />
+    <engine name="android" spec="7.1.4" />
 </widget>

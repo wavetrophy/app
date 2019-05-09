@@ -9,6 +9,7 @@ export abstract class Modal {
   public value: any;
   public title: any;
   public isSaving = false;
+  protected returnData = null;
   private _error: string;
   private _errors: ValidationError[] = [];
 
@@ -41,7 +42,7 @@ export abstract class Modal {
       result => {
         this.isSaving = false;
         if (result) {
-          this.modal.dismiss({type: 'success'});
+          this.modal.dismiss({type: 'success', returned: this.returnData});
         }
       },
       e => {

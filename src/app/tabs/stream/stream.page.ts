@@ -1,8 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { StreamService } from '../../services/stream/stream.service';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
+import { Storage } from '@ionic/storage';
+import { ChooseTeamPage } from '../../modal/team/choose/choose-team.page';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-stream',
@@ -40,10 +43,14 @@ export class StreamPage implements OnInit {
    * StreamPage constructor.
    * @param {AuthService} auth
    * @param {StreamService} stream
+   * @param {Storage} storage
+   * @param {ModalController} modal
    */
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
     private stream: StreamService,
+    private storage: Storage,
+    private modal: ModalController,
   ) {
   }
 
@@ -53,6 +60,20 @@ export class StreamPage implements OnInit {
    */
   public ngOnInit() {
     this.getStream();
+    const sub = this.auth.onDataRefresh().subscribe(() => this.getStream());
+    this.subs.push(sub);
+  }
+
+  /**
+   * Open the team chooser.
+   */
+  public async openTeamChooser() {
+    const modal = await ChooseTeamPage.asModal(this.modal, this.auth.data.current_wave);
+    const dismiss = await modal.onDidDismiss();
+    if (dismiss.data && dismiss.data.type === 'success') {
+      const refreshToken = await this.storage.get(environment.storage.TOKEN_REFRESH_KEY);
+      await this.auth.refresh(refreshToken).toPromise();
+    }
   }
 
   /**
@@ -61,6 +82,7 @@ export class StreamPage implements OnInit {
    */
   public getStream() {
     this.isLoading = true;
+    this.errormessage = '';
 
     const userId = this.auth.data.user_id;
     const sub = this.stream.getByUser(userId).subscribe((res: any) => {

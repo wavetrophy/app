@@ -14,9 +14,13 @@ import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { JwtHttpInterceptor } from './services/interceptors/jwt-http.interceptor';
 import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { ModalModule } from './modal/modal.module';
+import { Firebase } from '@ionic-native/firebase/ngx';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { MainOptionsPageModule } from './popover/main-options/main-options.module';
 import { AnswerOptionsPageModule } from './popover/answer-options/answer-options.module';
-import { Nl2brPipe } from './services/pipes/nl2br.pipe';
 import { PipeModule } from './services/pipes/pipe.module';
 
 /**
@@ -27,7 +31,7 @@ import { PipeModule } from './services/pipes/pipe.module';
 export function jwtOptionsFactory(storage) {
   return {
     tokenGetter: () => {
-      return storage.get('token_access');
+      return storage.get(environment.storage.TOKEN_KEY);
     },
   };
 }
@@ -42,6 +46,8 @@ export function jwtOptionsFactory(storage) {
     AppRoutingModule,
     HttpClientModule,
     ModalModule,
+    AngularFirestoreModule,
+    AngularFireModule.initializeApp(environment.firebase),
     PipeModule.forRoot(),
     IonicStorageModule.forRoot(),
     SuperTabsModule.forRoot(),
@@ -56,6 +62,8 @@ export function jwtOptionsFactory(storage) {
   providers: [
     StatusBar,
     SplashScreen,
+    Firebase,
+    LocalNotifications,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true},
   ],
