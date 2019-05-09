@@ -8,6 +8,8 @@ import { Team } from '../../../services/user/types/team';
 import { GroupService } from '../../../services/group/group.service';
 import { UserService } from '../../../services/user/user.service';
 import { AuthService } from '../../../services/auth/auth.service';
+import { PushNotificationService } from '../../../services/firebase/cloud-messaging/push-notification.service';
+import { NotificationService } from '../../../services/firebase/cloud-messaging/notification.service';
 
 @Component({
   selector: 'app-choose-team',
@@ -71,6 +73,7 @@ export class ChooseTeamPage extends Modal implements OnInit {
    * @param {GroupService} groupService
    * @param {AuthService} auth
    * @param {UserService} user
+   * @param {PushNotificationService} push
    */
   constructor(
     modalController: ModalController,
@@ -78,6 +81,7 @@ export class ChooseTeamPage extends Modal implements OnInit {
     private groupService: GroupService,
     private auth: AuthService,
     private user: UserService,
+    private push: PushNotificationService,
   ) {
     super(modalController);
   }
@@ -111,9 +115,15 @@ export class ChooseTeamPage extends Modal implements OnInit {
    * @return {Promise<any>}
    */
   protected async onSave(): Promise<any> {
+    const oldGroup = this.auth.data.group_id;
     this.returnData = {group: this.group, team: this.team};
     const user = await this.user.joinTeam(this.auth.data.user_id, this.team).toPromise();
-    return Object.keys(user).includes('team') ? Object.keys(user.team).includes('id') : false;
+    const isSaved = Object.keys(user).includes('team') ? Object.keys(user.team).includes('id') : false;
+    if (isSaved) {
+      this.push.unsubscribeFrom(NotificationService.TOPIC_GROUP(oldGroup));
+      this.push.subscribeTo(NotificationService.TOPIC_GROUP(this.group.id));
+    }
+    return isSaved;
   }
 
   /**
