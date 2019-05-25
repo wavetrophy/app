@@ -30,12 +30,40 @@ export class StreamService {
   }
 
   /**
-   * Get a single location of the stream
-   * @param {number} userId
-   * @param {number} locationId
+   * Get the stream of a wave
+   * @param {number} waveId
    * @return {Observable<Object>}
    */
-  public getLocationByUser(userId: number, locationId: number) {
-    return this.http.get(`${this.url}/users/${userId}/stream/${locationId}`);
+  public getByWave(waveId: number) {
+    return this.http.get(`${this.url}/waves/${waveId}/stream`);
+  }
+
+  /**
+   * Get a single event of the stream
+   * @param {number} userId
+   * @param {number} eventId
+   * @return {Observable<Object>}
+   */
+  public getEventByUser(userId: number, eventId: number) {
+    return this.http.get(`${this.url}/users/${userId}/events/${eventId}`);
+  }
+
+  /**
+   * Get hotels by user
+   * @param {number} userId
+   * @return {Observable<Object>}
+   */
+  public getHotelsByUser(userId: number) {
+    return this.http.get(`${this.url}/users/${userId}/hotels`);
+  }
+
+  /**
+   * Get hotel by user
+   * @param {number} userId
+   * @param {number} hotelId
+   * @return {Observable<Object>}
+   */
+  public getHotelByUser(userId: number, hotelId: number) {
+    return this.http.get(`${this.url}/users/${userId}/hotels/${hotelId}`);
   }
 }

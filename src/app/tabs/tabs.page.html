@@ -16,18 +16,24 @@
     <super-tabs>
         <super-tabs-toolbar>
             <super-tab-button>
-                <ion-label>Events</ion-label>
+                <ion-label>{{ 'Events' }}</ion-label>
             </super-tab-button>
             <super-tab-button>
-                <ion-label>Contacts</ion-label>
+                <ion-label>{{ 'Hotels' }}</ion-label>
             </super-tab-button>
             <super-tab-button>
-                <ion-label>FAQ</ion-label>
+                <ion-label>{{ 'Contacts' }}</ion-label>
+            </super-tab-button>
+            <super-tab-button>
+                <ion-label>{{ 'FAQ' }}</ion-label>
             </super-tab-button>
         </super-tabs-toolbar>
         <super-tabs-container>
             <super-tab>
                 <ion-nav [root]="streamPage"></ion-nav>
+            </super-tab>
+            <super-tab>
+                <ion-nav [root]="hotelsPage"></ion-nav>
             </super-tab>
             <super-tab>
                 <ion-nav [root]="contactsPage"></ion-nav>

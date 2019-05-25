@@ -19,6 +19,10 @@ const routes: Routes = [
         path: 'faq',
         loadChildren: './faq/faq.module#FaqPageModule',
       },
+      {
+        path: 'hotels',
+        loadChildren: './hotels/hotels.module#HotelsPageModule',
+      },
       {path: '', redirectTo: '/wave/stream', pathMatch: 'full'},
     ],
   },

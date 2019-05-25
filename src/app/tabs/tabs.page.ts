@@ -4,6 +4,7 @@ import { MainOptionsPage } from '../popover/main-options/main-options.page';
 import { PopoverController } from '@ionic/angular';
 import { ContactsPage } from './contacts/contacts.page';
 import { FaqPage } from './faq/faq.page';
+import { HotelsPage } from './hotels/hotels.page';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class TabsPage {
   public streamPage: any = StreamPage;
   public contactsPage: any = ContactsPage;
   public faqPage: any = FaqPage;
+  public hotelsPage: any = HotelsPage;
 
   public constructor(private popover: PopoverController) {
   }

@@ -10,6 +10,7 @@ import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { StreamPageModule } from './stream/stream.module';
 import { ContactsPageModule } from './contacts/contacts.module';
 import { FaqPageModule } from './faq/faq.module';
+import { HotelsPageModule } from './hotels/hotels.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { FaqPageModule } from './faq/faq.module';
     SuperTabsModule,
     StreamPageModule,
     FaqPageModule,
+    HotelsPageModule,
     ContactsPageModule,
   ],
   declarations: [TabsPage],

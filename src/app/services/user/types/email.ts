@@ -4,5 +4,4 @@ export interface Email {
   is_public: boolean;
   is_primary: boolean;
   confirmed: boolean;
-  user: string;
 }
