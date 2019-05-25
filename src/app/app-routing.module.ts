@@ -5,8 +5,13 @@ import { AuthGuard } from './services/guards/auth.guard';
 const routes: Routes = [
   {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
   {
-    path: 'location/:id',
-    loadChildren: './location/location.module#LocationPageModule',
+    path: 'event/:id',
+    loadChildren: './event/event.module#EventPageModule',
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'hotel/:id',
+    loadChildren: './hotel/hotel.module#HotelPageModule',
     canActivate: [AuthGuard],
   },
   {

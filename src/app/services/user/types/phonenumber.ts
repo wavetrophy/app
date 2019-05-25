@@ -3,5 +3,4 @@ export interface Phonenumber {
   phonenumber: string;
   country_code: string;
   is_public: boolean;
-  user: string;
 }
