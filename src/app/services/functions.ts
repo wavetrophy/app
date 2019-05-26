@@ -1,3 +1,8 @@
+/**
+ * Check if something is empty
+ * @param {Object} obj
+ * @return {boolean}
+ */
 export function empty(obj: Object) {
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
@@ -6,4 +11,18 @@ export function empty(obj: Object) {
   }
 
   return true;
+}
+
+/**
+ * Get the value out of an object
+ * @param object
+ * @param {string} key
+ * @return {null | any}
+ */
+export function e(object?: any, key?: string) {
+  if (object && key && key in object) {
+    return object[key];
+  }
+
+  return null;
 }

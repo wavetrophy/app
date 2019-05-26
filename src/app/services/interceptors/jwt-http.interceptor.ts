@@ -6,6 +6,9 @@ import { from, throwError } from 'rxjs';
 import { catchError, concatMap } from 'rxjs/operators';
 import { AuthService } from '../auth/auth.service';
 import { environment } from '../../../environments/environment';
+import { ConsoleLogger } from '../logger/logger';
+
+const logger = new ConsoleLogger('JWT');
 
 @Injectable()
 /**
@@ -17,7 +20,10 @@ export class JwtHttpInterceptor implements HttpInterceptor {
    * @param {Storage} storage
    * @param {AuthService} auth
    */
-  constructor(private storage: Storage, private auth: AuthService) {
+  constructor(
+    private storage: Storage,
+    private auth: AuthService,
+  ) {
   }
 
   /**
@@ -30,11 +36,11 @@ export class JwtHttpInterceptor implements HttpInterceptor {
    * @see https://stackoverflow.com/questions/45978813/use-a-promise-in-angular-httpclient-interceptor
    */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('INTERCEPTOR ', request.url.toString());
     if (request.url.includes('login')) {
-      console.log('INTERCEPTOR ignored');
+      logger.log('ignored');
       return next.handle(request);
     }
+    logger.log('adding token');
     return this.addToken(request)
       .pipe(
         concatMap(clone => this.handleClone(next, clone)),
@@ -57,7 +63,7 @@ export class JwtHttpInterceptor implements HttpInterceptor {
    * @returns {Observable<HttpSentEvent | HttpHeaderResponse | HttpResponse<any> | HttpProgressEvent | HttpUserEvent<any> | any>}
    */
   private handleClone(next, request) {
-    console.log('Handling ', request.url.toString());
+    logger.log('Handling clone', request.url.toString());
     return next.handle(request).pipe(
       catchError(e => this.handleError(e, next, request)),
     );
@@ -71,19 +77,19 @@ export class JwtHttpInterceptor implements HttpInterceptor {
    * @returns {any}
    */
   private handleError(e, next, originalRequest) {
-    console.log('Request errored ', originalRequest.url.toString());
+    logger.log('request errored', originalRequest.url.toString());
     if (e instanceof HttpErrorResponse && e.status === 401) {
       if (originalRequest.url.includes('refresh')) {
         this.auth.logout();
         return throwError('Authentication not possible');
       }
-      console.log('Refreshing ...');
+      logger.log('refreshing auth data');
       return this.refreshToken().pipe(
         concatMap(_ => {
-          console.log('Refreshed');
+          logger.log('refreshed');
           // To recursively handle the error (if an unauthorized occurs) replace next.handle with this.handleClone (NOT RECOMMENDED)
           return this.addToken(originalRequest).pipe(concatMap(clone => {
-              console.log('Handling clone', clone.url.toString());
+              logger.log('handling clone', clone.url.toString());
               return next.handle(clone);
             }),
           );

@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { environment } from '../../../environments/environment';
 import { ViewContactPage } from '../../modal/contacts/view/view-contact.page';
 import { ModalController } from '@ionic/angular';
+import { e } from '../../services/functions';
 
 @Component({
   selector: 'app-contacts',
@@ -63,8 +64,8 @@ export class ContactsPage implements OnInit, OnDestroy {
     // @ts-ignore
     const sub = this.contactService.getContacts(this.auth.data.current_wave.id).subscribe((res: any) => {
       this.isLoading = false;
-      if (!res['success']) {
-        this.errormessage = res['message'] || 'Keine Kontakte verfügbar';
+      if (!e(res, 'success')) {
+        this.errormessage = e(res, 'message') || 'Keine Kontakte verfügbar';
         return;
       }
       const contacts = [];
@@ -85,10 +86,9 @@ export class ContactsPage implements OnInit, OnDestroy {
       this.contacts = contacts.filter(function (el) {
         return el != null;
       });
-      console.log(this.contacts);
     }, (res: any) => {
       this.isLoading = false;
-      this.errormessage = res['message'] || 'Es ist ein Fehler aufgetreten';
+      this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
     });
     this.subs.push(sub);
   }

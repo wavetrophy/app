@@ -8,7 +8,7 @@ import { ChooseTeamPage } from '../../modal/team/choose/choose-team.page';
 import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
 import { Event } from '../../services/stream/types/event';
-import { empty } from '../../services/functions';
+import { e, empty } from '../../services/functions';
 
 @Component({
   selector: 'app-stream',
@@ -102,7 +102,6 @@ export class StreamPage implements OnInit {
    */
   public getPersonalStream(userId: number) {
     this.isLoading = true;
-    console.log(this.isLoading);
     this.errormessage = '';
     this.events = null;
     this.cd.detectChanges();
@@ -117,7 +116,6 @@ export class StreamPage implements OnInit {
    */
   public getWaveStream(waveId: number) {
     this.isLoading = true;
-    console.log(this.isLoading);
     this.errormessage = '';
     this.events = null;
     this.cd.detectChanges();
@@ -167,12 +165,10 @@ export class StreamPage implements OnInit {
    */
   private handleSuccess(res: any) {
     this.isLoading = false;
-    console.log(this.isLoading);
-    if (!res['success']) {
-      this.errormessage = res['message'] || 'Keine Daten verfügbar';
+    if (!e(res, 'success')) {
+      this.errormessage = e(res, 'message') || 'Keine Daten verfügbar';
       return;
     }
-    console.log(res);
     this.events = res.events;
     if (empty(this.events)) {
       this.errormessage = 'No Events available for your team';
@@ -187,8 +183,7 @@ export class StreamPage implements OnInit {
    */
   private handleError(res: any) {
     this.isLoading = false;
-    console.log(this.isLoading);
-    this.errormessage = res['message'] || 'Es ist ein Fehler aufgetreten';
+    this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
     this.joinTeamMessage = 'Join a Team';
     this.cd.detectChanges();
   }

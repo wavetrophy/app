@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { ILocalNotification } from '@ionic-native/local-notifications';
 import { Router } from '@angular/router';
+import { ConsoleLogger } from '../../logger/logger';
+const logger = new ConsoleLogger('PUSH');
 
 @Injectable({
   providedIn: 'root',
@@ -45,15 +47,13 @@ export class NotificationService {
    * Register notification service
    */
   public register() {
-    console.log('registering notifications');
+    logger.log('registering');
     if (this.registered) {
-      console.log('cancelled registration');
+      logger.log('cancelled');
       return;
     }
-    console.log('registering...');
     this.registered = true;
     this.push.getToken();
-    console.log('registered.');
 
     this.push.subscribeTo(NotificationService.TOPIC_GENERAL);
     this.push.subscribeTo(NotificationService.TOPIC_WAVE(this.auth.data.current_wave.id));
@@ -62,14 +62,13 @@ export class NotificationService {
     this.registerHandlers();
 
     this.sub = this.push.onNotification().subscribe(notification => {
-      console.log('[NOTIFICATION]', notification);
       let message = '';
       let title = 'WAVETROPHY';
       if (this.platform.is('ios')) {
         message = notification.aps.alert;
-        console.log('[iOS] notification received', notification);
+        logger.log('[iOS] notification received', notification);
       } else {
-        console.log('[ANDROID] notification received', notification);
+        logger.log('[ANDROID] notification received', notification);
         message = notification.body;
         title = notification.title;
       }
@@ -77,12 +76,12 @@ export class NotificationService {
       const data = JSON.parse(notification.json) || {};
       this.notification.info(title, message, data);
     });
-    console.log('registered. notifications');
+    logger.log('registered');
   }
 
   private registerHandlers() {
     this.notification.on('click').subscribe((notification: ILocalNotification) => {
-      console.log('[NOTIFICATION] Event triggered (click)', event);
+      logger.log('notification clicked', event);
       this.platform.ready().then(() => {
         if (notification.data) {
           if ('open' in notification.data) {
@@ -92,19 +91,19 @@ export class NotificationService {
       });
     });
     this.notification.on('clear').subscribe((event) => {
-      console.log('[NOTIFICATION] Event triggered (clear)', event);
+      logger.log('notification cleared', event);
     });
     this.notification.on('cancel').subscribe((event) => {
-      console.log('[NOTIFICATION] Event triggered (cancel)', event);
+      logger.log('notification cancelled', event);
     });
     this.notification.on('update').subscribe((event) => {
-      console.log('[NOTIFICATION] Event triggered (update)', event);
+      logger.log('notification updated', event);
     });
     this.notification.on('add').subscribe((event) => {
-      console.log('[NOTIFICATION] Event triggered (add)', event);
+      logger.log('notification added', event);
     });
     this.notification.on('trigger').subscribe((event) => {
-      console.log('[NOTIFICATION] Event triggered (trigger)', event);
+      logger.log('notifcitoin triggered', event);
     });
   }
 

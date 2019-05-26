@@ -2,6 +2,9 @@ import { ViewChild } from '@angular/core';
 import { IonInput, ModalController } from '@ionic/angular';
 import { from } from 'rxjs';
 import { ValidationError } from './types/validation-error';
+import { ConsoleLogger } from '../services/logger/logger';
+
+const logger = new ConsoleLogger('MODAL');
 
 export abstract class Modal {
 
@@ -47,7 +50,7 @@ export abstract class Modal {
       },
       e => {
         this.isSaving = false;
-        console.log(e);
+        logger.error('Saving failed', e);
         this.error = e.error.violations[0].message || e.error.title || 'Something went wrong. Please try again later';
         this.errors = e.error.violations;
       },

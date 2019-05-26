@@ -9,6 +9,7 @@ import { Storage } from '@ionic/storage';
 import { AuthData } from './types/authdata';
 import { Router } from '@angular/router';
 import { Firebase } from '@ionic-native/firebase/ngx';
+import { e } from '../functions';
 
 @Injectable({
   providedIn: 'root',
@@ -97,10 +98,12 @@ export class AuthService {
     return this.http.post(`${this.url}/auth/login`, credentials)
       .pipe(
         tap(res => {
-          this.storage.set(environment.storage.TOKEN_KEY, res['token']);
-          this.storage.set(environment.storage.TOKEN_REFRESH_KEY, res['refresh_token']);
-          this._authData = <AuthData>this.helper.decodeToken(res['token']);
-          this._authenticationState.next(true);
+          if (e(res, 'token') && e(res, 'refresh_token')) {
+            this.storage.set(environment.storage.TOKEN_KEY, res['token']);
+            this.storage.set(environment.storage.TOKEN_REFRESH_KEY, res['refresh_token']);
+            this._authData = <AuthData>this.helper.decodeToken(res['token']);
+            this._authenticationState.next(true);
+          }
         }),
         catchError(e => {
           this.showAlert('Falsche Zugangsdaten');

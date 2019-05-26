@@ -22,6 +22,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { MainOptionsPageModule } from './popover/main-options/main-options.module';
 import { AnswerOptionsPageModule } from './popover/answer-options/answer-options.module';
 import { PipeModule } from './services/pipes/pipe.module';
+import { CacheInterceptor } from './services/interceptors/cache.interceptor';
+import { Network } from '@ionic-native/network/ngx';
+import { LoggerInterceptor } from './services/interceptors/logger.interceptor';
 
 /**
  * Get the JWT Options factory.
@@ -64,8 +67,11 @@ export function jwtOptionsFactory(storage) {
     SplashScreen,
     Firebase,
     LocalNotifications,
+    Network,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoggerInterceptor, multi: true},
   ],
   bootstrap: [AppComponent],
 })
