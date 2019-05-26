@@ -30,11 +30,21 @@ export class QuestionService {
    * @param {number} groupId
    * @returns {Observable<object>}
    */
-  public getQuestions(waveId: number, groupId: number): Observable<object> {
-    let url = `${this.server}/questions`;
-    if (groupId && waveId) {
-      url = `${this.server}/waves/${waveId}/groups/${groupId}/questions`;
+  public getQuestionsForGroup(waveId: number, groupId: number): Observable<object> {
+    if (!waveId || !groupId) {
+      return this.getAllQuestions();
     }
+
+    const url = `${this.server}/waves/${waveId}/groups/${groupId}/questions`;
+    return this.http.get(url);
+  }
+
+  /**
+   * Get all questions
+   * @return {Observable<Object>}
+   */
+  public getAllQuestions() {
+    const url = `${this.server}/questions`;
     return this.http.get(url);
   }
 

@@ -24,6 +24,7 @@ export class FaqPage implements OnInit, OnDestroy {
   public errormessage: string;
   public server = '';
   private subs: Subscription[] = [];
+  private type = 'all';
 
   /**
    * FAQ Page constructor.
@@ -68,17 +69,58 @@ export class FaqPage implements OnInit, OnDestroy {
     }
   }
 
+  private getQuestions() {
+    switch (this.type) {
+      case 'all':
+        this.getAllQuestions();
+        break;
+      case 'group':
+        const waveId = this.auth.data.current_wave.id;
+        const groupId = this.auth.data.group_id;
+        this.getGroupQuestions(waveId, groupId);
+        break;
+      default:
+        this.getAllQuestions();
+        break;
+    }
+  }
+
   /**
    * Get all questions
    */
-  private getQuestions() {
+  private getGroupQuestions(waveId, groupId) {
     this.errormessage = null;
     this.isLoading = true;
-    const sub = this.questionService.getQuestions(
-      // @ts-ignore
-      this.auth.data.current_wave.id,
-      this.auth.data.group_id,
-    ).subscribe((res: [] | any) => {
+    const sub = this.questionService.getQuestionsForGroup(waveId, groupId).subscribe((res: [] | any) => {
+      this.isLoading = false;
+      if (!res) {
+        this.errormessage = e(res, 'message') || 'Keine Fragen verfügbar';
+        return;
+      }
+      const questions = {};
+      res.forEach((question: Question) => {
+        const date = moment(question.asked_at);
+        const key = date.format('YYYY-MM-DD');
+        if (!Object.keys(questions).includes(key)) {
+          questions[key] = [];
+        }
+        questions[key].push(question);
+      });
+      this.questionGroups = questions;
+    }, (res: any) => {
+      this.isLoading = false;
+      this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
+    });
+    this.subs.push(sub);
+  }
+
+  /**
+   * Get all questions
+   */
+  private getAllQuestions() {
+    this.errormessage = null;
+    this.isLoading = true;
+    const sub = this.questionService.getAllQuestions().subscribe((res: [] | any) => {
       this.isLoading = false;
       if (!res) {
         this.errormessage = e(res, 'message') || 'Keine Fragen verfügbar';

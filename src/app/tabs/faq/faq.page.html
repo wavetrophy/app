@@ -1,4 +1,15 @@
 <ion-content padding>
+    <ion-row margin-bottom="1rem">
+        <ion-segment (ionChange)="getQuestions()" [(ngModel)]="type">
+            <ion-segment-button value="group" checked>
+                <ion-label>{{ 'Group' }}</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="all">
+                <ion-label>{{ 'All' }}</ion-label>
+            </ion-segment-button>
+        </ion-segment>
+    </ion-row>
+
     <ion-row class="ion-justify-content-center" *ngIf="isLoading">
         <ion-spinner name="crescent"></ion-spinner>
     </ion-row>
