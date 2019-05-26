@@ -15,7 +15,7 @@ export enum NetworkStatus {
   providedIn: 'root',
 })
 export class NetworkService {
-  private status: BehaviorSubject<NetworkStatus> = new BehaviorSubject(NetworkStatus.OFFLINE);
+  private status: BehaviorSubject<NetworkStatus> = new BehaviorSubject(NetworkStatus.ONLINE);
 
   /**
    * Constructor
@@ -37,14 +37,13 @@ export class NetworkService {
           this.updateNetworkStatus(NetworkStatus.ONLINE);
         }
       });
-      this.network.onchange().subscribe(status => {
-      });
+      if (this.network.Connection.NONE) {
+        this.updateNetworkStatus(NetworkStatus.OFFLINE);
+      }
     }
 
     if (this.platform.is('desktop')) {
-      if (navigator.onLine) {
-        this.updateNetworkStatus(NetworkStatus.ONLINE);
-      } else {
+      if (!navigator.onLine) {
         this.updateNetworkStatus(NetworkStatus.OFFLINE);
       }
 

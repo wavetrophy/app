@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth/auth.service';
@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationService } from './services/firebase/cloud-messaging/notification.service';
 import * as moment from 'moment';
+import { NetworkService, NetworkStatus } from './services/network/network.service';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,8 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {AuthService} authService The auth service
    * @param {Router} router The router
    * @param {NotificationService} notifications
+   * @param {NetworkService} network
+   * @param {ToastController} toast
    */
   public constructor(
     private platform: Platform,
@@ -39,6 +42,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private notifications: NotificationService,
+    private network: NetworkService,
+    private toast: ToastController,
   ) {
     this.initializeApp();
   }
@@ -70,6 +75,32 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate(['auth', 'login']);
     }
+
+    const sub = this.network.onNetworkChange().subscribe(async () => {
+      let config;
+      if (this.network.currentNetworkStatus() === NetworkStatus.OFFLINE) {
+        config = {
+          message: 'You\'re offline, some functionality is not available',
+          duration: 10000,
+          buttons: [{
+            text: 'Okay',
+            role: 'cancel',
+          }],
+        };
+      } else {
+        config = {
+          message: 'You\'re back online',
+          duration: 3000,
+          buttons: [{
+            text: 'Okay',
+            role: 'cancel',
+          }],
+        };
+      }
+      const toast = await this.toast.create(config);
+      toast.present();
+    });
+    this.subs.push(sub);
   }
 
   /**
