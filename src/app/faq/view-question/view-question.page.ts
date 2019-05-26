@@ -12,6 +12,7 @@ import { EditAnswerPage } from '../../modal/faq/edit-answer/edit-answer.page';
 import { AnswerOptionsPage } from '../../popover/answer-options/answer-options.page';
 import { PushNotificationService } from '../../services/firebase/cloud-messaging/push-notification.service';
 import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
+import { e } from '../../services/functions';
 
 @Component({
   selector: 'app-view-question',
@@ -61,7 +62,6 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
   public ngOnInit() {
     this.id = parseInt(this.ar.snapshot.paramMap.get('id'), 10);
     this.userId = this.auth.data.user_id;
-    console.log(this.id);
     this.getQuestion(this.id);
   }
 
@@ -216,14 +216,13 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         this.isLoading = false;
         if (!res) {
-          this.errormessage = res['message'] || 'Keine Fragen verfügbar';
+          this.errormessage = e(res, 'message') || 'Keine Fragen verfügbar';
           return;
         }
-        console.log(res);
         this.question = res;
       }, (res: any) => {
         this.isLoading = false;
-        this.errormessage = res['message'] || 'Es ist ein Fehler aufgetreten';
+        this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
       });
     this.subs.push(sub);
   }

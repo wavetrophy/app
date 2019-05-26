@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { Hotel } from '../../services/stream/types/hotel';
 import { StreamService } from '../../services/stream/stream.service';
-import { empty } from '../../services/functions';
+import { e, empty } from '../../services/functions';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
@@ -56,19 +56,16 @@ export class HotelsPage implements OnInit, OnDestroy {
    */
   private getHotels(userId: number) {
     this.isLoading = true;
-    console.log(this.isLoading);
     this.errormessage = '';
     this.hotels = null;
     this.cd.detectChanges();
 
     const sub = this.stream.getHotelsByUser(userId).subscribe((res: any) => {
       this.isLoading = false;
-      console.log(this.isLoading);
-      if (!res['success']) {
-        this.errormessage = res['message'] || 'Keine Daten verfügbar';
+      if (!e(res, 'success')) {
+        this.errormessage = e(res, 'message') || 'Keine Daten verfügbar';
         return;
       }
-      console.log(res);
       this.hotels = res.hotels;
       if (empty(this.hotels)) {
         this.errormessage = 'No hotels available for your team';
@@ -76,8 +73,7 @@ export class HotelsPage implements OnInit, OnDestroy {
       this.cd.detectChanges();
     }, (res: any) => {
       this.isLoading = false;
-      console.log(this.isLoading);
-      this.errormessage = res['message'] || 'Es ist ein Fehler aufgetreten';
+      this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
       this.cd.detectChanges();
     });
     this.subs.push(sub);

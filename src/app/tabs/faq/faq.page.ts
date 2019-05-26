@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
 import { PushNotificationService } from '../../services/firebase/cloud-messaging/push-notification.service';
 import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
+import { e } from '../../services/functions';
 
 @Component({
   selector: 'app-faq',
@@ -80,7 +81,7 @@ export class FaqPage implements OnInit, OnDestroy {
     ).subscribe((res: [] | any) => {
       this.isLoading = false;
       if (!res) {
-        this.errormessage = res['message'] || 'Keine Fragen verfügbar';
+        this.errormessage = e(res, 'message') || 'Keine Fragen verfügbar';
         return;
       }
       const questions = {};
@@ -92,11 +93,10 @@ export class FaqPage implements OnInit, OnDestroy {
         }
         questions[key].push(question);
       });
-      console.log(questions);
       this.questionGroups = questions;
     }, (res: any) => {
       this.isLoading = false;
-      this.errormessage = res['message'] || 'Es ist ein Fehler aufgetreten';
+      this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
     });
     this.subs.push(sub);
   }

@@ -135,7 +135,6 @@ export class ProfilePage implements OnInit, OnDestroy {
             loader.present();
             const response = await this.userService.removeEmail(email).toPromise();
             loader.dismiss();
-            console.log('Delete response', response);
             if (response === null) {
               this.getEmails();
             } else {
@@ -202,7 +201,6 @@ export class ProfilePage implements OnInit, OnDestroy {
             loader.present();
             const response = await this.userService.removePhonenumber(phonenumber).toPromise();
             loader.dismiss();
-            console.log('Delete response', response);
             if (response === null) {
               this.getPhonenumbers();
             } else {

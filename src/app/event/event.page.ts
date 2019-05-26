@@ -6,7 +6,7 @@ import { StreamService } from '../services/stream/stream.service';
 import { AuthService } from '../services/auth/auth.service';
 import { environment } from '../../environments/environment';
 import { Event } from '../services/stream/types/event';
-import { empty } from '../services/functions';
+import { e, empty } from '../services/functions';
 
 @Component({
   selector: 'app-event',
@@ -72,13 +72,12 @@ export class EventPage implements OnInit, OnDestroy {
     this.isLoading = true;
     this.errormessage = '';
     const sub = this.stream.getEventByUser(userId, id).subscribe((res: any) => {
-      console.log(res);
       this.isLoading = false;
-      if (!res['success']) {
-        this.errormessage = res['message'] || 'Keine Daten verfügbar';
+      if (!e(res, 'success')) {
+        this.errormessage = e(res, 'message') || 'Keine Daten verfügbar';
         return;
       }
-      console.log(res);
+
       this.event = res.event;
     });
     this.subs.push(sub);
