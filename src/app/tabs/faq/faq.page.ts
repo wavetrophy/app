@@ -23,8 +23,8 @@ export class FaqPage implements OnInit, OnDestroy {
   public moment = moment;
   public errormessage: string;
   public server = '';
+  public type = 'all';
   private subs: Subscription[] = [];
-  private type = 'all';
 
   /**
    * FAQ Page constructor.
@@ -69,7 +69,10 @@ export class FaqPage implements OnInit, OnDestroy {
     }
   }
 
-  private getQuestions() {
+  /**
+   * Get questions
+   */
+  public getQuestions() {
     switch (this.type) {
       case 'all':
         this.getAllQuestions();

@@ -17,12 +17,14 @@
     "android:add": "ionic cordova platform add android && npm run android:build",
     "android:resources": "ionic cordova resources android -sif",
     "android:build": "cp ./resources/android/project.properties platforms/android && ionic cordova build android --prod",
+    "android:build:prod": "sh ./bin/build-android.sh",
     "android:clear": "ionic cordova platform rm android && npm run android:add",
     "ios": "ionic cordova run ios -l --debug --buildConfig ./build.json",
     "ios:emulate": "ionic cordova emulate ios -l --debug --target='iPhone-X, 12.2' --buildConfig ./build.json",
     "ios:add": "ionic cordova platform add ios && npm run ios:build",
     "ios:resources": "ionic cordova resources ios -sif",
     "ios:build": "ionic cordova build ios --prod --buildConfig ./build.json",
+    "ios:build:prod": "sh ./bin/build-ios.sh",
     "ios:clear": "ionic cordova platform rm ios && npm run ios:add"
   },
   "private": true,
@@ -69,6 +71,7 @@
     "node-sass": "^4.12.0",
     "rxjs": "~6.3.3",
     "rxjs-compat": "^6.5.2",
+    "sentry-cordova": "^0.15.0",
     "zone.js": "~0.8.29"
   },
   "comments": {
@@ -138,6 +141,7 @@
     ]
   },
   "config": {
+    "ionic_generate_source_map": "true",
     "ionic_source_map_type": "inline-source-map",
     "ionic_webpack": "./config/webpack.js"
   }

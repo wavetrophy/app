@@ -68,7 +68,8 @@ export class EventPage implements OnInit, OnDestroy {
    * @param {number} userId
    * @param {number} id
    */
-  private getEvent(userId: number, id: number) {
+  private
+  getEvent(userId: number, id: number) {
     this.isLoading = true;
     this.errormessage = '';
     const sub = this.stream.getEventByUser(userId, id).subscribe((res: any) => {

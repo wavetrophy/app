@@ -10,6 +10,7 @@ import { AuthData } from './types/authdata';
 import { Router } from '@angular/router';
 import { Firebase } from '@ionic-native/firebase/ngx';
 import { e } from '../functions';
+import { CacheService } from '../network/cache.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +33,7 @@ export class AuthService {
    * @param {Platform} plt The platform (ionic)
    * @param {AlertController} alertController The Alert Controller
    * @param {Firebase} firebase
+   * @param {CacheService} cache
    */
   public constructor(
     private http: HttpClient,
@@ -41,6 +43,7 @@ export class AuthService {
     private plt: Platform,
     private alertController: AlertController,
     private firebase: Firebase,
+    private cache: CacheService,
   ) {
   }
 
@@ -144,6 +147,7 @@ export class AuthService {
    * Log out a user.
    */
   public async logout(): Promise<any> {
+    this.cache.clear();
     await this.storage.remove(environment.storage.TOKEN_REFRESH_KEY);
     await this.storage.remove(environment.storage.TOKEN_KEY);
     this._authenticationState.next(false);

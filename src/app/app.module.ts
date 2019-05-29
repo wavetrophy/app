@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -25,6 +25,10 @@ import { PipeModule } from './services/pipes/pipe.module';
 import { CacheInterceptor } from './services/interceptors/cache.interceptor';
 import { Network } from '@ionic-native/network/ngx';
 import { LoggerInterceptor } from './services/interceptors/logger.interceptor';
+import { SentryErrorHandler } from './services/error-handlers/sentry.error-handler';
+import * as Sentry from 'sentry-cordova';
+
+Sentry.init({dsn: 'https://61838ef844d54ef6b50e7a65618473f5@sentry.io/1470302'});
 
 /**
  * Get the JWT Options factory.
@@ -69,9 +73,10 @@ export function jwtOptionsFactory(storage) {
     LocalNotifications,
     Network,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
-    {provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoggerInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true},
+    {provide: ErrorHandler, useClass: environment.production ? SentryErrorHandler : ErrorHandler},
   ],
   bootstrap: [AppComponent],
 })

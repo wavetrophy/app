@@ -79,29 +79,33 @@ export class JwtHttpInterceptor implements HttpInterceptor {
   private handleError(e, next, originalRequest) {
     logger.log('request errored', originalRequest.url.toString());
     if (e instanceof HttpErrorResponse && e.status === 401) {
-      if (originalRequest.url.includes('refresh')) {
-        this.auth.logout();
-        return throwError('Authentication not possible');
+      // Only handle if user is authenticated. This is to prevent the login screen from flashing dozends of invalid credentials error
+      if (this.auth.isAuthenticated() === true) {
+        if (originalRequest.url.includes('refresh')) {
+          this.auth.logout();
+          return throwError('Authentication not possible');
+        }
+
+        logger.log('refreshing auth data');
+        return this.refreshToken().pipe(
+          concatMap(_ => {
+            logger.log('refreshed');
+            // To recursively handle the error (if an unauthorized occurs) replace next.handle with this.handleClone (NOT RECOMMENDED)
+            return this.addToken(originalRequest).pipe(concatMap(clone => {
+                logger.log('handling clone', clone.url.toString());
+                return next.handle(clone);
+              }),
+            );
+          }),
+          catchError(error => {
+            if (error.status === 401) {
+              this.auth.logout();
+            }
+            // TODO log error
+            return throwError(error);
+          }),
+        );
       }
-      logger.log('refreshing auth data');
-      return this.refreshToken().pipe(
-        concatMap(_ => {
-          logger.log('refreshed');
-          // To recursively handle the error (if an unauthorized occurs) replace next.handle with this.handleClone (NOT RECOMMENDED)
-          return this.addToken(originalRequest).pipe(concatMap(clone => {
-              logger.log('handling clone', clone.url.toString());
-              return next.handle(clone);
-            }),
-          );
-        }),
-        catchError(error => {
-          if (error.status === 401) {
-            this.auth.logout();
-          }
-          // TODO log error
-          return throwError(error);
-        }),
-      );
     }
 
     return throwError(e);
