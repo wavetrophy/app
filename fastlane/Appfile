@@ -1,0 +1,4 @@
+app_identifier "com.wavetrophy.app"
+apple_id "bjoern.pfoster@googlemail.com"
+team_id "52X8QB6PDV"
+json_key_file "../dist/fastlane-supply.json"

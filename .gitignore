@@ -1,6 +1,18 @@
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
+# fastlane specific
+**/fastlane/report.xml
 
+# deliver temporary files
+**/fastlane/Preview.html
+
+# snapshot generated screenshots
+**/fastlane/screenshots
+
+# scan temporary files
+**/fastlane/test_output
+
+*.p12
 *~
 *.sw[mnpcod]
 *.log
@@ -35,3 +47,4 @@ UserInterfaceState.xcuserstate
 
 GoogleService-Info.plist
 google-services.json
+fastlane-service-account.json
