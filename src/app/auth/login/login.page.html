@@ -1,17 +1,19 @@
 <ion-content padding>
-  <form [formGroup]="form" (ngSubmit)="login()">
+    <img src="https://app.wavetrophy.com/default/logo.jpg" alt="Logo">
 
-    <ion-item>
-      <ion-label position="floating">Username</ion-label>
-      <ion-input type="email" formControlName="username"></ion-input>
-    </ion-item>
+    <form [formGroup]="form" (ngSubmit)="login()">
 
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
-    </ion-item>
+        <ion-item>
+            <ion-label position="floating">{{'Username'}}</ion-label>
+            <ion-input type="email" formControlName="username"></ion-input>
+        </ion-item>
 
-    <ion-button expand="full" type="submit" [disabled]="!form.valid && !isLoading">Login</ion-button>
+        <ion-item>
+            <ion-label position="floating">{{'Password'}}</ion-label>
+            <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
 
-  </form>
+        <ion-button expand="full" type="submit" [disabled]="!form.valid && !isLoading">{{'Login'}}</ion-button>
+        <ion-button class="ion-margin-top" color="light" expand="full" href="https://wavetrophy.com/kontakt">{{'Sign Up?'}}</ion-button>
+    </form>
 </ion-content>
