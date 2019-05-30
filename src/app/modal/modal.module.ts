@@ -10,6 +10,7 @@ import { CreateQuestionPageModule } from './faq/create-question/create-question.
 import { EditQuestionPageModule } from './faq/edit-question/edit-question.module';
 import { EditAnswerPageModule } from './faq/edit-answer/edit-answer.module';
 import { ChooseTeamPageModule } from './team/choose/choose-team.module';
+import { PasswordChangePageModule } from './user/password-change/password-change.module';
 
 @NgModule({
   declarations: [],
@@ -24,7 +25,8 @@ import { ChooseTeamPageModule } from './team/choose/choose-team.module';
     CreatePhonenumberPageModule,
     CreateEmailPageModule,
     CreateQuestionPageModule,
-    ViewContactPageModule
+    ViewContactPageModule,
+    PasswordChangePageModule,
   ],
   exports: [
     ChooseTeamPageModule,
@@ -37,6 +39,7 @@ import { ChooseTeamPageModule } from './team/choose/choose-team.module';
     CreatePhonenumberPageModule,
     CreateQuestionPageModule,
     ViewContactPageModule,
+    PasswordChangePageModule,
   ],
 })
 export class ModalModule {

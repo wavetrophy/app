@@ -15,4 +15,5 @@ export interface AuthData {
   user_id: number;
   username: string;
   profile_picture: string;
+  must_reset_password: boolean;
 }

@@ -252,4 +252,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     });
     this.subs.push(sub);
   }
+
+  public changePassword() {
+
+  }
 }

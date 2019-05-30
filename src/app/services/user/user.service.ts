@@ -136,6 +136,17 @@ export class UserService {
   }
 
   /**
+   * Update a password.
+   * @param userId
+   * @param {string} password
+   * @return {Observable<User>}
+   */
+  public updatePassword(userId: string, password: string) {
+    const url = `${this.url}/users/${userId}/password`;
+    return this.http.put(url, {password: password});
+  }
+
+  /**
    * Join a team
    * @param {number} userId
    * @param {Team} team
