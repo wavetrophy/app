@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ViewQuestionPage } from './view-question.page';
 import { PipeModule } from '../../services/pipes/pipe.module';
+import { DirectivesModule } from '../../directives/directives.module';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     PipeModule,
+    DirectivesModule,
   ],
   declarations: [ViewQuestionPage]
 })

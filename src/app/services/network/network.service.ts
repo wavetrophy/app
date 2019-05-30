@@ -3,13 +3,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Network } from '@ionic-native/network/ngx';
 import { Platform } from '@ionic/angular';
 import { ConsoleColor, ConsoleLogger } from '../logger/logger';
+import { NetworkStatus } from './network-status';
 
 const logger = new ConsoleLogger('NETWORK', ConsoleColor.GRAY);
-
-export enum NetworkStatus {
-  OFFLINE = 'offline',
-  ONLINE = 'online',
-}
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +18,7 @@ export class NetworkService {
    * @param {Network} network
    * @param {Platform} platform
    */
-  constructor(
+  public constructor(
     private network: Network,
     private platform: Platform,
   ) {
@@ -40,15 +36,19 @@ export class NetworkService {
       if (this.network.Connection.NONE) {
         this.updateNetworkStatus(NetworkStatus.OFFLINE);
       }
-    }
+    } else {
+      if (navigator && 'onLine' in navigator) {
+        if (!navigator.onLine) {
+          this.updateNetworkStatus(NetworkStatus.OFFLINE);
+        }
 
-    if (this.platform.is('desktop')) {
-      if (!navigator.onLine) {
-        this.updateNetworkStatus(NetworkStatus.OFFLINE);
+        window.addEventListener('online', () => {
+          this.updateNetworkStatus(NetworkStatus.ONLINE);
+        });
+        window.addEventListener('offline', () => {
+          this.updateNetworkStatus(NetworkStatus.OFFLINE);
+        });
       }
-
-      window.addEventListener('online', () => this.updateNetworkStatus(NetworkStatus.ONLINE));
-      window.addEventListener('offline', () => this.updateNetworkStatus(NetworkStatus.OFFLINE));
     }
   }
 

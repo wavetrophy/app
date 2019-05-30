@@ -11,7 +11,7 @@
   <ion-row justify-content-end>
     <div>
       <ion-button fill="clear" (click)="close()">Cancel</ion-button>
-      <ion-button fill="clear" (click)="save()" [disabled]="isSaving">Save</ion-button>
+      <ion-button fill="clear" (click)="save()" [disabled]="isSaving" requires-connection>Save</ion-button>
     </div>
   </ion-row>
 </div>

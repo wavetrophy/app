@@ -5,7 +5,7 @@
         </ion-buttons>
         <ion-title>Question</ion-title>
         <ion-buttons slot="end" *ngIf="question && question.user.id === userId">
-            <ion-button fill="clear" (click)="edit()" [disabled]="isLoading">Edit</ion-button>
+            <ion-button fill="clear" (click)="edit()" [disabled]="isLoading" requires-connection>Edit</ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -40,7 +40,7 @@
         </ion-item>
 
         <ion-row class="ion-justify-content-end">
-            <ion-button fill="clear" (click)="saveAnswer()" [disabled]="isSaving">Post</ion-button>
+            <ion-button fill="clear" (click)="saveAnswer()" [disabled]="isSaving" requires-connection>Post</ion-button>
         </ion-row>
     </div>
 
@@ -70,7 +70,8 @@
                                             translucent="true"
                                             size="small"
                                             (click)="openOptions($event, answer)"
-                                            *ngIf="(question.user.id === userId || answer.user_id === userId) && answer.approved !== true">
+                                            *ngIf="(question.user.id === userId || answer.user_id === userId) && answer.approved !== true"
+                                            requires-connection>
                                 <ion-icon name="more" color="primary"></ion-icon>
                             </ion-fab-button>
                         </ion-col>

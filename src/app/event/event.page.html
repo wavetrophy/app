@@ -18,11 +18,11 @@
     </ion-refresher>
 
     <img src="{{server}}/media/thumbnails/events/{{event.thumbnail}}"
-         alt="{{'Thumbnail loading failed'}}"
+         alt="{{'Thumbnail'}}"
          *ngIf="event && event.thumbnail"/>
 
     <img src="{{server}}/default/logo.jpg"
-         alt="{{'Thumbnail loading failed'}}"
+         alt="{{'Thumbnail'}}"
          margin-top="1rem"
          *ngIf="event && empty(event.thumbnail)"/>
 

@@ -11,6 +11,7 @@ import { Phonenumber } from '../services/user/types/phonenumber';
 import { CreatePhonenumberPage } from '../modal/phonenumber/create/create-phonenumber.page';
 import { EditPhonenumberPage } from '../modal/phonenumber/edit/edit-phonenumber.page';
 import { environment } from '../../environments/environment';
+import { NetworkService } from '../services/network/network.service';
 
 @Component({
   selector: 'profile',
@@ -27,6 +28,12 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   /**
    * Constructor
+   * @param {UserService} userService
+   * @param {AuthService} auth
+   * @param {ModalController} modal
+   * @param {AlertController} alert
+   * @param {LoadingController} loading
+   * @param {NetworkService} network
    */
   public constructor(
     private userService: UserService,
@@ -34,6 +41,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     private modal: ModalController,
     private alert: AlertController,
     private loading: LoadingController,
+    private network: NetworkService,
   ) {
     this.server = environment.api.url;
   }
@@ -56,6 +64,14 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.subs.forEach((sub) => {
       sub.unsubscribe();
     });
+  }
+
+  /**
+   * Change the profile image.
+   * @return {Promise<void>}
+   */
+  public async changeProfileImage() {
+
   }
 
   /**

@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationService } from './services/firebase/cloud-messaging/notification.service';
 import * as moment from 'moment';
-import { NetworkService, NetworkStatus } from './services/network/network.service';
+import { NetworkService } from './services/network/network.service';
+import { NetworkStatus } from './services/network/network-status';
 
 @Component({
   selector: 'app-root',

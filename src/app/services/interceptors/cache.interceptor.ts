@@ -1,12 +1,13 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { NetworkService, NetworkStatus } from '../network/network.service';
+import { NetworkService } from '../network/network.service';
 import { CacheService } from '../network/cache.service';
 import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ConsoleColor, ConsoleLogger } from '../logger/logger';
 import { environment } from '../../../environments/environment';
 import * as color from 'ansicolor';
+import { NetworkStatus } from '../network/network-status';
 
 const logger = new ConsoleLogger('CACHE', ConsoleColor.CYAN);
 
