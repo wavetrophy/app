@@ -5,7 +5,6 @@ import { Storage } from '@ionic/storage';
 import { empty } from '../functions';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ConsoleColor, ConsoleLogger } from '../logger/logger';
 
 @Injectable({
   providedIn: 'root',
