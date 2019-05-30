@@ -8,7 +8,7 @@
         <p>{{error}}</p>
     </ion-row>
 
-    <ion-select *ngIf="groups.length > 0"
+    <ion-select *ngIf="groups.length > 0 && !isLoading"
                 placeholder="{{'Select a Group'}}"
                 interface="action-sheet"
                 [compareWith]="compareWith"
@@ -20,12 +20,11 @@
         <ion-select-option *ngFor="let group of groups" [value]="group">{{group.name}}</ion-select-option>
     </ion-select>
 
-
     <ion-row class="ion-justify-content-center" *ngIf="isLoadingTeams">
         <ion-spinner name="crescent"></ion-spinner>
     </ion-row>
 
-    <ion-select *ngIf="teams.length > 0"
+    <ion-select *ngIf="teams.length > 0 && !isLoadingTeams"
                 class="with"
                 placeholder="{{'Select a Team'}}"
                 interface="action-sheet"
@@ -44,7 +43,8 @@
     <ion-row class="ion-justify-content-end" margin-top="1vh">
         <div>
             <ion-button fill="clear" (click)="close()">{{'Cancel'}}</ion-button>
-            <ion-button fill="clear" (click)="save()" [disabled]="isSaving || !isSaveable" requires-connection>{{'Save'}}</ion-button>
+            <ion-button fill="clear" (click)="save()" [disabled]="isSaving || !isSaveable"
+                        requires-connection>{{'Save'}}</ion-button>
         </div>
     </ion-row>
 </div>

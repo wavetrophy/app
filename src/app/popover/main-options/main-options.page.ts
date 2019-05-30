@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
 import { AuthService } from '../../services/auth/auth.service';
 import { ChooseTeamPage } from '../../modal/team/choose/choose-team.page';
@@ -12,7 +12,9 @@ import { GroupService } from '../../services/group/group.service';
   templateUrl: './main-options.page.html',
   styleUrls: ['./main-options.page.scss'],
 })
-export class MainOptionsPage {
+export class MainOptionsPage implements OnInit {
+  public showTeamChooser = false;
+
   /**
    * MainOptionsPage constructor.
    * @param {PopoverController} popoverCtrl
@@ -33,6 +35,13 @@ export class MainOptionsPage {
   }
 
   /**
+   * On init hook.
+   */
+  public ngOnInit(): void {
+    this.showTeamChooser = !!this.auth.data.team_id;
+  }
+
+  /**
    * Dismiss popover.
    * @returns {Promise<void>}
    */
@@ -48,20 +57,15 @@ export class MainOptionsPage {
    * Open the team chooser.
    */
   public async openTeamChooser() {
-    let team = null;
-    if (this.auth.data.team_id) {
-      team = await this.teamService.getTeam(this.auth.data.team_id).toPromise();
-    }
-
-    let group = null;
-    if (this.auth.data.group_id) {
-      group = await this.groupService.getGroup(this.auth.data.group_id).toPromise();
-    }
-
     this.dismiss();
 
-    const modal = await ChooseTeamPage.asModal(this.modal, this.auth.data.current_wave, group, team);
+    if (!this.auth.data.team_id) {
+      return;
+    }
+
+    const modal = await ChooseTeamPage.asModal(this.modal, this.auth.data.current_wave);
     const dismiss = await modal.onDidDismiss();
+
     if (dismiss.data && dismiss.data.type === 'success') {
       const refreshToken = await this.storage.get(environment.storage.TOKEN_REFRESH_KEY);
       await this.auth.refresh(refreshToken).toPromise();

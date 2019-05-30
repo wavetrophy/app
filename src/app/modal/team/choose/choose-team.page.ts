@@ -18,8 +18,8 @@ import { NotificationService } from '../../../services/firebase/cloud-messaging/
 })
 export class ChooseTeamPage extends Modal implements OnInit {
   @Input() public wave: Wave;
-  @Input() public team: Team = null;
-  @Input() public group: Group = null;
+  public team: Team = null;
+  public group: Group = null;
   public isLoading = false;
   public isLoadingTeams = false;
   public isSaveable = false;
@@ -47,8 +47,6 @@ export class ChooseTeamPage extends Modal implements OnInit {
       componentProps: {
         wave: wave,
         title: 'Edit team',
-        team: team,
-        group: group,
       },
       showBackdrop: true,
       backdropDismiss: true,
@@ -131,13 +129,19 @@ export class ChooseTeamPage extends Modal implements OnInit {
    */
   private getGroups() {
     this.isLoading = true;
-    this.groupService.getGroups(this.wave).subscribe((response: any) => {
-      this.isLoading = false;
+    this.groupService.getGroups(this.wave).subscribe(async (response: any) => {
       if (!response) {
         this.error = response['message'] || 'Keine Gruppen verfügbar';
         return;
       }
       this.groups = response;
+      const res: any = await this.groupService.getGroup(this.auth.data.group_id).toPromise();
+      if (res) {
+        this.group = res;
+      } else {
+        this.group = this.groups[0];
+      }
+      this.isLoading = false;
       this.onGroupChange();
     });
   }
@@ -148,12 +152,18 @@ export class ChooseTeamPage extends Modal implements OnInit {
    */
   private getTeams(group: Group) {
     this.isLoadingTeams = true;
-    this.teamService.getTeams(this.wave, group).subscribe((response: any) => {
-      this.isLoadingTeams = false;
+    this.teamService.getTeams(this.wave, group).subscribe(async (response: any) => {
       if (!response) {
         this.error = response['message'] || 'Keine Teams verfügbar';
         return;
       }
+      const res: any = await this.teamService.getTeam(this.auth.data.team_id).toPromise();
+      if (res) {
+        this.team = res;
+      } else {
+        this.team = this.teams[0];
+      }
+      this.isLoadingTeams = false;
       this.teams = response;
     });
   }

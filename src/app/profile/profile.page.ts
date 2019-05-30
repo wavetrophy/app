@@ -12,6 +12,7 @@ import { CreatePhonenumberPage } from '../modal/phonenumber/create/create-phonen
 import { EditPhonenumberPage } from '../modal/phonenumber/edit/edit-phonenumber.page';
 import { environment } from '../../environments/environment';
 import { NetworkService } from '../services/network/network.service';
+import { PasswordChangePage } from '../modal/user/password-change/password-change.page';
 
 @Component({
   selector: 'profile',
@@ -253,7 +254,22 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.subs.push(sub);
   }
 
-  public changePassword() {
-
+  /**
+   * Change password
+   */
+  public async changePassword() {
+    const pwModal = await PasswordChangePage.asModal(this.modal, this.auth.data.user_id.toString());
+    const result = await pwModal.onDidDismiss();
+    if (result.data.type === 'success') {
+      const alert = await this.alert.create({
+        header: 'Password',
+        message: 'Password changed successfully',
+        buttons: [{
+          text: 'OK',
+          role: 'dismiss',
+        }],
+      });
+      alert.present();
+    }
   }
 }
