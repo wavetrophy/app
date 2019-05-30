@@ -28,6 +28,7 @@ import { LoggerInterceptor } from './services/interceptors/logger.interceptor';
 import { SentryErrorHandler } from './services/error-handlers/sentry.error-handler';
 import * as Sentry from 'sentry-cordova';
 import { DirectivesModule } from './directives/directives.module';
+import { ImageCacheModule } from './services/image-cache/image-cache.module';
 
 Sentry.init({dsn: 'https://61838ef844d54ef6b50e7a65618473f5@sentry.io/1470302'});
 
@@ -58,6 +59,7 @@ export function jwtOptionsFactory(storage) {
     AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     PipeModule.forRoot(),
+    ImageCacheModule.forRoot(),
     IonicStorageModule.forRoot(),
     SuperTabsModule.forRoot(),
     JwtModule.forRoot({

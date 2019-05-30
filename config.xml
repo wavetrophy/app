@@ -92,4 +92,5 @@
     <plugin name="cordova-plugin-firebase" spec="git+https://github.com/rhanesoghlyan/cordova-plugin-firebase.git#master" />
     <engine name="ios" spec="4.5.5" />
     <engine name="android" spec="7.1.4" />
+    <plugin name="cordova-plugin-file" spec="^6.0.1" />
 </widget>

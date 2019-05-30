@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { LoginPage } from './login.page';
+import { ImageCacheModule } from '../../services/image-cache';
 
 const routes: Routes = [
   {path: '', component: LoginPage},
@@ -16,6 +17,7 @@ const routes: Routes = [
     IonicModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
+    ImageCacheModule,
   ],
   declarations: [LoginPage],
 })

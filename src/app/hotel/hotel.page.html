@@ -17,14 +17,12 @@
         <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
     </ion-refresher>
 
-    <img src="{{server}}/media/thumbnails/hotels/{{hotel.thumbnail}}"
-         alt="{{'Thumbnail loading failed'}}"
-         *ngIf="hotel && hotel.thumbnail"/>
+    <offline-img src="{{server}}/media/thumbnails/hotels/{{hotel.thumbnail}}"
+                 *ngIf="hotel && hotel.thumbnail"></offline-img>
 
-    <img src="{{server}}/default/logo.jpg"
-         alt="{{'Thumbnail loading failed'}}"
-         margin-top="1rem"
-         *ngIf="hotel && empty(hotel.thumbnail)"/>
+    <offline-img src="{{server}}/default/logo.jpg"
+                 margin-top="1rem"
+                 *ngIf="hotel && empty(hotel.thumbnail)"></offline-img>
 
     <ion-row class="ion-justify-content-center" *ngIf="isLoading" padding>
         <ion-spinner name="crescent"></ion-spinner>

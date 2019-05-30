@@ -10,6 +10,7 @@ import { NotificationService } from './services/firebase/cloud-messaging/notific
 import * as moment from 'moment';
 import { NetworkService } from './services/network/network.service';
 import { NetworkStatus } from './services/network/network-status';
+import { ImageCacheConfig } from './services/image-cache';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {NotificationService} notifications
    * @param {NetworkService} network
    * @param {ToastController} toast
+   * @param {ImageCacheConfig} imageCacheConfig
    */
   public constructor(
     private platform: Platform,
@@ -45,6 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private notifications: NotificationService,
     private network: NetworkService,
     private toast: ToastController,
+    private imageCacheConfig: ImageCacheConfig,
   ) {
     this.initializeApp();
   }
@@ -54,6 +57,8 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public initializeApp() {
     moment.locale('de');
+    this.imageCacheConfig.setFallbackUrl('assets/logo.png');
+    this.imageCacheConfig.useImg = true;
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();

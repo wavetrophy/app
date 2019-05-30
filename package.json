@@ -13,7 +13,7 @@
     "purge": "npm run clear && npm run android:add && npm run ios:add",
     "clear": "rm -rf node_modules www platforms plugins && npm install",
     "android": "cp ./resources/android/project.properties platforms/android && ionic cordova run android -l --debug --device",
-    "android:emulate": "cp ./resources/android/project.properties platforms/androidionic cordova emulate android -l --debug",
+    "android:emulate": "ionic cordova emulate android -l --debug",
     "android:add": "ionic cordova platform add android && npm run android:build",
     "android:resources": "ionic cordova resources android -sif",
     "android:build": "cp ./resources/android/project.properties platforms/android && ionic cordova build android --prod",
@@ -39,6 +39,7 @@
     "@angular/router": "^7.2.15",
     "@auth0/angular-jwt": "^2.1.0",
     "@ionic-native/core": "^5.6.0",
+    "@ionic-native/file": "^5.6.1",
     "@ionic-native/firebase": "^5.6.0",
     "@ionic-native/local-notifications": "^5.6.0",
     "@ionic-native/network": "^5.6.0",
@@ -133,7 +134,8 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-firebase": {},
       "cordova-plugin-local-notification": {},
-      "cordova-plugin-network-information": {}
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-file": {}
     },
     "platforms": [
       "ios",

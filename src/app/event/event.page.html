@@ -17,14 +17,12 @@
         <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
     </ion-refresher>
 
-    <img src="{{server}}/media/thumbnails/events/{{event.thumbnail}}"
-         alt="{{'Thumbnail'}}"
-         *ngIf="event && event.thumbnail"/>
+    <offline-img src="{{server}}/media/thumbnails/events/{{event.thumbnail}}"
+                 *ngIf="event && event.thumbnail"></offline-img>
 
-    <img src="{{server}}/default/logo.jpg"
-         alt="{{'Thumbnail'}}"
-         margin-top="1rem"
-         *ngIf="event && empty(event.thumbnail)"/>
+    <offline-img src="{{server}}/default/logo.jpg"
+                 margin-top="1rem"
+                 *ngIf="event && empty(event.thumbnail)"></offline-img>
 
     <ion-row class="ion-justify-content-center" *ngIf="isLoading" padding>
         <ion-spinner name="crescent"></ion-spinner>

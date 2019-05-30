@@ -22,9 +22,19 @@ export class NetworkService {
     private network: Network,
     private platform: Platform,
   ) {
+    const onlineStatus = [
+      this.network.Connection.CELL,
+      this.network.Connection.CELL_2G,
+      this.network.Connection.CELL_3G,
+      this.network.Connection.CELL_4G,
+      this.network.Connection.ETHERNET,
+      this.network.Connection.WIFI,
+    ];
     if (this.platform.is('cordova')) {
-      this.network.onConnect().subscribe(() => {
-        if (this.status.getValue() === NetworkStatus.ONLINE) {
+      this.network.onConnect().subscribe((connection) => {
+        if (connection.type === NetworkStatus.ONLINE) {
+          this.updateNetworkStatus(NetworkStatus.ONLINE);
+        } else {
           this.updateNetworkStatus(NetworkStatus.OFFLINE);
         }
       });
@@ -33,7 +43,9 @@ export class NetworkService {
           this.updateNetworkStatus(NetworkStatus.ONLINE);
         }
       });
-      if (this.network.Connection.NONE) {
+      if (onlineStatus.includes(this.network.type)) {
+        this.updateNetworkStatus(NetworkStatus.ONLINE);
+      } else {
         this.updateNetworkStatus(NetworkStatus.OFFLINE);
       }
     } else {
