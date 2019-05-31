@@ -1,0 +1,5 @@
+Wieder viele neue Änderungen
+- Benutzeroberfläche wurde überarbeitet
+- Das Login wurde Passwortgeschützt
+- Die Authentifizierung erfolgt nun bei einem erneuten öffnen der App automatisch
+- und vieles mehr....

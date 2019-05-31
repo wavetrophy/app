@@ -1,0 +1,5 @@
+Neue Änderungen:
+ - Gruppenwechsel ist nun möglich
+ - Daten werden besser geladen
+ - Bilder werden dynamisch gespeichert
+ - Fragen und Antworten Seite wurde erweitert

@@ -1,0 +1,1 @@
+Der Stream und die Kontakte werde nun dynamisch über einen Server geladen und synchronisiert.

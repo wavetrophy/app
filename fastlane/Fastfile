@@ -23,7 +23,7 @@ platform :ios do
     # Build the app
     # This shouldnt be run directly
     lane :build do |options|
-        type = 'development'
+        type = 'appstore'
         if options[:buildnumber]
             type = options[:type]
         end
@@ -33,13 +33,13 @@ platform :ios do
             buildnumber = options[:buildnumber]
         end
 
-        if !File.exists?(CredentialsManager::AppfileConfig.try_fetch_value(:json_key_file))
-            abort("The json_key_file must exist (google service account)")
-        end
+        #if !File.exists?(CredentialsManager::AppfileConfig.try_fetch_value(:json_key_file))
+        #    abort("The json_key_file must exist (google service account)")
+        #end
 
         cordova(
             platform: 'ios',
-            release: false,
+            release: true,
             type: type,
             build_number: buildnumber,
             cordova_build_config_file: 'build.json',
@@ -76,15 +76,16 @@ platform :android do
 
     # Build an app
     lane :build do
-        if !ENV['KEYSTORE_PASSWORD']
-            abort("KEYSTORE PASSWORD MUST BE PROVIDED in env KEYSTORE_PASSWORD")
-        end
-        cordova(
-            platform: 'android',
-            keystore_path: 'dist/prod.keystore',
-            keystore_alias: 'WAVETROPHY',
-            keystore_password: ENV['KEYSTORE_PASSWORD']
-        )
+        #if !ENV['KEYSTORE_PASSWORD']
+        #    abort("KEYSTORE PASSWORD MUST BE PROVIDED in env KEYSTORE_PASSWORD")
+        #end
+        #cordova(
+        #    platform: 'android',
+        #    keystore_path: 'dist/prod.keystore',
+        #    keystore_alias: 'WAVETROPHY',
+        #    keystore_password: ENV['KEYSTORE_PASSWORD']
+        #)
+        sh "sh ../bin/build-android.sh"
     end
 
     # Deploy to Play Store

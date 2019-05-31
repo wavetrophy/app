@@ -167,15 +167,10 @@ export class AuthService {
    * @param {string} msg The message to display
    */
   public showAlert(msg: string): void {
-    this.alertController.getTop()
-      .then((alert) => {
-        alert.dismiss();
-
-        return this.alertController.create({
-          message: msg,
-          header: 'Fehler',
-          buttons: ['OK'],
-        });
+    this.alertController.create({
+        message: msg,
+        header: 'Fehler',
+        buttons: ['OK'],
       })
       .then((alert) => {
         alert.present();
