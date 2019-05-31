@@ -1,0 +1,22 @@
+<div class="modal-content" padding>
+    <h3>{{title}}</h3>
+    <ion-row>
+        <ion-item class="country-code">
+            <ion-input type="text" [(ngModel)]="phonenumber.country_code" placeholder="+41" #focus></ion-input>
+        </ion-item>
+        <ion-item class="phonenumber" >
+            <ion-input type="tel" [(ngModel)]="phonenumber.phonenumber"></ion-input>
+        </ion-item>
+    </ion-row>
+    <ion-label color="danger" *ngIf="error">{{error}}</ion-label>
+    <ion-row justify-content-end margin-top="1vh">
+        <p style="margin-top:.6rem">Public</p>
+        <ion-toggle [(ngModel)]="phonenumber.is_public"></ion-toggle>
+    </ion-row>
+    <ion-row justify-content-end>
+        <div>
+            <ion-button fill="clear" (click)="close()">Cancel</ion-button>
+            <ion-button fill="clear" (click)="save()" [disabled]="isSaving" requires-connection>Save</ion-button>
+        </div>
+    </ion-row>
+</div>

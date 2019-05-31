@@ -1,0 +1,62 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+
+        <ion-title>{{'Hotel'}}</ion-title>
+
+        <ion-buttons slot="end" *ngIf="hotel">
+            <ion-button fill="clear" href="geo:{{hotel.lat}},{{hotel.lon}}">{{'Navigate'}}</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+        <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
+    </ion-refresher>
+
+    <offline-img src="{{server}}/media/thumbnails/hotels/{{hotel.thumbnail}}"
+                 *ngIf="hotel && hotel.thumbnail"></offline-img>
+
+    <offline-img src="{{server}}/default/logo.jpg"
+                 margin-top="1rem"
+                 *ngIf="hotel && empty(hotel.thumbnail)"></offline-img>
+
+    <ion-row class="ion-justify-content-center" *ngIf="isLoading" padding>
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center" *ngIf="errormessage" padding>
+        <p>{{errormessage}}</p>
+    </ion-row>
+
+    <div *ngIf="hotel" padding-horizontal>
+        <ion-row class="ion-justify-content-center">
+            <h1>{{hotel.name}}</h1>
+        </ion-row>
+
+        <ion-row padding-start>
+            <p>
+                <ion-icon name="time"></ion-icon>&nbsp;{{moment(hotel.check_in).format('hh:mm')}}
+                - {{moment(hotel.check_out).format('hh:mm')}}
+            </p>
+        </ion-row>
+
+        <div *ngIf="!empty(hotel.personal_lodging)">
+            <ion-row class="ion-justify-content-center" padding>
+                <p *ngIf="!empty(hotel.personal_lodging.comment)">{{hotel.personal_lodging.comment}}</p>
+            </ion-row>
+
+            <div *ngIf="!empty(hotel.personal_lodging.users)">
+                <ion-row class="ion-justify-content-center" *ngIf="!empty(hotel.personal_lodging)" padding>
+                    <h4>{{'Also with you in the hotel'}}</h4>
+                </ion-row>
+                <ion-row *ngFor="let user of hotel.personal_lodging.users">
+                    <p>{{user.username}}</p>
+                </ion-row>
+            </div>
+        </div>
+    </div>
+</ion-content>

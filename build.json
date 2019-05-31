@@ -1,0 +1,16 @@
+{
+  "ios": {
+    "debug": {
+      "iCloudContainerEnvironment": "Development",
+      "buildFlag": [
+        "-UseModernBuildSystem=0"
+      ]
+    },
+    "release": {
+      "iCloudContainerEnvironment": "Production",
+      "buildFlag": [
+        "-UseModernBuildSystem=0"
+      ]
+    }
+  }
+}

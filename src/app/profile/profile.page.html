@@ -1,0 +1,128 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{'Profile'}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-row class="ion-justify-content-center avatar-row" text-center>
+        <ion-avatar>
+            <ion-img src="{{server}}/{{profilePicture.url}}" class="profile-picture">
+            </ion-img>
+        </ion-avatar>
+        <ion-fab-button color="primary" requires-connection>
+            <ion-icon name="camera"></ion-icon>
+        </ion-fab-button>
+    </ion-row>
+
+    <div>
+        <ion-row class="heading-row ion-justify-content-between">
+            <ion-text color="primary">
+                <p>{{'Username'}}</p>
+            </ion-text>
+        </ion-row>
+        <ion-row class="ion-justify-content-between info-row">
+            <p>{{username}}</p>
+            <ion-fab-button translucent="true" size="small" (click)="editUsername()" requires-connection>
+                <ion-icon name="create"></ion-icon>
+            </ion-fab-button>
+        </ion-row>
+    </div>
+    <ion-text color="dark">
+        <p class="info-text">{{'This is the username that is displayed for all other users'}}</p>
+    </ion-text>
+    <ion-row class="heading-row ion-justify-content-between">
+        <ion-text color="primary">
+            <p>{{'Password'}}</p>
+        </ion-text>
+        <ion-fab-button translucent="true" size="small" (click)="changePassword()" requires-connection>
+            <ion-icon name="create"></ion-icon>
+        </ion-fab-button>
+    </ion-row>
+    <ion-text color="dark">
+        <p class="info-text">{{'You can change your password here'}}</p>
+    </ion-text>
+    <ion-row class="heading-row ion-justify-content-between">
+        <ion-text color="primary">
+            <p>{{'Emails'}}</p>
+        </ion-text>
+        <ion-fab-button translucent="true" size="small" (click)="addEmail()" requires-connection>
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+
+    </ion-row>
+    <div *ngIf="emails">
+        <ion-row class="info-row" no-padding *ngFor="let email of emails">
+            <ion-item-sliding>
+                <ion-item>
+                    <ion-row class="ion-justify-content-between">
+                        <p>{{email.email}}</p>
+                        <ion-fab-button translucent="true" size="small" (click)="editEmail(email)" requires-connection>
+                            <ion-icon name="create"></ion-icon>
+                        </ion-fab-button>
+                    </ion-row>
+                </ion-item>
+
+                <ion-item-options side="end">
+                    <ion-item-option color="danger" [disabled]="email.is_primary === true" (click)="removeEmail(email)"
+                                     requires-connection>
+                        {{'Remove'}}
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-row>
+    </div>
+    <ion-row class="info-row padding-bottom ion-justify-content-center" *ngIf="!emails">
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
+    <ion-text color="dark">
+        <p class="info-text">
+            {{'This are your available emails. Those emails will be displayed publicly if you allowed it by enabling the "Public" switch'}}
+        </p>
+    </ion-text>
+    <br>
+    <ion-row class="heading-row ion-justify-content-between">
+        <ion-text color="primary">
+            <p>{{'Phonenumbers'}}</p>
+        </ion-text>
+        <ion-fab-button translucent="true" size="small" (click)="addPhonenumber()" requires-connection>
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-row>
+    <div *ngIf="phonenumbers">
+        <ion-row class="info-row" no-padding *ngFor="let phonenumber of phonenumbers">
+            <ion-item-sliding>
+                <ion-item>
+                    <ion-row class="ion-justify-content-between">
+                        <p>{{phonenumber.country_code}} {{phonenumber.phonenumber}}</p>
+                        <ion-fab-button translucent="true"
+                                        size="small"
+                                        (click)="editPhonenumber(phonenumber)"
+                                        requires-connection>
+                            <ion-icon name="create"></ion-icon>
+                        </ion-fab-button>
+                    </ion-row>
+                </ion-item>
+
+                <ion-item-options side="end">
+                    <ion-item-option color="danger" (click)="removePhonenumber(phonenumber)" requires-connection>
+                        {{'Remove'}}
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-row>
+    </div>
+    <ion-row class="info-row padding-bottom ion-justify-content-center" *ngIf="!phonenumbers">
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
+    <ion-text>
+        <p class="info-text">
+            {{'This are your available phonenumbers. Those phonenumbers will be displayed publicly if you allowed it by enabling the "Public" switch'}}
+        </p>
+    </ion-text>
+
+
+</ion-content>

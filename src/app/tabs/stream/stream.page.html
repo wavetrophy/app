@@ -1,0 +1,46 @@
+<ion-content padding>
+
+    <ion-row margin-bottom="1rem">
+        <ion-segment (ionChange)="loadStream($event.detail.value)" [(ngModel)]="streamType">
+            <ion-segment-button value="personal" checked>
+                <ion-label>{{ 'Personal' }}</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="all">
+                <ion-label>{{ 'All' }}</ion-label>
+            </ion-segment-button>
+        </ion-segment>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center" *ngIf="isLoading === true">
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center" *ngIf="errormessage">
+        <p>{{errormessage}}</p>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center" *ngIf="errormessage">
+        <ion-button color="primary" *ngIf="!auth.data.team_id" (click)="openTeamChooser()">
+            {{ this.joinTeamMessage }}
+        </ion-button>
+    </ion-row>
+
+    <ion-list *ngIf="events !== null">
+        <ion-item-sliding *ngFor="let key of objectKeys(events)">
+            <ion-item [routerLink]="['/', 'event', events[key].id]" routerDirection="forward">
+                <ion-label>
+                    <h2>{{events[key].name}}</h2>
+                    <p>
+                        <ion-icon name="time"></ion-icon>&nbsp;{{moment(getStart(events[key])).format('hh:mm')}}
+                        - {{moment(getEnd(events[key])).format('hh:mm')}}
+                    </p>
+                </ion-label>
+            </ion-item>
+
+            <ion-item-options side="start">
+                <ion-item-option href="geo:{{events[key].lat}},{{events[key].lon}}">{{'Navigate'}}</ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+
+</ion-content>

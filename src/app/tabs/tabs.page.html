@@ -1,0 +1,47 @@
+<ion-header no-border>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="primary">
+            <ion-button (click)="openOptions($event)">
+                <ion-icon slot="icon-only" name="more"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>
+            WAVETROPHY
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <super-tabs>
+        <super-tabs-toolbar showIndicator>
+            <super-tab-button>
+                <ion-label>{{ 'Events' }}</ion-label>
+            </super-tab-button>
+            <super-tab-button>
+                <ion-label>{{ 'Hotels' }}</ion-label>
+            </super-tab-button>
+            <super-tab-button>
+                <ion-label>{{ 'Contacts' }}</ion-label>
+            </super-tab-button>
+            <super-tab-button>
+                <ion-label>{{ 'FAQ' }}</ion-label>
+            </super-tab-button>
+        </super-tabs-toolbar>
+        <super-tabs-container>
+            <super-tab>
+                <ion-nav [root]="streamPage"></ion-nav>
+            </super-tab>
+            <super-tab>
+                <ion-nav [root]="hotelsPage"></ion-nav>
+            </super-tab>
+            <super-tab>
+                <ion-nav [root]="contactsPage"></ion-nav>
+            </super-tab>
+            <super-tab>
+                <ion-nav [root]="faqPage"></ion-nav>
+            </super-tab>
+        </super-tabs-container>
+    </super-tabs>
+
+</ion-content>

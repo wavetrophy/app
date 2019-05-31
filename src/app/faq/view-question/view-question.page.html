@@ -1,0 +1,89 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Question</ion-title>
+        <ion-buttons slot="end" *ngIf="question && question.user.id === userId">
+            <ion-button fill="clear" (click)="edit()" [disabled]="isLoading" requires-connection>Edit</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div *ngIf="question">
+        <ion-row class="ion-justify-content-center">
+            <h2 class="title">
+                {{question.title}}
+                <ion-icon name="checkmark-circle"
+                          class="inline verified icon"
+                          color="success"
+                          *ngIf="question.resolved">
+                </ion-icon>
+            </h2>
+        </ion-row>
+
+        <ion-row>
+            <ion-text>
+                <p [innerHTML]="question.question | nl2br" text-wrap></p>
+            </ion-text>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-start">
+            <ion-text class="small">
+                <p>Submitted by {{question.user.username}}</p>
+            </ion-text>
+        </ion-row>
+
+        <ion-item margin-top="2rem">
+            <ion-textarea [(ngModel)]="answer" rows="4" placeholder="Write a response..."></ion-textarea>
+        </ion-item>
+
+        <ion-row class="ion-justify-content-end">
+            <ion-button fill="clear" (click)="saveAnswer()" [disabled]="isSaving" requires-connection>Post</ion-button>
+        </ion-row>
+    </div>
+
+    <ion-row class="ion-justify-content-center" *ngIf="isLoading">
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center" *ngIf="errormessage">
+        <p>{{errormessage}}</p>
+    </ion-row>
+
+    <div *ngIf="question && question.answers.length > 0">
+        <ion-list *ngFor="let answer of question.answers">
+            <ion-item class="ion-activatable">
+                <ion-label>
+                    <ion-row>
+                        <ion-col size="1" *ngIf="answer.approved" padding-top="1rem">
+                            <ion-icon name="checkmark-circle" color="success" *ngIf="answer.approved"></ion-icon>
+                        </ion-col>
+
+                        <ion-col [size]="answer.approved ? 10 : 11" padding-top="1rem">
+                            <h3>{{answer.username}}</h3>
+                        </ion-col>
+
+                        <ion-col size="1">
+                            <ion-fab-button class="inline actions"
+                                            translucent="true"
+                                            size="small"
+                                            (click)="openOptions($event, answer)"
+                                            *ngIf="(question.user.id === userId || answer.user_id === userId) && answer.approved !== true"
+                                            requires-connection>
+                                <ion-icon name="more" color="primary"></ion-icon>
+                            </ion-fab-button>
+                        </ion-col>
+                    </ion-row>
+
+                    <p [innerHTML]="answer.answer | nl2br" text-wrap></p>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <ion-row class="ion-justify-content-center" *ngIf="question && question.answers.length <= 0 && !isLoading">
+        <p>There are no answers</p>
+    </ion-row>
+</ion-content>

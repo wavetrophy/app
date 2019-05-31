@@ -1,0 +1,5 @@
+<ion-list no-margin lines="none">
+    <ion-item *ngIf="showResolve" (click)="resolve()" requires-connection>Approve</ion-item>
+    <ion-item *ngIf="showEdit" (click)="edit()" requires-connection>Edit</ion-item>
+    <ion-item *ngIf="showDelete" (click)="delete()" requires-connection>Delete</ion-item>
+</ion-list>

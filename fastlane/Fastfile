@@ -1,0 +1,95 @@
+# Based on http://phsiqueira.com/fastlane-with-ionic-part-ii/
+# Required files:
+# dist/fastlane-supply.json (google service account key)
+# dist/prod.keystore (google keystore file)
+# iOS
+platform :ios do
+    desc "Handle iOS"
+
+    lane :initialize do
+        produce(
+            app_name: "WAVE Trophy",
+            enable_services: {
+                data_protection: "complete", # Valid values: "complete", "unlessopen", "untilfirstauth",
+                game_center: "on", # Valid values: "on", "off"
+                icloud: "cloudkit", # Valid values: "legacy", "cloudkit"
+                multipath: "on", # Valid values: "on", "off"
+                push_notification: "on", # Valid values: "on", "off"
+                wireless_accessory: "on", # Valid values: "on", "off"
+            }
+        )
+    end
+
+    # Build the app
+    # This shouldnt be run directly
+    lane :build do |options|
+        type = 'development'
+        if options[:buildnumber]
+            type = options[:type]
+        end
+
+        buildnumber = '0.3.0'
+        if options[:buildnumber]
+            buildnumber = options[:buildnumber]
+        end
+
+        if !File.exists?(CredentialsManager::AppfileConfig.try_fetch_value(:json_key_file))
+            abort("The json_key_file must exist (google service account)")
+        end
+
+        cordova(
+            platform: 'ios',
+            release: false,
+            type: type,
+            build_number: buildnumber,
+            cordova_build_config_file: 'build.json',
+        )
+    end
+
+    # Debug the app
+    lane :device do
+        match(type: "development")
+        build
+        install_on_device(ipa: ENV['CORDOVA_IOS_RELEASE_BUILD_PATH'])
+    end
+
+    # Upload to testflight
+    lane :beta do
+        latestBuildNumber = latest_testflight_build_number
+        newBuildNumber = ((latestBuildNumber.is_a? String) ? latestBuildNumber.to_i : latestBuildNumber) + 1
+        match(type: 'appstore')
+        build(buildnumber: newBuildNumber, type: 'appstore')
+        upload_to_testflight(ipa: ENV['CORDOVA_IOS_RELEASE_BUILD_PATH'])
+    end
+
+    # Deploy to the AppStore
+    lane :deploy do
+        match(type: 'appstore', type: 'appstore')
+        build
+        #appstore(ipa: ENV['CORDOVA_IOS_RELEASE_BUILD_PATH'])
+    end
+end
+
+# Android
+platform :android do
+    desc "Handle Android"
+
+    # Build an app
+    lane :build do
+        if !ENV['KEYSTORE_PASSWORD']
+            abort("KEYSTORE PASSWORD MUST BE PROVIDED in env KEYSTORE_PASSWORD")
+        end
+        cordova(
+            platform: 'android',
+            keystore_path: 'dist/prod.keystore',
+            keystore_alias: 'WAVETROPHY',
+            keystore_password: ENV['KEYSTORE_PASSWORD']
+        )
+    end
+
+    # Deploy to Play Store
+    lane :deploy do
+        build
+        supply(apk: ENV['CORDOVA_ANDROID_RELEASE_BUILD_PATH'], track: 'production')
+    end
+end

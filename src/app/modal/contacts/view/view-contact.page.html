@@ -1,0 +1,48 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="end">
+            <ion-button (click)="close()">Close</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="modal-content" padding>
+    <ion-row class="ion-justify-content-center avatar-row" text-center>
+        <ion-avatar>
+            <ion-img src="{{server}}/{{contact.profile_picture.url}}" class="profile-picture">
+            </ion-img>
+        </ion-avatar>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+        <h3>{{title}}</h3>
+    </ion-row>
+    <ion-text *ngIf="contact.phonenumbers.length === 0 && contact.emails.length === 0" text-center>
+        <p>{{title}} has no public email or phone number</p>
+    </ion-text>
+    <ion-list *ngIf="contact.phonenumbers">
+        <ion-item *ngFor="let phonenumber of contact.phonenumbers" (click)="call(phonenumber)" class="ion-activatable">
+            <ion-ripple-effect></ion-ripple-effect>
+            <ion-label>
+                <ion-text>
+                    <p>{{phonenumber.country_code}} {{phonenumber.phonenumber}}</p>
+                </ion-text>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+    <ion-list *ngIf="contact.emails">
+        <ion-item *ngFor="let email of contact.emails" (click)="sendEmail(email)" class="ion-activatable">
+            <ion-ripple-effect></ion-ripple-effect>
+            <ion-label>
+                <ion-text class="inline">
+                    <p>
+                        {{email.email}}
+                    </p>
+                </ion-text>
+                <ion-icon name="checkmark-circle"
+                          class="inline verified"
+                          color="success"
+                          *ngIf="email.confirmed"></ion-icon>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>

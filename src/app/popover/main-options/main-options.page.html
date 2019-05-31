@@ -1,0 +1,5 @@
+<ion-list no-margin lines="none">
+  <ion-item (click)="openProfile()">{{'Profile'}}</ion-item>
+  <ion-item *ngIf="showTeamChooser" (click)="openTeamChooser()" requires-connection>{{'Change Team'}}</ion-item>
+  <ion-item (click)="logout()">{{'Logout'}}</ion-item>
+</ion-list>

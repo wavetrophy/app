@@ -1,0 +1,4 @@
+<div *ngIf="spinner && isLoading && !fallbackAsPlaceholder">
+    <ion-spinner [name]="spinnerName" [color]="spinnerColor"></ion-spinner>
+</div>
+<ng-content></ng-content>
