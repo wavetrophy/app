@@ -48,8 +48,6 @@ export function jwtOptionsFactory(storage) {
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    MainOptionsPageModule,
-    AnswerOptionsPageModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
@@ -62,6 +60,8 @@ export function jwtOptionsFactory(storage) {
     ImageCacheModule.forRoot(),
     IonicStorageModule.forRoot(),
     SuperTabsModule.forRoot(),
+    MainOptionsPageModule,
+    AnswerOptionsPageModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

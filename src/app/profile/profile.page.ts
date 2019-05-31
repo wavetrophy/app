@@ -72,7 +72,11 @@ export class ProfilePage implements OnInit, OnDestroy {
    * @return {Promise<void>}
    */
   public async changeProfileImage() {
-
+    const alert = await this.alert.create({
+      header: 'Not available',
+      message: 'You can change your profile picture in the upcoming version of the application',
+    });
+    alert.present();
   }
 
   /**

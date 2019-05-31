@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { ModalController, NavController, PopoverController } from '@ionic/angular';
 import { AuthService } from '../../services/auth/auth.service';
 import { ChooseTeamPage } from '../../modal/team/choose/choose-team.page';
 import { environment } from '../../../environments/environment';
@@ -23,6 +23,7 @@ export class MainOptionsPage implements OnInit {
    * @param {Storage} storage
    * @param {TeamService} teamService
    * @param {GroupService} groupService
+   * @param {NavController} nav
    */
   constructor(
     private popoverCtrl: PopoverController,
@@ -31,6 +32,7 @@ export class MainOptionsPage implements OnInit {
     private storage: Storage,
     private teamService: TeamService,
     private groupService: GroupService,
+    private nav: NavController,
   ) {
   }
 
@@ -39,6 +41,11 @@ export class MainOptionsPage implements OnInit {
    */
   public ngOnInit(): void {
     this.showTeamChooser = !!this.auth.data.team_id;
+  }
+
+  public async openProfile() {
+    this.dismiss();
+    this.nav.navigateForward(['/', 'profile']);
   }
 
   /**
