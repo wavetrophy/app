@@ -6,6 +6,8 @@ import { Hotel } from '../../services/stream/types/hotel';
 import { StreamService } from '../../services/stream/stream.service';
 import { e, empty } from '../../services/functions';
 import { AuthService } from '../../services/auth/auth.service';
+import { NetworkStatus } from '../../services/network/network-status';
+import { NetworkService } from '../../services/network/network.service';
 
 @Component({
   selector: 'app-hotels',
@@ -27,11 +29,13 @@ export class HotelsPage implements OnInit, OnDestroy {
    * @param {ChangeDetectorRef} cd
    * @param {StreamService} stream
    * @param {AuthService} auth
+   * @param {NetworkService} network
    */
   constructor(
     private cd: ChangeDetectorRef,
     private stream: StreamService,
     private auth: AuthService,
+    private network: NetworkService,
   ) {
   }
 
@@ -51,16 +55,32 @@ export class HotelsPage implements OnInit, OnDestroy {
   }
 
   /**
+   * Reload the events
+   * @param event
+   * @return {Promise<void>}
+   */
+  public async reload(event) {
+    if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
+      const userId = this.auth.data.user_id;
+      await this.getHotels(userId, true).toPromise();
+    }
+
+    event.target.complete();
+  }
+
+  /**
    * Get all hotels for user
    * @param {number} userId
+   * @param forceReload
    */
-  private getHotels(userId: number) {
+  private getHotels(userId: number, forceReload: boolean = false) {
     this.isLoading = true;
     this.errormessage = '';
     this.hotels = null;
     this.cd.detectChanges();
 
-    const sub = this.stream.getHotelsByUser(userId).subscribe((res: any) => {
+    const obs = this.stream.getHotelsByUser(userId, forceReload);
+    const sub = obs.subscribe((res: any) => {
       this.isLoading = false;
       if (!e(res, 'success')) {
         this.errormessage = e(res, 'message') || 'Keine Daten verfügbar';
@@ -77,6 +97,7 @@ export class HotelsPage implements OnInit, OnDestroy {
       this.cd.detectChanges();
     });
     this.subs.push(sub);
+    return obs;
   }
 
   /**
@@ -86,16 +107,5 @@ export class HotelsPage implements OnInit, OnDestroy {
    */
   public objectKeys(object: Object) {
     return Object.keys(object);
-  }
-
-  /**
-   * Reload the events
-   * @param event
-   * @return {Promise<void>}
-   */
-  public async reload(event) {
-    event.target.complete();
-    const userId = this.auth.data.user_id;
-    this.getHotels(userId);
   }
 }

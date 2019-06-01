@@ -23,21 +23,33 @@ export class TeamService {
   /**
    * Get a single team
    * @param teamId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @return {Observable<Object>}
    */
-  public getTeam(teamId) {
+  public getTeam(teamId, forceReload: boolean = false) {
     const url = `${this.url}/teams/${teamId}`;
-    return this.http.get(url);
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+
+    return this.http.get(url, {headers: headers});
   }
 
   /**
    * Get all teams
    * @param {Wave} wave
    * @param {Group} group
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @return {Observable<Object>}
    */
-  public getTeams(wave: Wave, group: Group) {
+  public getTeams(wave: Wave, group: Group, forceReload: boolean = false) {
     const url = `${this.url}/waves/${wave.id}/groups/${group.id}/teams`;
-    return this.http.get(url);
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+
+    return this.http.get(url, {headers: headers});
   }
 }

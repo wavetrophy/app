@@ -1,4 +1,7 @@
 <ion-content padding>
+    <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+        <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
+    </ion-refresher>
 
     <ion-row margin-bottom="1rem">
         <ion-segment (ionChange)="loadStream($event.detail.value)" [(ngModel)]="streamType">
@@ -25,22 +28,27 @@
         </ion-button>
     </ion-row>
 
-    <ion-list *ngIf="events !== null">
-        <ion-item-sliding *ngFor="let key of objectKeys(events)">
-            <ion-item [routerLink]="['/', 'event', events[key].id]" routerDirection="forward">
-                <ion-label>
-                    <h2>{{events[key].name}}</h2>
-                    <p>
-                        <ion-icon name="time"></ion-icon>&nbsp;{{moment(getStart(events[key])).format('hh:mm')}}
-                        - {{moment(getEnd(events[key])).format('hh:mm')}}
-                    </p>
-                </ion-label>
-            </ion-item>
+    <div *ngIf="events !== null">
+        <div *ngFor="let day of objectKeys(events)">
+            <h4>
+                {{moment(day, "YYYYMMDD").format('Do MMMM YYYY')}}<br></h4>
+            <ion-list>
+                <ion-item-sliding *ngFor="let event of events[day]">
+                    <ion-item [routerLink]="['/', 'event', event.id]" routerDirection="forward">
+                        <ion-label>
+                            <h2>{{event.name}}</h2>
+                            <p>
+                                <ion-icon name="time"></ion-icon>&nbsp;{{moment(getStart(event)).format('HH:mm')}}
+                                - {{moment(getEnd(event)).format('HH:mm')}}
+                            </p>
+                        </ion-label>
+                    </ion-item>
 
-            <ion-item-options side="start">
-                <ion-item-option href="geo:{{events[key].lat}},{{events[key].lon}}">{{'Navigate'}}</ion-item-option>
-            </ion-item-options>
-        </ion-item-sliding>
-    </ion-list>
-
+                    <ion-item-options side="start">
+                        <ion-item-option href="geo:{{event.lat}},{{event.lon}}">{{'Navigate'}}</ion-item-option>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-list>
+        </div>
+    </div>
 </ion-content>

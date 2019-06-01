@@ -39,8 +39,8 @@
 
         <ion-row padding-start>
             <p>
-                <ion-icon name="time"></ion-icon>&nbsp;{{moment(event.personal_participation.arrival).format('hh:mm')}}
-                - {{moment(event.personal_participation.departure).format('hh:mm')}}
+                <ion-icon name="time"></ion-icon>&nbsp;{{moment(event.personal_participation.arrival).format('HH:mm')}}
+                - {{moment(event.personal_participation.departure).format('HH:mm')}}
             </p>
         </ion-row>
 
@@ -50,14 +50,14 @@
             </ion-row>
 
             <ion-row>
-                <ion-list>
+                <ion-list style="width: 100%;">
                     <ion-item *ngFor="let activity of event.activities">
                         <ion-label>
                             <h5>{{activity.title}}</h5>
 
                             <p>
-                                <ion-icon name="time"></ion-icon>&nbsp;{{moment(activity.start).format('hh:mm')}}
-                                - {{moment(activity.end).format('hh:mm')}}
+                                <ion-icon name="time"></ion-icon>&nbsp;{{moment(activity.start).format('HH:mm')}}
+                                - {{moment(activity.end).format('HH:mm')}}
                             </p>
 
                             <p *ngIf="activity.description">{{activity.description}}</p>

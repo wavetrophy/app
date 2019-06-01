@@ -23,47 +23,77 @@ export class StreamService {
   /**
    * Get the stream of a user.
    * @param {number} userId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @returns {Observable<Object>}
    */
-  public getByUser(userId: number) {
-    return this.http.get(`${this.url}/users/${userId}/stream`);
+  public getByUser(userId: number, forceReload: boolean = false) {
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+
+    return this.http.get(`${this.url}/users/${userId}/stream`, {headers: headers});
   }
 
   /**
    * Get the stream of a wave
    * @param {number} waveId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @return {Observable<Object>}
    */
-  public getByWave(waveId: number) {
-    return this.http.get(`${this.url}/waves/${waveId}/stream`);
+  public getByWave(waveId: number, forceReload: boolean = false) {
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+
+    return this.http.get(`${this.url}/waves/${waveId}/stream`, {headers: headers});
   }
 
   /**
    * Get a single event of the stream
    * @param {number} userId
    * @param {number} eventId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @return {Observable<Object>}
    */
-  public getEventByUser(userId: number, eventId: number) {
-    return this.http.get(`${this.url}/users/${userId}/events/${eventId}`);
+  public getEventByUser(userId: number, eventId: number, forceReload: boolean = false) {
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+
+    return this.http.get(`${this.url}/users/${userId}/events/${eventId}`, {headers: headers});
   }
 
   /**
    * Get hotels by user
    * @param {number} userId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @return {Observable<Object>}
    */
-  public getHotelsByUser(userId: number) {
-    return this.http.get(`${this.url}/users/${userId}/hotels`);
+  public getHotelsByUser(userId: number, forceReload: boolean = false) {
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+
+    return this.http.get(`${this.url}/users/${userId}/hotels`, {headers: headers});
   }
 
   /**
    * Get hotel by user
    * @param {number} userId
    * @param {number} hotelId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @return {Observable<Object>}
    */
-  public getHotelByUser(userId: number, hotelId: number) {
-    return this.http.get(`${this.url}/users/${userId}/hotels/${hotelId}`);
+  public getHotelByUser(userId: number, hotelId: number, forceReload: boolean = false) {
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+
+    return this.http.get(`${this.url}/users/${userId}/hotels/${hotelId}`, {headers: headers});
   }
 }

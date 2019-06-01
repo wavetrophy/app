@@ -20,20 +20,32 @@ export class GroupService {
   /**
    * Get a single group.
    * @param {number} groupId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @return {Observable<Object>}
    */
-  public getGroup(groupId: number) {
+  public getGroup(groupId: number, forceReload: boolean = false) {
     const url = `${this.url}/groups/${groupId}`;
-    return this.http.get(url);
+
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+    return this.http.get(url, {headers: headers});
   }
 
   /**
    * Get all groups of a wave
    * @param {Wave} wave
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @return {Observable<Object>}
    */
-  public getGroups(wave: Wave) {
+  public getGroups(wave: Wave, forceReload: boolean = false) {
     const url = `${this.url}/waves/${wave.id}/groups`;
-    return this.http.get(url);
+
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+    return this.http.get(url, {headers: headers});
   }
 }

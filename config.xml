@@ -3,7 +3,7 @@
     <name>WAVE Trophy</name>
     <description>The Official WAVE Trophy Drivers Assistant</description>
     <author email="contact@darker.dev" href="https://darker.dev">Darkmindz Development Team</author>
-    <content original-src="index.html" src="http://192.168.43.204:8080" />
+    <content src="http://192.168.43.204:8081" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -92,8 +92,8 @@
     <plugin name="cordova-plugin-firebase" spec="git+https://github.com/rhanesoghlyan/cordova-plugin-firebase.git#master" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <allow-navigation href="http://192.168.43.204:8101" sessionid="84bbca4d" />
-    <allow-navigation href="http://192.168.43.204:8102" sessionid="0bb4f5da" />
-    <allow-navigation href="http://192.168.43.204:8080" sessionid="e7d35720" />
+    <allow-navigation href="http://192.168.43.204:8081" sessionid="beccf05d" />
+    <allow-navigation href="http://192.168.43.204:8080" sessionid="644ba78e" />
     <engine name="ios" spec="4.5.5" />
     <engine name="android" spec="7.1.4" />
 </widget>

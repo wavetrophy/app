@@ -147,7 +147,7 @@ export class AuthService {
    * Log out a user.
    */
   public async logout(): Promise<any> {
-    this.cache.clear();
+    await this.cache.clear();
     await this.storage.remove(environment.storage.TOKEN_REFRESH_KEY);
     await this.storage.remove(environment.storage.TOKEN_KEY);
     this._authenticationState.next(false);

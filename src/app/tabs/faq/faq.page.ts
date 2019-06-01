@@ -10,6 +10,8 @@ import * as moment from 'moment';
 import { PushNotificationService } from '../../services/firebase/cloud-messaging/push-notification.service';
 import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
 import { e } from '../../services/functions';
+import { NetworkStatus } from '../../services/network/network-status';
+import { NetworkService } from '../../services/network/network.service';
 
 @Component({
   selector: 'app-faq',
@@ -32,12 +34,14 @@ export class FaqPage implements OnInit, OnDestroy {
    * @param {AuthService} auth
    * @param {ModalController} modal
    * @param {PushNotificationService} push
+   * @param {NetworkService} network
    */
   constructor(
     private questionService: QuestionService,
     private auth: AuthService,
     private modal: ModalController,
     private push: PushNotificationService,
+    private network: NetworkService,
   ) {
     this.server = environment.api.url;
   }
@@ -57,6 +61,18 @@ export class FaqPage implements OnInit, OnDestroy {
   }
 
   /**
+   * Reload the data
+   * @param event
+   * @return {Promise<void>}
+   */
+  public async reload(event) {
+    if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
+      await this.getQuestions(true);
+    }
+    event.target.complete();
+  }
+
+  /**
    * Add question
    */
   public async askQuestion() {
@@ -72,18 +88,18 @@ export class FaqPage implements OnInit, OnDestroy {
   /**
    * Get questions
    */
-  public getQuestions() {
+  public async getQuestions(forceReload: boolean = false) {
     switch (this.type) {
       case 'all':
-        this.getAllQuestions();
+        this.getAllQuestions(forceReload);
         break;
       case 'group':
         const waveId = this.auth.data.current_wave.id;
         const groupId = this.auth.data.group_id;
-        this.getGroupQuestions(waveId, groupId);
+        await this.getGroupQuestions(waveId, groupId, forceReload).toPromise();
         break;
       default:
-        this.getAllQuestions();
+        await this.getAllQuestions(forceReload).toPromise();
         break;
     }
   }
@@ -91,10 +107,12 @@ export class FaqPage implements OnInit, OnDestroy {
   /**
    * Get all questions
    */
-  private getGroupQuestions(waveId, groupId) {
+  private getGroupQuestions(waveId, groupId, forceReload: boolean = false) {
     this.errormessage = null;
     this.isLoading = true;
-    const sub = this.questionService.getQuestionsForGroup(waveId, groupId).subscribe((res: [] | any) => {
+
+    const obs = this.questionService.getQuestionsForGroup(waveId, groupId, forceReload);
+    const sub = obs.subscribe((res: [] | any) => {
       this.isLoading = false;
       if (!res) {
         this.errormessage = e(res, 'message') || 'Keine Fragen verfügbar';
@@ -115,15 +133,19 @@ export class FaqPage implements OnInit, OnDestroy {
       this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
     });
     this.subs.push(sub);
+
+    return obs;
   }
 
   /**
    * Get all questions
    */
-  private getAllQuestions() {
+  private getAllQuestions(forceReload: boolean = false) {
     this.errormessage = null;
     this.isLoading = true;
-    const sub = this.questionService.getAllQuestions().subscribe((res: [] | any) => {
+
+    const obs = this.questionService.getAllQuestions(forceReload);
+    const sub = obs.subscribe((res: [] | any) => {
       this.isLoading = false;
       if (!res) {
         this.errormessage = e(res, 'message') || 'Keine Fragen verfügbar';
@@ -144,5 +166,7 @@ export class FaqPage implements OnInit, OnDestroy {
       this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
     });
     this.subs.push(sub);
+
+    return obs;
   }
 }

@@ -37,9 +37,20 @@ export class CacheInterceptor implements HttpInterceptor {
    * @return {Observable<HttpEvent<any>>}
    */
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Ignore if method is not GET or OPTIONS
-    if (request.method.toUpperCase() !== 'GET' && request.method.toUpperCase() !== 'OPTIONS') {
+    // Ignore if method is not GET or OPTIONS or the header Force-Reload is set
+    if ((request.method.toUpperCase() !== 'GET' && request.method.toUpperCase() !== 'OPTIONS')) {
       return this.continue(request, next);
+    }
+
+    const header = request.headers.get('Force-Reload');
+
+    if (header) {
+      const headers = request.headers.delete('Force-Reload');
+      request = request.clone({headers: headers});
+      if (header === 'true') {
+        // Ignore the request if Force-Reload is set to true.
+        return this.continue(request, next);
+      }
     }
 
     if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {

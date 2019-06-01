@@ -28,33 +28,49 @@ export class QuestionService {
    * Get all questions
    * @param {number} waveId
    * @param {number} groupId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @returns {Observable<object>}
    */
-  public getQuestionsForGroup(waveId: number, groupId: number): Observable<object> {
+  public getQuestionsForGroup(waveId: number, groupId: number, forceReload: boolean = false): Observable<object> {
     if (!waveId || !groupId) {
       return this.getAllQuestions();
     }
 
     const url = `${this.server}/waves/${waveId}/groups/${groupId}/questions`;
-    return this.http.get(url);
+
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+    return this.http.get(url, {headers: headers});
   }
 
   /**
    * Get all questions
    * @return {Observable<Object>}
    */
-  public getAllQuestions() {
+  public getAllQuestions(forceReload: boolean = false) {
     const url = `${this.server}/questions`;
-    return this.http.get(url);
+
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+    return this.http.get(url, {headers: headers});
   }
 
   /**
    * Get single questions
    * @param {number} questionId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @returns {Observable<object>}
    */
-  public getQuestion(questionId: number): Observable<object> {
-    return this.http.get(`${this.server}/questions/${questionId}`);
+  public getQuestion(questionId: number, forceReload: boolean = false): Observable<object> {
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+    return this.http.get(`${this.server}/questions/${questionId}`, {headers: headers});
   }
 
   /**
