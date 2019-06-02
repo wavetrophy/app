@@ -21,6 +21,7 @@
     "android:clear": "ionic cordova platform rm android && npm run android:add",
     "ios": "ionic cordova run ios -l --debug --buildConfig ./build.json",
     "ios:emulate": "ionic cordova emulate ios -l --debug --target='iPhone-X, 12.2' --buildConfig ./build.json",
+    "ios:emulate:prod": "ionic cordova emulate ios -l --prod --target='iPhone-X, 12.2' --buildConfig ./build.json",
     "ios:add": "ionic cordova platform add ios && npm run ios:build",
     "ios:resources": "ionic cordova resources ios -sif",
     "ios:build": "ionic cordova build ios --prod --release --buildConfig ./build.json",
