@@ -33,21 +33,21 @@
             <h4>
                 {{moment(day, "YYYYMMDD").format('Do MMMM YYYY')}}<br></h4>
             <ion-list>
-                <ion-item-sliding *ngFor="let event of events[day]">
-                    <ion-item [routerLink]="['/', 'event', event.id]" routerDirection="forward">
-                        <ion-label>
-                            <h2>{{event.name}}</h2>
-                            <p>
-                                <ion-icon name="time"></ion-icon>&nbsp;{{moment(getStart(event)).format('HH:mm')}}
-                                - {{moment(getEnd(event)).format('HH:mm')}}
-                            </p>
-                        </ion-label>
-                    </ion-item>
-
-                    <ion-item-options side="start">
-                        <ion-item-option href="geo:{{event.lat}},{{event.lon}}">{{'Navigate'}}</ion-item-option>
-                    </ion-item-options>
-                </ion-item-sliding>
+                <!--<ion-item-sliding *ngFor="let event of events[day]">-->
+                <ion-item *ngFor="let event of events[day]" [routerLink]="['/', 'event', event.id]"
+                          routerDirection="forward">
+                    <ion-label>
+                        <h2>{{event.name}}</h2>
+                        <p>
+                            <ion-icon name="time"></ion-icon>&nbsp;{{moment(getStart(event)).format('HH:mm')}}
+                            - {{moment(getEnd(event)).format('HH:mm')}}
+                        </p>
+                    </ion-label>
+                </ion-item>
+                <!--<ion-item-options side="start">-->
+                <!--<ion-item-option geo="{{event.lat}},{{event.lon}}">{{'Navigate'}}</ion-item-option>-->
+                <!--</ion-item-options>-->
+                <!--</ion-item-sliding>-->
             </ion-list>
         </div>
     </div>

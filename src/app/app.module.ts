@@ -28,7 +28,8 @@ import { LoggerInterceptor } from './services/interceptors/logger.interceptor';
 import { SentryErrorHandler } from './services/error-handlers/sentry.error-handler';
 import * as Sentry from 'sentry-cordova';
 import { DirectivesModule } from './directives/directives.module';
-import { ImageCacheModule } from './services/image-cache/image-cache.module';
+import { ImageCacheModule } from './services/image-cache';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 
 Sentry.init({dsn: 'https://61838ef844d54ef6b50e7a65618473f5@sentry.io/1470302'});
 
@@ -76,6 +77,7 @@ export function jwtOptionsFactory(storage) {
     Firebase,
     LocalNotifications,
     Network,
+    LaunchNavigator,
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
     {provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: LoggerInterceptor, multi: true},
