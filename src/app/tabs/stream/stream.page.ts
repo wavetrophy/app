@@ -72,6 +72,7 @@ export class StreamPage implements OnInit {
     if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
       await this.loadStream(this.streamType, true);
     }
+
     event.target.complete();
   }
 

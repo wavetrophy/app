@@ -28,7 +28,7 @@ platform :ios do
             type = options[:type]
         end
 
-        buildnumber = '0.3.0'
+        buildnumber = '1.0.0'
         if options[:buildnumber]
             buildnumber = options[:buildnumber]
         end

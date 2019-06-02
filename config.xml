@@ -3,7 +3,7 @@
     <name>WAVE Trophy</name>
     <description>The Official WAVE Trophy Drivers Assistant</description>
     <author email="contact@darker.dev" href="https://darker.dev">Darkmindz Development Team</author>
-    <content src="http://192.168.43.204:8081" />
+    <content original-src="http://192.168.43.204:8081" src="http://192.168.0.18:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -94,6 +94,7 @@
     <allow-navigation href="http://192.168.43.204:8101" sessionid="84bbca4d" />
     <allow-navigation href="http://192.168.43.204:8081" sessionid="beccf05d" />
     <allow-navigation href="http://192.168.43.204:8080" sessionid="644ba78e" />
+    <allow-navigation href="http://192.168.0.18:8100" sessionid="5a0bdbe9" />
     <engine name="ios" spec="4.5.5" />
     <engine name="android" spec="7.1.4" />
 </widget>

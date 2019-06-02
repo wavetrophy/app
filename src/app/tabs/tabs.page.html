@@ -9,10 +9,10 @@
             WAVETROPHY
         </ion-title>
     </ion-toolbar>
+
 </ion-header>
 
-<ion-content>
-
+<ion-content forceOverscroll="false">
     <super-tabs>
         <super-tabs-toolbar showIndicator>
             <super-tab-button>
@@ -28,7 +28,8 @@
                 <ion-label>{{ 'FAQ' }}</ion-label>
             </super-tab-button>
         </super-tabs-toolbar>
-        <super-tabs-container>
+
+        <super-tabs-container swipeEnabled autoScrollTop>
             <super-tab>
                 <ion-nav [root]="streamPage"></ion-nav>
             </super-tab>
@@ -43,5 +44,4 @@
             </super-tab>
         </super-tabs-container>
     </super-tabs>
-
 </ion-content>
