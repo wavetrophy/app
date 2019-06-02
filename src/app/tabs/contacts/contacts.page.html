@@ -19,9 +19,7 @@
             <ion-item *ngFor="let contact of group.users" (click)="viewContact(contact)" class="ion-activatable">
                 <ion-ripple-effect></ion-ripple-effect>
                 <ion-avatar slot="end">
-                    <ion-img src="{{server}}/{{contact.profile_picture.url}}"
-                             alt="{{server}}/default/profile-picture.svg">
-                    </ion-img>
+                    <offline-img src="{{server}}/{{contact.profile_picture.url}}"></offline-img>
                 </ion-avatar>
                 <ion-label>
                     <h2>{{contact.first_name}} {{contact.last_name}}</h2>

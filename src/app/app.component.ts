@@ -64,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public initializeApp() {
     moment.locale('de');
-    this.imageCacheConfig.setFallbackUrl('assets/logo.png');
+    this.imageCacheConfig.setFallbackUrl('assets/logo.jpg');
     this.imageCacheConfig.useImg = true;
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
