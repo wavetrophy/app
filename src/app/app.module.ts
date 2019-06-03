@@ -8,7 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpBackend, HttpClientModule, HttpXhrBackend } from '@angular/common/http';
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { JwtHttpInterceptor } from './services/interceptors/jwt-http.interceptor';
@@ -29,6 +29,7 @@ import { SentryErrorHandler } from './services/error-handlers/sentry.error-handl
 import * as Sentry from 'sentry-cordova';
 import { DirectivesModule } from './directives/directives.module';
 import { ImageCacheModule } from './services/image-cache';
+import { NativeHttpBackend, NativeHttpFallback, NativeHttpModule } from 'ionic-native-http-connection-backend';
 
 Sentry.init({dsn: 'https://61838ef844d54ef6b50e7a65618473f5@sentry.io/1470302'});
 
@@ -49,6 +50,7 @@ export function jwtOptionsFactory(storage) {
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    NativeHttpModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
@@ -81,6 +83,7 @@ export function jwtOptionsFactory(storage) {
     {provide: HTTP_INTERCEPTORS, useClass: LoggerInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: JwtHttpInterceptor, multi: true},
     {provide: ErrorHandler, useClass: environment.production ? SentryErrorHandler : ErrorHandler},
+    {provide: HttpBackend, useClass: NativeHttpFallback, deps: [Platform, NativeHttpBackend, HttpXhrBackend]},
   ],
   bootstrap: [AppComponent],
 })
