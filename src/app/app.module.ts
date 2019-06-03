@@ -2,7 +2,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -28,7 +28,7 @@ import { LoggerInterceptor } from './services/interceptors/logger.interceptor';
 import { SentryErrorHandler } from './services/error-handlers/sentry.error-handler';
 import * as Sentry from 'sentry-cordova';
 import { DirectivesModule } from './directives/directives.module';
-import { ImageCacheModule } from './services/image-cache/image-cache.module';
+import { ImageCacheModule } from './services/image-cache';
 
 Sentry.init({dsn: 'https://61838ef844d54ef6b50e7a65618473f5@sentry.io/1470302'});
 
@@ -48,8 +48,6 @@ export function jwtOptionsFactory(storage) {
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    MainOptionsPageModule,
-    AnswerOptionsPageModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
@@ -62,6 +60,8 @@ export function jwtOptionsFactory(storage) {
     ImageCacheModule.forRoot(),
     IonicStorageModule.forRoot(),
     SuperTabsModule.forRoot(),
+    MainOptionsPageModule,
+    AnswerOptionsPageModule,
     JwtModule.forRoot({
       jwtOptionsProvider: {
         provide: JWT_OPTIONS,

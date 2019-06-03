@@ -30,7 +30,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {path: '**', redirectTo: '', pathMatch: 'full'},
-  { path: 'password-change', loadChildren: './modal/user/password-change/password-change.module#PasswordChangePageModule' },
 ];
 
 @NgModule({

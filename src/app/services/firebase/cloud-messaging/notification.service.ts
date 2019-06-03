@@ -7,6 +7,7 @@ import { AuthService } from '../../auth/auth.service';
 import { ILocalNotification } from '@ionic-native/local-notifications';
 import { Router } from '@angular/router';
 import { ConsoleLogger } from '../../logger/logger';
+
 const logger = new ConsoleLogger('PUSH');
 
 @Injectable({
@@ -85,7 +86,8 @@ export class NotificationService {
       this.platform.ready().then(() => {
         if (notification.data) {
           if ('open' in notification.data) {
-            this.ng.run(() => this.nav.navigateForward(notification.data.open));
+            this.ng.run(() => this.nav.navigateRoot(['/']))
+              .then(() => this.nav.navigateRoot(notification.data.open));
           }
         }
       });

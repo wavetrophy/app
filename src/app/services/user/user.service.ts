@@ -24,11 +24,17 @@ export class UserService {
   /**
    * Get all emails.
    * @param {number} userId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @returns {Observable<Email[] | null>}
    */
-  public getEmails(userId: number): Observable<Email[] | null> {
+  public getEmails(userId: number, forceReload: boolean = false): Observable<Email[] | null> {
     const url = `${this.url}/users/${userId}/emails`;
-    return this.http.get<Email[] | null>(url);
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+
+    return this.http.get<Email[] | null>(url, {headers: headers});
   }
 
   /**
@@ -70,11 +76,17 @@ export class UserService {
   /**
    * Get all phonenumbers
    * @param {number} userId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @returns {Observable<Phonenumber[] | null>}
    */
-  public getPhonenumbers(userId: number): Observable<Phonenumber[] | null> {
+  public getPhonenumbers(userId: number, forceReload: boolean = false): Observable<Phonenumber[] | null> {
     const url = `${this.url}/users/${userId}/phonenumbers`;
-    return this.http.get<Phonenumber[] | null>(url);
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+
+    return this.http.get<Phonenumber[] | null>(url, {headers: headers});
   }
 
   /**
@@ -118,11 +130,17 @@ export class UserService {
   /**
    * Get a user.
    * @param {number} userId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @returns {Observable<User>}
    */
-  public getUser(userId: number): Observable<User> {
+  public getUser(userId: number, forceReload: boolean = false): Observable<User> {
     const url = `${this.url}/users/${userId}`;
-    return this.http.get<User>(url);
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+
+    return this.http.get<User>(url, {headers: headers});
   }
 
   /**

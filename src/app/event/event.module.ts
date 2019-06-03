@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { EventPage } from './event.page';
 import { ImageCacheModule } from '../services/image-cache';
+import { DirectivesModule } from '../directives/directives.module';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     ImageCacheModule,
+    DirectivesModule,
   ],
   declarations: [EventPage]
 })

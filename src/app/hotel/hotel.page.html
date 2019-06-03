@@ -7,7 +7,7 @@
         <ion-title>{{'Hotel'}}</ion-title>
 
         <ion-buttons slot="end" *ngIf="hotel">
-            <ion-button fill="clear" href="geo:{{hotel.lat}},{{hotel.lon}}">{{'Navigate'}}</ion-button>
+            <ion-button fill="clear" geo="{{hotel.lat}},{{hotel.lon}}">{{'Navigate'}}</ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -39,8 +39,8 @@
 
         <ion-row padding-start>
             <p>
-                <ion-icon name="time"></ion-icon>&nbsp;{{moment(hotel.check_in).format('hh:mm')}}
-                - {{moment(hotel.check_out).format('hh:mm')}}
+                <ion-icon name="time"></ion-icon>&nbsp;{{moment(hotel.check_in).format('HH:mm')}}
+                - {{moment(hotel.check_out).format('HH:mm')}}
             </p>
         </ion-row>
 

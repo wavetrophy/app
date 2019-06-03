@@ -13,6 +13,7 @@ import { EditPhonenumberPage } from '../modal/phonenumber/edit/edit-phonenumber.
 import { environment } from '../../environments/environment';
 import { NetworkService } from '../services/network/network.service';
 import { PasswordChangePage } from '../modal/user/password-change/password-change.page';
+import { NetworkStatus } from '../services/network/network-status';
 
 @Component({
   selector: 'profile',
@@ -50,7 +51,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   /**
    * On init hook.
    */
-  ngOnInit() {
+  public ngOnInit() {
     this.getEmails();
     this.getPhonenumbers();
     this.username = this.auth.data.username;
@@ -61,10 +62,24 @@ export class ProfilePage implements OnInit, OnDestroy {
   /**
    * On destroy hook.
    */
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.subs.forEach((sub) => {
       sub.unsubscribe();
     });
+  }
+
+  /**
+   * Reload the data
+   * @param event
+   * @return {Promise<void>}
+   */
+  public async reload(event) {
+    if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
+      const promiseEmail = this.getEmails(true).toPromise();
+      const promisePhonenumber = this.getPhonenumbers(true).toPromise();
+      await Promise.all([promiseEmail, promisePhonenumber]);
+    }
+    event.target.complete();
   }
 
   /**
@@ -72,7 +87,15 @@ export class ProfilePage implements OnInit, OnDestroy {
    * @return {Promise<void>}
    */
   public async changeProfileImage() {
-
+    const alert = await this.alert.create({
+      header: 'Not available',
+      message: 'You can change your profile picture in the upcoming version of the application',
+      buttons: [{
+        text: 'OK',
+        role: 'cancel',
+      }],
+    });
+    alert.present();
   }
 
   /**
@@ -237,21 +260,25 @@ export class ProfilePage implements OnInit, OnDestroy {
   /**
    * Get emails.
    */
-  private getEmails() {
-    const sub = this.userService.getEmails(this.auth.data.user_id).subscribe((emails: Email[]) => {
+  private getEmails(forceReload: boolean = false) {
+    const obs = this.userService.getEmails(this.auth.data.user_id, forceReload);
+    const sub = obs.subscribe((emails: Email[]) => {
       this.emails = emails;
     });
     this.subs.push(sub);
+    return obs;
   }
 
   /**
    * Get phonenumbers
    */
-  private getPhonenumbers() {
-    const sub = this.userService.getPhonenumbers(this.auth.data.user_id).subscribe((phonenumbers: Phonenumber[]) => {
+  private getPhonenumbers(forceReload: boolean = false) {
+    const obs = this.userService.getPhonenumbers(this.auth.data.user_id, forceReload);
+    const sub = obs.subscribe((phonenumbers: Phonenumber[]) => {
       this.phonenumbers = phonenumbers;
     });
     this.subs.push(sub);
+    return obs;
   }
 
   /**

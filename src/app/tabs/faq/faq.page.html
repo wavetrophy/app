@@ -1,4 +1,8 @@
 <ion-content padding>
+    <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+        <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
+    </ion-refresher>
+
     <ion-row margin-bottom="1rem">
         <ion-segment (ionChange)="getQuestions()" [(ngModel)]="type">
             <ion-segment-button value="group" checked>

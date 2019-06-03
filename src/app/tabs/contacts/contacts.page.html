@@ -1,4 +1,8 @@
 <ion-content padding>
+    <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+        <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
+    </ion-refresher>
+
     <ion-row class="ion-justify-content-center" *ngIf="isLoading">
         <ion-spinner name="crescent"></ion-spinner>
     </ion-row>
@@ -7,22 +11,21 @@
         <p>{{errormessage}}</p>
     </ion-row>
 
-    <ion-list *ngFor="let group of contacts">
-        <ion-list-header>
-            <ion-label>{{group.group.name}}</ion-label>
-        </ion-list-header>
-        <ion-item *ngFor="let contact of group.users" (click)="viewContact(contact)" class="ion-activatable">
-            <ion-ripple-effect></ion-ripple-effect>
-            <ion-avatar slot="end">
-                <ion-img src="{{server}}/{{contact.profile_picture.url}}"
-                         alt="{{server}}/default/profile-picture.svg">
-                </ion-img>
-            </ion-avatar>
-            <ion-label>
-                <h2>{{contact.first_name}} {{contact.last_name}}</h2>
-                <h3>{{contact.team.start_number}} {{contact.team.name}}</h3>
-            </ion-label>
-        </ion-item>
-    </ion-list>
-
+    <div *ngIf="contacts">
+        <ion-list *ngFor="let group of contacts">
+            <ion-list-header>
+                <ion-label>{{group.group.name}}</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let contact of group.users" (click)="viewContact(contact)" class="ion-activatable">
+                <ion-ripple-effect></ion-ripple-effect>
+                <ion-avatar slot="end">
+                    <offline-img src="{{server}}/{{contact.profile_picture.url}}"></offline-img>
+                </ion-avatar>
+                <ion-label>
+                    <h2>{{contact.first_name}} {{contact.last_name}}</h2>
+                    <h3>{{contact.team.start_number}} {{contact.team.name}}</h3>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    </div>
 </ion-content>

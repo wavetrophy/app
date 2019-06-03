@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { AlertController, ModalController, Platform, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth/auth.service';
@@ -40,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {ImageCacheConfig} imageCacheConfig
    * @param modal
    * @param alert
+   * @param nav
    */
   public constructor(
     private platform: Platform,
@@ -53,6 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private imageCacheConfig: ImageCacheConfig,
     private modal: ModalController,
     private alert: AlertController,
+    private nav: NavController,
   ) {
     this.initializeApp();
   }
@@ -62,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   public initializeApp() {
     moment.locale('de');
-    this.imageCacheConfig.setFallbackUrl('assets/logo.png');
+    this.imageCacheConfig.setFallbackUrl('assets/logo.jpg');
     this.imageCacheConfig.useImg = true;
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -82,9 +84,9 @@ export class AppComponent implements OnInit, OnDestroy {
       // Dont setup notifications if the user is not logged in.
       this.notifications.register();
       moment.locale(this.authService.data.locale.short);
-      this.router.navigate(['wave']);
+      this.nav.navigateRoot(['/', 'wave']);
     } else {
-      this.router.navigate(['auth', 'login']);
+      this.nav.navigateRoot(['/', 'auth', 'login']);
     }
 
     const subAuth = this.authService.authenticationState.subscribe(() => this.handleDataRefresh());

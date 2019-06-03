@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { BehaviorSubject, from, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, NavController, Platform } from '@ionic/angular';
 import { catchError, concatMap, tap } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
 import { AuthData } from './types/authdata';
@@ -30,6 +30,7 @@ export class AuthService {
    * @param {JwtHelperService} helper The JSON Web Token Helper
    * @param {Storage} storage The Storage
    * @param {Router} router
+   * @param {NavController} nav
    * @param {Platform} plt The platform (ionic)
    * @param {AlertController} alertController The Alert Controller
    * @param {Firebase} firebase
@@ -40,6 +41,7 @@ export class AuthService {
     private helper: JwtHelperService,
     private storage: Storage,
     private router: Router,
+    private nav: NavController,
     private plt: Platform,
     private alertController: AlertController,
     private firebase: Firebase,
@@ -147,11 +149,11 @@ export class AuthService {
    * Log out a user.
    */
   public async logout(): Promise<any> {
-    this.cache.clear();
+    await this.cache.clear();
     await this.storage.remove(environment.storage.TOKEN_REFRESH_KEY);
     await this.storage.remove(environment.storage.TOKEN_KEY);
     this._authenticationState.next(false);
-    this.router.navigate(['auth', 'login']);
+    this.nav.navigateRoot(['/', 'auth', 'login']);
   }
 
   /**
@@ -167,15 +169,10 @@ export class AuthService {
    * @param {string} msg The message to display
    */
   public showAlert(msg: string): void {
-    this.alertController.getTop()
-      .then((alert) => {
-        alert.dismiss();
-
-        return this.alertController.create({
-          message: msg,
-          header: 'Fehler',
-          buttons: ['OK'],
-        });
+    this.alertController.create({
+        message: msg,
+        header: 'Fehler',
+        buttons: ['OK'],
       })
       .then((alert) => {
         alert.present();
