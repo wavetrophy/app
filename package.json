@@ -17,7 +17,7 @@
     "android:add": "ionic cordova platform add android && npm run android:build",
     "android:resources": "ionic cordova resources android -sif",
     "android:build": "cp ./resources/android/project.properties platforms/android && ionic cordova build android --prod",
-    "android:build:prod": "cp ./resources/android/project.properties platforms/android && ionic cordova build android --prod --release",
+    "android:build:prod": "sh ./bin/build-android.sh",
     "android:clear": "ionic cordova platform rm android && npm run android:add",
     "ios": "ionic cordova run ios -l --debug --buildConfig ./build.json",
     "ios:emulate": "ionic cordova emulate ios -l --debug --target='iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2' --buildConfig ./build.json",
