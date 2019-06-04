@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
 import { PushNotificationService } from '../../services/firebase/cloud-messaging/push-notification.service';
 import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
-import { e } from '../../services/functions';
+import { __, e } from '../../services/functions';
 import { NetworkStatus } from '../../services/network/network-status';
 import { NetworkService } from '../../services/network/network.service';
 
@@ -115,7 +115,7 @@ export class FaqPage implements OnInit, OnDestroy {
     const sub = obs.subscribe((res: [] | any) => {
       this.isLoading = false;
       if (!res) {
-        this.errormessage = e(res, 'message') || 'Keine Fragen verfügbar';
+        this.errormessage = e(res, 'message') || __('Keine Fragen verfügbar');
         return;
       }
       const questions = {};
@@ -130,7 +130,7 @@ export class FaqPage implements OnInit, OnDestroy {
       this.questionGroups = questions;
     }, (res: any) => {
       this.isLoading = false;
-      this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
+      this.errormessage = e(res, 'message') || __('Es ist ein Fehler aufgetreten');
     });
     this.subs.push(sub);
 
@@ -148,7 +148,7 @@ export class FaqPage implements OnInit, OnDestroy {
     const sub = obs.subscribe((res: [] | any) => {
       this.isLoading = false;
       if (!res) {
-        this.errormessage = e(res, 'message') || 'Keine Fragen verfügbar';
+        this.errormessage = e(res, 'message') || __('Keine Fragen verfügbar');
         return;
       }
       const questions = {};
@@ -163,7 +163,7 @@ export class FaqPage implements OnInit, OnDestroy {
       this.questionGroups = questions;
     }, (res: any) => {
       this.isLoading = false;
-      this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
+      this.errormessage = e(res, 'message') || __('Es ist ein Fehler aufgetreten');
     });
     this.subs.push(sub);
 

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Hotel } from '../services/stream/types/hotel';
 import { Subscription } from 'rxjs';
-import { e, empty } from '../services/functions';
+import { __, e, empty } from '../services/functions';
 import { ActivatedRoute } from '@angular/router';
 import { StreamService } from '../services/stream/stream.service';
 import { AuthService } from '../services/auth/auth.service';
@@ -82,7 +82,7 @@ export class HotelPage implements OnInit, OnDestroy {
     const sub = obs.subscribe((res: any) => {
       this.isLoading = false;
       if (!e(res, 'success')) {
-        this.errormessage = e(res, 'message') || 'Keine Daten verfügbar';
+        this.errormessage = e(res, 'message') || __('Keine Daten verfügbar');
         return;
       }
       this.hotel = res.hotel;

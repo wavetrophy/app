@@ -10,13 +10,13 @@
     </ion-row>
     <ion-label color="danger" *ngIf="error">{{error}}</ion-label>
     <ion-row justify-content-end margin-top="1vh">
-        <p style="margin-top:.6rem">Public</p>
+        <p style="margin-top:.6rem">{{'Öffentlich'}}</p>
         <ion-toggle [(ngModel)]="phonenumber.is_public"></ion-toggle>
     </ion-row>
     <ion-row justify-content-end>
         <div>
-            <ion-button fill="clear" (click)="close()">Cancel</ion-button>
-            <ion-button fill="clear" (click)="save()" [disabled]="isSaving" requires-connection>Save</ion-button>
+            <ion-button fill="clear" (click)="close()">{{'Abbrechen'}}</ion-button>
+            <ion-button fill="clear" (click)="save()" [disabled]="isSaving" requires-connection>{{'Speichern'}}</ion-button>
         </div>
     </ion-row>
 </div>

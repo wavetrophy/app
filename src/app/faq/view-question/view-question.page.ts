@@ -12,7 +12,7 @@ import { EditAnswerPage } from '../../modal/faq/edit-answer/edit-answer.page';
 import { AnswerOptionsPage } from '../../popover/answer-options/answer-options.page';
 import { PushNotificationService } from '../../services/firebase/cloud-messaging/push-notification.service';
 import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
-import { e } from '../../services/functions';
+import { __, e } from '../../services/functions';
 import { NetworkStatus } from '../../services/network/network-status';
 import { NetworkService } from '../../services/network/network.service';
 
@@ -163,14 +163,14 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    */
   private async resolveAnswer(answer: Answer) {
     const alert = await this.alert.create({
-      header: 'Accept answer',
-      message: 'Are you sure to accept this answer as the best answer. You can only accept one answer once.',
+      header: __('Antwort akzeptieren'),
+      message: __('Bist Du sicher, dass Du diese Antwort als Lösung akzeptieren möchtest? Du kannst nur einmal eine Antwort als Lösung akzeptieren'),
       buttons: [
         {
-          text: 'Cancel',
+          text: __('Abbrechen'),
           role: 'cancel',
         }, {
-          text: 'Accept',
+          text: __('Akzeptieren'),
           handler: async () => {
             this.isLoading = true;
             const sub = this.questionService.resolve(this.question, answer).subscribe(() => this.getQuestion(this.id));
@@ -203,14 +203,14 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    */
   private async deleteAnswer(answer: Answer) {
     const alert = await this.alert.create({
-      header: 'Accept answer',
-      message: 'Are you sure to delete this answer? It will remove your answer permanently',
+      header: __('Antwort löschen'),
+      message: __('Willst Du diese Antwort wirklich löschen?'),
       buttons: [
         {
-          text: 'Cancel',
+          text: __('Abbrechen'),
           role: 'cancel',
         }, {
-          text: 'Delete',
+          text: __('Löschen'),
           handler: async () => {
             this.isLoading = true;
             const sub = this.answerService.deleteAnswer(answer.id).subscribe(() => this.getQuestion(this.id));
@@ -234,13 +234,13 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
     const sub = obs.subscribe((res: any) => {
       this.isLoading = false;
       if (!res) {
-        this.errormessage = e(res, 'message') || 'Keine Fragen verfügbar';
+        this.errormessage = e(res, 'message') || __('Keine Fragen verfügbar');
         return;
       }
       this.question = res;
     }, (res: any) => {
       this.isLoading = false;
-      this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
+      this.errormessage = e(res, 'message') || __('Es ist ein Fehler aufgetreten');
     });
     this.subs.push(sub);
 

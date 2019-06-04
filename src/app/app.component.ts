@@ -8,10 +8,13 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationService } from './services/firebase/cloud-messaging/notification.service';
 import * as moment from 'moment';
+import 'moment/locale/de-ch';
+import 'moment/locale/en-gb';
 import { NetworkService } from './services/network/network.service';
 import { NetworkStatus } from './services/network/network-status';
 import { ImageCacheConfig } from './services/image-cache';
 import { PasswordChangePage } from './modal/user/password-change/password-change.page';
+import { __ } from './services/functions';
 
 @Component({
   selector: 'app-root',
@@ -63,10 +66,10 @@ export class AppComponent implements OnInit, OnDestroy {
    * Initialize the application.
    */
   public initializeApp() {
-    moment.locale('de');
     this.imageCacheConfig.setFallbackUrl('assets/logo.jpg');
     this.imageCacheConfig.useImg = true;
     this.platform.ready().then(() => {
+      moment.locale('de-CH');
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
@@ -83,7 +86,8 @@ export class AppComponent implements OnInit, OnDestroy {
     if (state === true) {
       // Dont setup notifications if the user is not logged in.
       this.notifications.register();
-      moment.locale(this.authService.data.locale.short);
+      // moment.locale(this.authService.data.locale.short);
+      moment.locale('de-CH');
       this.nav.navigateRoot(['/', 'wave']);
     } else {
       this.nav.navigateRoot(['/', 'auth', 'login']);
@@ -116,8 +120,8 @@ export class AppComponent implements OnInit, OnDestroy {
     const data = this.authService.data;
     if ('must_reset_password' in data && data.must_reset_password) {
       const alert = await this.alert.create({
-        header: 'Change password',
-        message: 'Please change your password',
+        header: __('Passwort ändern'),
+        message: __('Bitte ändere dein Passwort'),
         buttons: [
           {
             text: 'OK',
@@ -127,7 +131,7 @@ export class AppComponent implements OnInit, OnDestroy {
             },
           },
           {
-            text: 'Later (not recommended)',
+            text: __('Später (nicht empfohlen)'),
             role: 'cancel',
           },
         ],
@@ -144,19 +148,19 @@ export class AppComponent implements OnInit, OnDestroy {
     let config;
     if (this.network.currentNetworkStatus() === NetworkStatus.OFFLINE) {
       config = {
-        message: 'You\'re offline, some functionality is not available',
+        message: __('Du bist offline. App funktioniert nur beschränkt'),
         duration: 10000,
         buttons: [{
-          text: 'Okay',
+          text: __('OK'),
           role: 'cancel',
         }],
       };
     } else {
       config = {
-        message: 'You\'re back online',
+        message: __('Du bist wieder online'),
         duration: 3000,
         buttons: [{
-          text: 'Okay',
+          text: __('OK'),
           role: 'cancel',
         }],
       };

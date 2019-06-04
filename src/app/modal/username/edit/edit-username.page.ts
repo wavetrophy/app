@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { Modal } from '../../modal';
 import { UserService } from '../../../services/user/user.service';
 import { User } from '../../../services/user/types/user';
+import { __ } from '../../../services/functions';
 
 @Component({
   selector: 'app-username',
@@ -43,7 +44,7 @@ export class EditUsernamePage extends Modal {
       componentProps: {
         value: username,
         userId: userId,
-        title: 'Edit username',
+        title: __('Benutzername bearbeiten'),
       },
       showBackdrop: true,
       backdropDismiss: true,

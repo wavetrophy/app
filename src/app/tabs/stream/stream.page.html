@@ -1,15 +1,15 @@
 <ion-content padding>
     <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-        <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
+        <ion-refresher-content pullingText="{{'Neu laden'}}"></ion-refresher-content>
     </ion-refresher>
 
     <ion-row margin-bottom="1rem">
         <ion-segment (ionChange)="loadStream($event.detail.value)" [(ngModel)]="streamType">
             <ion-segment-button value="personal" checked>
-                <ion-label>{{ 'Personal' }}</ion-label>
+                <ion-label>{{'Persönlich'}}</ion-label>
             </ion-segment-button>
             <ion-segment-button value="all">
-                <ion-label>{{ 'All' }}</ion-label>
+                <ion-label>{{'Alle'}}</ion-label>
             </ion-segment-button>
         </ion-segment>
     </ion-row>

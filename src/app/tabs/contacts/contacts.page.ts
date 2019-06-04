@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { environment } from '../../../environments/environment';
 import { ViewContactPage } from '../../modal/contacts/view/view-contact.page';
 import { ModalController } from '@ionic/angular';
-import { e, empty } from '../../services/functions';
+import { __, e, empty } from '../../services/functions';
 import { NetworkStatus } from '../../services/network/network-status';
 import { NetworkService } from '../../services/network/network.service';
 
@@ -83,7 +83,7 @@ export class ContactsPage implements OnInit, OnDestroy {
     const sub = obs.subscribe((res: any) => {
       this.isLoading = false;
       if (!e(res, 'success')) {
-        this.errormessage = e(res, 'message') || 'Keine Kontakte verfügbar';
+        this.errormessage = e(res, 'message') || __('Keine Kontakte verfügbar');
         return;
       }
       const contacts = [];
@@ -105,11 +105,11 @@ export class ContactsPage implements OnInit, OnDestroy {
         return el != null;
       });
       if (empty(this.contacts)) {
-        this.errormessage = 'Keine Kontakte verfügbar';
+        this.errormessage = __('Keine Kontakte verfügbar');
       }
     }, (res: any) => {
       this.isLoading = false;
-      this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
+      this.errormessage = e(res, 'message') || __('Es ist ein Fehler aufgetreten');
     });
     this.subs.push(sub);
   }

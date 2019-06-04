@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
+import { __ } from '../../services/functions';
 
 @Component({
   selector: 'app-login',
@@ -54,7 +55,7 @@ export class LoginPage implements OnInit {
    */
   public async login() {
     const loader = await this.loading.create({
-      message: 'Logging in',
+      message: __('Laden'),
       spinner: 'crescent',
     });
     loader.present();

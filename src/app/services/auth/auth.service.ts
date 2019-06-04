@@ -9,7 +9,7 @@ import { Storage } from '@ionic/storage';
 import { AuthData } from './types/authdata';
 import { Router } from '@angular/router';
 import { Firebase } from '@ionic-native/firebase/ngx';
-import { e } from '../functions';
+import { __, e } from '../functions';
 import { CacheService } from '../network/cache.service';
 
 @Injectable({
@@ -111,7 +111,7 @@ export class AuthService {
           }
         }),
         catchError(e => {
-          this.showAlert('Falsche Zugangsdaten');
+          this.showAlert(__('Falsche Zugangsdaten'));
           throw new Error(e);
         }),
       );
@@ -137,7 +137,7 @@ export class AuthService {
           );
         }),
         catchError(e => {
-          this.showAlert('Falsche Zugangsdaten');
+          this.showAlert(__('Falsche Zugangsdaten'));
           this._authenticationState.next(false);
           this._authenticationState.next(null);
           throw new Error(e);
@@ -171,7 +171,7 @@ export class AuthService {
   public showAlert(msg: string): void {
     this.alertController.create({
         message: msg,
-        header: 'Fehler',
+        header: __('Fehler'),
         buttons: ['OK'],
       })
       .then((alert) => {

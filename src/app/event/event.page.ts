@@ -6,7 +6,7 @@ import { StreamService } from '../services/stream/stream.service';
 import { AuthService } from '../services/auth/auth.service';
 import { environment } from '../../environments/environment';
 import { Event } from '../services/stream/types/event';
-import { e, empty } from '../services/functions';
+import { __, e, empty } from '../services/functions';
 import { NetworkService } from '../services/network/network.service';
 import { NetworkStatus } from '../services/network/network-status';
 
@@ -84,7 +84,7 @@ export class EventPage implements OnInit, OnDestroy {
     const sub = obs.subscribe((res: any) => {
       this.isLoading = false;
       if (!e(res, 'success')) {
-        this.errormessage = e(res, 'message') || 'Keine Daten verfügbar';
+        this.errormessage = e(res, 'message') || __('Keine Daten verfügbar');
         return;
       }
 

@@ -3,13 +3,13 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>{{'Profile'}}</ion-title>
+        <ion-title>{{'Profil'}}</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-        <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
+        <ion-refresher-content pullingText="{{'Neuladen'}}"></ion-refresher-content>
     </ion-refresher>
 
     <ion-row class="ion-justify-content-center avatar-row" text-center>
@@ -25,7 +25,7 @@
     <div>
         <ion-row class="heading-row ion-justify-content-between">
             <ion-text color="primary">
-                <p>{{'Username'}}</p>
+                <p>{{'Benutzername'}}</p>
             </ion-text>
         </ion-row>
         <ion-row class="ion-justify-content-between info-row">
@@ -36,18 +36,18 @@
         </ion-row>
     </div>
     <ion-text color="dark">
-        <p class="info-text">{{'This is the username that is displayed for all other users'}}</p>
+        <p class="info-text">{{'Dies ist der Benutzername welcher allen Benutzern angezeigt wird'}}</p>
     </ion-text>
     <ion-row class="heading-row ion-justify-content-between">
         <ion-text color="primary">
-            <p>{{'Password'}}</p>
+            <p>{{'Passwort'}}</p>
         </ion-text>
         <ion-fab-button translucent="true" size="small" (click)="changePassword()" requires-connection>
             <ion-icon name="create"></ion-icon>
         </ion-fab-button>
     </ion-row>
     <ion-text color="dark">
-        <p class="info-text">{{'You can change your password here'}}</p>
+        <p class="info-text">{{'Hier kannst du dein Passwortt ändern'}}</p>
     </ion-text>
     <ion-row class="heading-row ion-justify-content-between">
         <ion-text color="primary">
@@ -73,7 +73,7 @@
                 <ion-item-options side="end">
                     <ion-item-option color="danger" [disabled]="email.is_primary === true" (click)="removeEmail(email)"
                                      requires-connection>
-                        {{'Remove'}}
+                        {{'Entfernen'}}
                     </ion-item-option>
                 </ion-item-options>
             </ion-item-sliding>
@@ -84,13 +84,13 @@
     </ion-row>
     <ion-text color="dark">
         <p class="info-text">
-            {{'This are your available emails. Those emails will be displayed publicly if you allowed it by enabling the "Public" switch'}}
+            {{'Dies sind Deine registrierten Emails. Diese Emails werden öffentlich allen WAVE Fahrern angezeigt, sofern Du dies mit dem "Öffentlich" Schalter aktiviert hast.'}}
         </p>
     </ion-text>
     <br>
     <ion-row class="heading-row ion-justify-content-between">
         <ion-text color="primary">
-            <p>{{'Phonenumbers'}}</p>
+            <p>{{'Telefonnummern'}}</p>
         </ion-text>
         <ion-fab-button translucent="true" size="small" (click)="addPhonenumber()" requires-connection>
             <ion-icon name="add"></ion-icon>
@@ -113,7 +113,7 @@
 
                 <ion-item-options side="end">
                     <ion-item-option color="danger" (click)="removePhonenumber(phonenumber)" requires-connection>
-                        {{'Remove'}}
+                        {{'Entfernen'}}
                     </ion-item-option>
                 </ion-item-options>
             </ion-item-sliding>
@@ -124,7 +124,7 @@
     </ion-row>
     <ion-text>
         <p class="info-text">
-            {{'This are your available phonenumbers. Those phonenumbers will be displayed publicly if you allowed it by enabling the "Public" switch'}}
+            {{'Dies sind Deine registrierten Telefonnummern. Diese Telefonnummern werden öffentlich allen WAVE Fahrern angezeigt, sofern Du dies mit dem "Öffentlich" Schalter aktiviert hast.'}}
         </p>
     </ion-text>
 

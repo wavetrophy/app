@@ -4,6 +4,7 @@ import { Answer } from '../../../services/faq/types/answer';
 import { ModalController } from '@ionic/angular';
 import { Question } from '../../../services/faq/types/question';
 import { AnswerService } from '../../../services/faq/answer.service';
+import { __ } from '../../../services/functions';
 
 @Component({
   selector: 'app-edit-answer',
@@ -31,7 +32,7 @@ export class EditAnswerPage extends Modal {
       component: EditAnswerPage,
       componentProps: {
         answer: answer,
-        title: 'Edit your answer',
+        title: __('Antwort bearbeiten'),
       },
       showBackdrop: true,
       backdropDismiss: true,

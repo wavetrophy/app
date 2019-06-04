@@ -7,14 +7,14 @@
         <ion-title>{{'Hotel'}}</ion-title>
 
         <ion-buttons slot="end" *ngIf="hotel">
-            <ion-button fill="clear" geo="{{hotel.lat}},{{hotel.lon}}">{{'Navigate'}}</ion-button>
+            <ion-button fill="clear" geo="{{hotel.lat}},{{hotel.lon}}">{{'Navigation starten'}}</ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-        <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
+        <ion-refresher-content pullingText="{{'Neu laden'}}"></ion-refresher-content>
     </ion-refresher>
 
     <offline-img src="{{server}}/media/thumbnails/hotels/{{hotel.thumbnail}}"
@@ -51,7 +51,7 @@
 
             <div *ngIf="!empty(hotel.personal_lodging.users)">
                 <ion-row class="ion-justify-content-center" *ngIf="!empty(hotel.personal_lodging)" padding>
-                    <h4>{{'Also with you in the hotel'}}</h4>
+                    <h4>{{'Mit dir im Hotel'}}</h4>
                 </ion-row>
                 <ion-row *ngFor="let user of hotel.personal_lodging.users">
                     <p>{{user.username}}</p>

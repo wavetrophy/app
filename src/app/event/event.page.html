@@ -7,14 +7,14 @@
         <ion-title>{{'Event'}}</ion-title>
 
         <ion-buttons slot="end" *ngIf="event">
-            <ion-button fill="clear" geo="{{event.lat}},{{event.lon}}">{{'Navigate'}}</ion-button>
+            <ion-button fill="clear" geo="{{event.lat}},{{event.lon}}">{{'Navigation starten'}}</ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-        <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
+        <ion-refresher-content pullingText="{{'Neu laden'}}"></ion-refresher-content>
     </ion-refresher>
 
     <offline-img src="{{server}}/media/thumbnails/events/{{event.thumbnail}}"
@@ -46,7 +46,7 @@
 
         <div *ngIf="!empty(event.activities)">
             <ion-row>
-                <h4>{{'Activities'}}</h4>
+                <h4>{{'Aktivitäten'}}</h4>
             </ion-row>
 
             <ion-row>

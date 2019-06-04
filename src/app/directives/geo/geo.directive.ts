@@ -1,6 +1,6 @@
 import { Directive, HostListener, Input, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator/ngx';
+import { LaunchNavigator } from '@ionic-native/launch-navigator/ngx';
 
 @Directive({
   selector: '[geo]',

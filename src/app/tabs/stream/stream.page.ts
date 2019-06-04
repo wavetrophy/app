@@ -8,7 +8,7 @@ import { ChooseTeamPage } from '../../modal/team/choose/choose-team.page';
 import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
 import { Event } from '../../services/stream/types/event';
-import { e, empty } from '../../services/functions';
+import { __, e, empty } from '../../services/functions';
 import { NetworkService } from '../../services/network/network.service';
 import { NetworkStatus } from '../../services/network/network-status';
 
@@ -192,7 +192,7 @@ export class StreamPage implements OnInit {
   private handleSuccess(res: any) {
     this.isLoading = false;
     if (!e(res, 'success')) {
-      this.errormessage = e(res, 'message') || 'Keine Daten verfügbar';
+      this.errormessage = e(res, 'message') || __('Keine Daten verfügbar');
       return;
     }
 
@@ -207,8 +207,8 @@ export class StreamPage implements OnInit {
     this.events = events;
 
     if (empty(this.events)) {
-      this.errormessage = 'No Events available for your team';
-      this.joinTeamMessage = 'Join a different Team';
+      this.errormessage = __('Keine Events für Dein Team verfügbar');
+      this.joinTeamMessage = __('Team wechseln');
     }
     this.cd.detectChanges();
   }
@@ -219,8 +219,8 @@ export class StreamPage implements OnInit {
    */
   private handleError(res: any) {
     this.isLoading = false;
-    this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
-    this.joinTeamMessage = 'Join a Team';
+    this.errormessage = e(res, 'message') || __('Es ist ein Fehler aufgetreten');
+    this.joinTeamMessage = __('Team beitreten');
     this.cd.detectChanges();
   }
 }

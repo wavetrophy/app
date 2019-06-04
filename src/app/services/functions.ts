@@ -26,3 +26,14 @@ export function e(object?: any, key?: string) {
 
   return null;
 }
+
+/**
+ * Translation method
+ * @param {string} message
+ * @param fill
+ * @private
+ */
+export function __(message: string, ...fill: any[]): string {
+  // @ts-ignore
+  return message.format(...fill);
+}

@@ -1,15 +1,15 @@
 <ion-content padding>
     <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-        <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
+        <ion-refresher-content pullingText="{{'Neu laden'}}"></ion-refresher-content>
     </ion-refresher>
 
     <ion-row margin-bottom="1rem">
         <ion-segment (ionChange)="getQuestions()" [(ngModel)]="type">
             <ion-segment-button value="group" checked>
-                <ion-label>{{ 'Group' }}</ion-label>
+                <ion-label>{{'Gruppe'}}</ion-label>
             </ion-segment-button>
             <ion-segment-button value="all">
-                <ion-label>{{ 'All' }}</ion-label>
+                <ion-label>{{'Alle'}}</ion-label>
             </ion-segment-button>
         </ion-segment>
     </ion-row>
@@ -23,7 +23,7 @@
     </ion-row>
 
     <ion-row class="ion-justify-content-center" *ngIf="ObjectKeys(questionGroups).length <= 0 && !isLoading">
-        <ion-button color="primary" (click)="askQuestion()">Ask a question</ion-button>
+        <ion-button color="primary" (click)="askQuestion()">{{'Stelle eine Frage'}}</ion-button>
     </ion-row>
 
     <ion-list *ngFor="let date of ObjectKeys(questionGroups)">
@@ -49,7 +49,7 @@
                               *ngIf="question.resolved">
                     </ion-icon>
                 </h2>
-                <h3>Answers: {{question.answers.length}}</h3>
+                <h3>{{'Antworten'}}: {{question.answers.length}}</h3>
             </ion-label>
         </ion-item>
     </ion-list>

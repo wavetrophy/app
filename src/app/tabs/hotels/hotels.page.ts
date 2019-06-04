@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { Hotel } from '../../services/stream/types/hotel';
 import { StreamService } from '../../services/stream/stream.service';
-import { e, empty } from '../../services/functions';
+import { __, e, empty } from '../../services/functions';
 import { AuthService } from '../../services/auth/auth.service';
 import { NetworkStatus } from '../../services/network/network-status';
 import { NetworkService } from '../../services/network/network.service';
@@ -83,17 +83,17 @@ export class HotelsPage implements OnInit, OnDestroy {
     const sub = obs.subscribe((res: any) => {
       this.isLoading = false;
       if (!e(res, 'success')) {
-        this.errormessage = e(res, 'message') || 'Keine Daten verfügbar';
+        this.errormessage = e(res, 'message') || __('Keine Daten verfügbar');
         return;
       }
       this.hotels = res.hotels;
       if (empty(this.hotels)) {
-        this.errormessage = 'No hotels available for your team';
+        this.errormessage = __('Keine Hotels für dein Team verfügbar');
       }
       this.cd.detectChanges();
     }, (res: any) => {
       this.isLoading = false;
-      this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
+      this.errormessage = e(res, 'message') || __('Es ist ein Fehler aufgetreten');
       this.cd.detectChanges();
     });
     this.subs.push(sub);

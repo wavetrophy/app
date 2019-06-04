@@ -4,6 +4,7 @@ import { Modal } from '../../modal';
 import { Email } from '../../../services/user/types/email';
 import { UserService } from '../../../services/user/user.service';
 import { AuthService } from '../../../services/auth/auth.service';
+import { __ } from '../../../services/functions';
 
 @Component({
   selector: 'app-email',
@@ -48,7 +49,7 @@ export class EditEmailPage extends Modal implements OnInit {
         username: username,
         // clone object to prevent editing the regular email...
         email: Object.assign({}, email),
-        title: 'Edit email',
+        title: __('Email bearbeiten'),
       },
       showBackdrop: true,
       backdropDismiss: true,

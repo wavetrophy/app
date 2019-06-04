@@ -50,11 +50,12 @@ export class LocalNotificationService {
       data: data,
     };
 
-    let localNotification = Object.assign(defaults, notification);
+    const localNotification = Object.assign(defaults, notification);
 
-    if (data['scheduled']) {
-      localNotification = Object.assign(localNotification, {trigger: {at: moment(data['scheduled_at']).toDate()}});
-    }
+    // disable for now
+    // if (data['scheduled']) {
+    //   localNotification = Object.assign(localNotification, {trigger: {at: moment(data['scheduled_at']).toDate()}});
+    // }
     this.notifications.schedule(localNotification);
   }
 

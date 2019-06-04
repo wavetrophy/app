@@ -10,6 +10,7 @@ import { UserService } from '../../../services/user/user.service';
 import { AuthService } from '../../../services/auth/auth.service';
 import { PushNotificationService } from '../../../services/firebase/cloud-messaging/push-notification.service';
 import { NotificationService } from '../../../services/firebase/cloud-messaging/notification.service';
+import { __ } from '../../../services/functions';
 
 @Component({
   selector: 'app-choose-team',
@@ -46,7 +47,7 @@ export class ChooseTeamPage extends Modal implements OnInit {
       component: ChooseTeamPage,
       componentProps: {
         wave: wave,
-        title: 'Edit team',
+        title: __('Team wählen'),
       },
       showBackdrop: true,
       backdropDismiss: true,
@@ -131,7 +132,7 @@ export class ChooseTeamPage extends Modal implements OnInit {
     this.isLoading = true;
     this.groupService.getGroups(this.wave).subscribe(async (response: any) => {
       if (!response) {
-        this.error = response['message'] || 'Keine Gruppen verfügbar';
+        this.error = response['message'] || __('Keine Gruppen verfügbar');
         return;
       }
       this.groups = response;
@@ -154,7 +155,7 @@ export class ChooseTeamPage extends Modal implements OnInit {
     this.isLoadingTeams = true;
     this.teamService.getTeams(this.wave, group).subscribe(async (response: any) => {
       if (!response) {
-        this.error = response['message'] || 'Keine Teams verfügbar';
+        this.error = response['message'] || __('Keine Teams verfügbar');
         return;
       }
       const res: any = await this.teamService.getTeam(this.auth.data.team_id).toPromise();
