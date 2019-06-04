@@ -91,12 +91,11 @@
     <allow-navigation href="http://192.168.0.18:8101" sessionid="566b4db6" />
     <plugin name="cordova-plugin-firebase" spec="git+https://github.com/rhanesoghlyan/cordova-plugin-firebase.git#master" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
-    <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="5.0.4">
-        <variable name="GOOGLE_API_KEY_FOR_ANDROID" value="AIzaSyC7ybIOBRNNWX43TsNSUj20WzH4q4lFhVM" />
-        <variable name="OKHTTP_VERSION" value="3.12.0" />
-        <variable name="LOCATION_USAGE_DESCRIPTION" value="This app requires access to your location for navigation purposes" />
-    </plugin>
     <plugin name="cordova-plugin-advanced-http" spec="2.0.9" />
+    <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="^5.0.4">
+        <variable name="OKHTTP_VERSION" value="3.10.0" />
+        <variable name="GOOGLE_API_KEY_FOR_ANDROID" value="AIzaSyC7ybIOBRNNWX43TsNSUj20WzH4q4lFhVM" />
+    </plugin>
     <engine name="ios" spec="4.5.5" />
     <engine name="android" spec="7.1.4" />
 </widget>
