@@ -5,6 +5,10 @@ import { Contact } from '../../../services/contacts/interfaces';
 import { environment } from '../../../../environments/environment';
 import { Phonenumber } from '../../../services/user/types/phonenumber';
 import { Email } from '../../../services/user/types/email';
+import { NetworkService } from '../../../services/network/network.service';
+import { NetworkStatus } from '../../../services/network/network-status';
+import { ContactService } from '../../../services/contacts/contact.service';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-view-contact',
@@ -18,8 +22,16 @@ export class ViewContactPage extends Modal {
   /**
    * ViewContactPage constructor
    * @param {ModalController} modal
+   * @param {NetworkService} network
+   * @param {ContactService} contactService
+   * @param {AuthService} auth
    */
-  constructor(modal: ModalController) {
+  constructor(
+    modal: ModalController,
+    private network: NetworkService,
+    private contactService: ContactService,
+    private auth: AuthService,
+  ) {
     super(modal);
     this.server = environment.api.url;
   }
@@ -48,15 +60,49 @@ export class ViewContactPage extends Modal {
     return modal;
   }
 
+
+  /**
+   * Reload the data
+   * @param event
+   * @return {Promise<void>}
+   */
+  public async reload(event) {
+    if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
+      await this.getContact(true);
+    }
+    event.target.complete();
+  }
+
+  /**
+   * Get contact
+   * @param {boolean} forceReload
+   * @return {Promise<void>}
+   */
+  public async getContact(forceReload: boolean = false) {
+    return this.contactService.getContact(this.contact, this.auth.data.current_wave.id, forceReload).toPromise();
+  }
+
+  /**
+   * Call
+   * @param {Phonenumber} phonenumber
+   */
   public call(phonenumber: Phonenumber) {
     document.location.href = `tel:${phonenumber.country_code}${phonenumber.phonenumber}`;
   }
 
+  /**
+   * Send email
+   * @param {Email} email
+   */
   public sendEmail(email: Email) {
     document.location.href = `mailto:${email.email}`;
   }
 
+  /**
+   * On save callback
+   * @return {Promise<any>}
+   */
   protected async onSave(): Promise<any> {
-    return undefined;
+    return true;
   }
 }

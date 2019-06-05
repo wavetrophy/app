@@ -13,6 +13,8 @@ import { EditPhonenumberPage } from '../modal/phonenumber/edit/edit-phonenumber.
 import { environment } from '../../environments/environment';
 import { NetworkService } from '../services/network/network.service';
 import { PasswordChangePage } from '../modal/user/password-change/password-change.page';
+import { NetworkStatus } from '../services/network/network-status';
+import { __ } from '../services/functions';
 
 @Component({
   selector: 'profile',
@@ -50,7 +52,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   /**
    * On init hook.
    */
-  ngOnInit() {
+  public ngOnInit() {
     this.getEmails();
     this.getPhonenumbers();
     this.username = this.auth.data.username;
@@ -61,10 +63,24 @@ export class ProfilePage implements OnInit, OnDestroy {
   /**
    * On destroy hook.
    */
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.subs.forEach((sub) => {
       sub.unsubscribe();
     });
+  }
+
+  /**
+   * Reload the data
+   * @param event
+   * @return {Promise<void>}
+   */
+  public async reload(event) {
+    if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
+      const promiseEmail = this.getEmails(true).toPromise();
+      const promisePhonenumber = this.getPhonenumbers(true).toPromise();
+      await Promise.all([promiseEmail, promisePhonenumber]);
+    }
+    event.target.complete();
   }
 
   /**
@@ -73,8 +89,12 @@ export class ProfilePage implements OnInit, OnDestroy {
    */
   public async changeProfileImage() {
     const alert = await this.alert.create({
-      header: 'Not available',
-      message: 'You can change your profile picture in the upcoming version of the application',
+      header: __('Nicht verfügbar'),
+      message: __('Du kannst Dein Profilbild in der nächsten Version der App ändern.'),
+      buttons: [{
+        text: 'OK',
+        role: 'cancel',
+      }],
     });
     alert.present();
   }
@@ -137,20 +157,19 @@ export class ProfilePage implements OnInit, OnDestroy {
       await error.present();
       return;
     }
-    const message = 'You remove this email from your public contact by deleting this email.' +
-      ' Other people wont see the email anymore (if the email is public). Are you sure?';
+    const message = __('Die Email wird auch von deinem öffentlichen Kontakt entfernt. Andere Teilnehmer der WAVE können nun deine Email (wenn diese öffentlich ist) nicht mehr sehen. Bist Du sicher?');
     const alert = await this.alert.create({
-      header: 'Delete email',
+      header: __('Email löschen'),
       message: message,
       buttons: [
         {
-          text: 'Cancel',
+          text: __('Abbrechen'),
           role: 'cancel',
         }, {
           text: 'Remove',
           handler: async () => {
             const loader = await this.loading.create({
-              message: 'Loading',
+              message: __('Laden'),
               spinner: 'crescent',
             });
             loader.present();
@@ -160,8 +179,8 @@ export class ProfilePage implements OnInit, OnDestroy {
               this.getEmails();
             } else {
               this.alert.create({
-                header: 'Error',
-                message: 'Deleting email failed. Please try again later.',
+                header: __('Fehler'),
+                message: __('Löschen der Email fehlgeschlagen. Bitte versuche es später erneut'),
                 buttons: [{text: 'OK', role: 'dismiss'}],
               });
             }
@@ -202,21 +221,19 @@ export class ProfilePage implements OnInit, OnDestroy {
    * @param {Phonenumber} phonenumber
    * @returns {Promise<void>}
    */
-  public async removePhonenumber(phonenumber: Phonenumber) {
-    const message = 'You remove this phonenumber from your public contact by deleting this phonenumber.' +
-      ' Other people wont see the phonenummber anymore (if the phonenumber is public). Are you sure?';
+  public async removePhonenumber(phonenumber: Phonenumber) {const message = __('Die Telefonnummer wird auch von deinem öffentlichen Kontakt entfernt. Andere Teilnehmer der WAVE können nun deine Telefonnummer (wenn diese öffentlich ist) nicht mehr sehen. Bist Du sicher?');
     const alert = await this.alert.create({
-      header: 'Delete phonenumber',
+      header: __('Telefonnummer löschen'),
       message: message,
       buttons: [
         {
-          text: 'Cancel',
+          text: __('Abbrechen'),
           role: 'cancel',
         }, {
-          text: 'Remove',
+          text: __('Entfernen'),
           handler: async () => {
             const loader = await this.loading.create({
-              message: 'Loading',
+              message: __('Laden'),
               spinner: 'crescent',
             });
             loader.present();
@@ -226,8 +243,8 @@ export class ProfilePage implements OnInit, OnDestroy {
               this.getPhonenumbers();
             } else {
               this.alert.create({
-                header: 'Error',
-                message: 'Deleting phonenumber failed. Please try again later.',
+                header: __('Fehler'),
+                message: __('Löschen der Email fehlgeschlagen. Bitte versuche es später erneut.'),
                 buttons: [{text: 'OK', role: 'dismiss'}],
               });
             }
@@ -241,21 +258,25 @@ export class ProfilePage implements OnInit, OnDestroy {
   /**
    * Get emails.
    */
-  private getEmails() {
-    const sub = this.userService.getEmails(this.auth.data.user_id).subscribe((emails: Email[]) => {
+  private getEmails(forceReload: boolean = false) {
+    const obs = this.userService.getEmails(this.auth.data.user_id, forceReload);
+    const sub = obs.subscribe((emails: Email[]) => {
       this.emails = emails;
     });
     this.subs.push(sub);
+    return obs;
   }
 
   /**
    * Get phonenumbers
    */
-  private getPhonenumbers() {
-    const sub = this.userService.getPhonenumbers(this.auth.data.user_id).subscribe((phonenumbers: Phonenumber[]) => {
+  private getPhonenumbers(forceReload: boolean = false) {
+    const obs = this.userService.getPhonenumbers(this.auth.data.user_id, forceReload);
+    const sub = obs.subscribe((phonenumbers: Phonenumber[]) => {
       this.phonenumbers = phonenumbers;
     });
     this.subs.push(sub);
+    return obs;
   }
 
   /**
@@ -266,8 +287,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     const result = await pwModal.onDidDismiss();
     if (result.data.type === 'success') {
       const alert = await this.alert.create({
-        header: 'Password',
-        message: 'Password changed successfully',
+        header: __('Passwort'),
+        message: __('Passwort erfolgreich geändert.'),
         buttons: [{
           text: 'OK',
           role: 'dismiss',

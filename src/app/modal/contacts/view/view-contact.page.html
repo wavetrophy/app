@@ -1,12 +1,16 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-buttons slot="end">
-            <ion-button (click)="close()">Close</ion-button>
+            <ion-button (click)="close()">{{'Schliessen'}}</ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content class="modal-content" padding>
+    <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+        <ion-refresher-content pullingText="{{'Neu laden'}}"></ion-refresher-content>
+    </ion-refresher>
+
     <ion-row class="ion-justify-content-center avatar-row" text-center>
         <ion-avatar>
             <ion-img src="{{server}}/{{contact.profile_picture.url}}" class="profile-picture">
@@ -17,7 +21,7 @@
         <h3>{{title}}</h3>
     </ion-row>
     <ion-text *ngIf="contact.phonenumbers.length === 0 && contact.emails.length === 0" text-center>
-        <p>{{title}} has no public email or phone number</p>
+        <p>{{title}} {{'hat keine öffentliche Emails oder Telefonnummern.'}}</p>
     </ion-text>
     <ion-list *ngIf="contact.phonenumbers">
         <ion-item *ngFor="let phonenumber of contact.phonenumbers" (click)="call(phonenumber)" class="ion-activatable">

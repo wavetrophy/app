@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.wavetrophy.app" version="0.3.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="1.0.0.2" build="1.0.0.2" id="com.wavetrophy.app" ios-CFBundleVersion="1.0.0-1.0.0.2" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>WAVE Trophy</name>
     <description>The Official WAVE Trophy Drivers Assistant</description>
     <author email="contact@darker.dev" href="https://darker.dev">Darkmindz Development Team</author>
@@ -19,6 +19,8 @@
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="deployment-target" value="10.2" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
@@ -91,6 +93,11 @@
     <allow-navigation href="http://192.168.0.18:8101" sessionid="566b4db6" />
     <plugin name="cordova-plugin-firebase" spec="git+https://github.com/rhanesoghlyan/cordova-plugin-firebase.git#master" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
+    <plugin name="cordova-plugin-advanced-http" spec="2.0.9" />
+    <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="^5.0.4">
+        <variable name="OKHTTP_VERSION" value="3.10.0" />
+        <variable name="GOOGLE_API_KEY_FOR_ANDROID" value="AIzaSyC7ybIOBRNNWX43TsNSUj20WzH4q4lFhVM" />
+    </plugin>
     <engine name="ios" spec="4.5.5" />
     <engine name="android" spec="7.1.4" />
 </widget>

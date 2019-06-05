@@ -1,17 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { AlertController, ModalController, Platform, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationService } from './services/firebase/cloud-messaging/notification.service';
-import * as moment from 'moment';
 import { NetworkService } from './services/network/network.service';
 import { NetworkStatus } from './services/network/network-status';
 import { ImageCacheConfig } from './services/image-cache';
 import { PasswordChangePage } from './modal/user/password-change/password-change.page';
+import { __ } from './services/functions';
+import * as moment from 'moment-timezone';
+import 'moment/locale/de-ch';
+import 'moment/locale/en-gb';
 
 @Component({
   selector: 'app-root',
@@ -40,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param {ImageCacheConfig} imageCacheConfig
    * @param modal
    * @param alert
+   * @param nav
    */
   public constructor(
     private platform: Platform,
@@ -53,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private imageCacheConfig: ImageCacheConfig,
     private modal: ModalController,
     private alert: AlertController,
+    private nav: NavController,
   ) {
     this.initializeApp();
   }
@@ -61,10 +66,13 @@ export class AppComponent implements OnInit, OnDestroy {
    * Initialize the application.
    */
   public initializeApp() {
-    moment.locale('de');
-    this.imageCacheConfig.setFallbackUrl('assets/logo.png');
+    this.imageCacheConfig.setFallbackUrl('assets/logo.jpg');
     this.imageCacheConfig.useImg = true;
     this.platform.ready().then(() => {
+      // moment.locale(this.authService.data.locale.short);
+      moment.locale('de-CH');
+      // This is to set all dates per default to -01:00, so the dates from the server will be displayed correctly (+01:00)
+      moment.tz.setDefault('Atlantic/Azores');
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
@@ -81,10 +89,13 @@ export class AppComponent implements OnInit, OnDestroy {
     if (state === true) {
       // Dont setup notifications if the user is not logged in.
       this.notifications.register();
-      moment.locale(this.authService.data.locale.short);
-      this.router.navigate(['wave']);
+      // moment.locale(this.authService.data.locale.short);
+      moment.locale('de-CH');
+      // This is to set all dates per default to -01:00, so the dates from the server will be displayed correctly (+01:00)
+      moment.tz.setDefault('Atlantic/Azores');
+      this.nav.navigateRoot(['/', 'wave']);
     } else {
-      this.router.navigate(['auth', 'login']);
+      this.nav.navigateRoot(['/', 'auth', 'login']);
     }
 
     const subAuth = this.authService.authenticationState.subscribe(() => this.handleDataRefresh());
@@ -114,8 +125,8 @@ export class AppComponent implements OnInit, OnDestroy {
     const data = this.authService.data;
     if ('must_reset_password' in data && data.must_reset_password) {
       const alert = await this.alert.create({
-        header: 'Change password',
-        message: 'Please change your password',
+        header: __('Passwort ändern'),
+        message: __('Bitte ändere dein Passwort'),
         buttons: [
           {
             text: 'OK',
@@ -125,7 +136,7 @@ export class AppComponent implements OnInit, OnDestroy {
             },
           },
           {
-            text: 'Later (not recommended)',
+            text: __('Später (nicht empfohlen)'),
             role: 'cancel',
           },
         ],
@@ -142,19 +153,19 @@ export class AppComponent implements OnInit, OnDestroy {
     let config;
     if (this.network.currentNetworkStatus() === NetworkStatus.OFFLINE) {
       config = {
-        message: 'You\'re offline, some functionality is not available',
+        message: __('Du bist offline. App funktioniert nur beschränkt'),
         duration: 10000,
         buttons: [{
-          text: 'Okay',
+          text: __('OK'),
           role: 'cancel',
         }],
       };
     } else {
       config = {
-        message: 'You\'re back online',
+        message: __('Du bist wieder online'),
         duration: 3000,
         buttons: [{
-          text: 'Okay',
+          text: __('OK'),
           role: 'cancel',
         }],
       };

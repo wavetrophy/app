@@ -63,3 +63,8 @@ ion-modal {
   font-size: .65rem;
   line-height: .8rem;
 }
+
+// fix
+.action-sheet-group {
+  overflow: auto !important;
+}

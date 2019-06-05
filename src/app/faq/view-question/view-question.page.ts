@@ -12,7 +12,9 @@ import { EditAnswerPage } from '../../modal/faq/edit-answer/edit-answer.page';
 import { AnswerOptionsPage } from '../../popover/answer-options/answer-options.page';
 import { PushNotificationService } from '../../services/firebase/cloud-messaging/push-notification.service';
 import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
-import { e } from '../../services/functions';
+import { __, e } from '../../services/functions';
+import { NetworkStatus } from '../../services/network/network-status';
+import { NetworkService } from '../../services/network/network.service';
 
 @Component({
   selector: 'app-view-question',
@@ -43,6 +45,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    * @param {ModalController} modal
    * @param {PopoverController} popopver
    * @param {PushNotificationService} push
+   * @param {NetworkService} network
    */
   constructor(
     private ar: ActivatedRoute,
@@ -53,6 +56,7 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
     private modal: ModalController,
     private popopver: PopoverController,
     private push: PushNotificationService,
+    private network: NetworkService,
   ) {
   }
 
@@ -70,6 +74,19 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    */
   public ngOnDestroy() {
     this.subs.forEach(sub => sub.unsubscribe());
+  }
+
+
+  /**
+   * Reload the data
+   * @param event
+   * @return {Promise<void>}
+   */
+  public async reload(event) {
+    if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
+      await this.getQuestion(this.id, true).toPromise();
+    }
+    event.target.complete();
   }
 
   /**
@@ -146,14 +163,14 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    */
   private async resolveAnswer(answer: Answer) {
     const alert = await this.alert.create({
-      header: 'Accept answer',
-      message: 'Are you sure to accept this answer as the best answer. You can only accept one answer once.',
+      header: __('Antwort akzeptieren'),
+      message: __('Bist Du sicher, dass Du diese Antwort als Lösung akzeptieren möchtest? Du kannst nur einmal eine Antwort als Lösung akzeptieren'),
       buttons: [
         {
-          text: 'Cancel',
+          text: __('Abbrechen'),
           role: 'cancel',
         }, {
-          text: 'Accept',
+          text: __('Akzeptieren'),
           handler: async () => {
             this.isLoading = true;
             const sub = this.questionService.resolve(this.question, answer).subscribe(() => this.getQuestion(this.id));
@@ -186,14 +203,14 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
    */
   private async deleteAnswer(answer: Answer) {
     const alert = await this.alert.create({
-      header: 'Accept answer',
-      message: 'Are you sure to delete this answer? It will remove your answer permanently',
+      header: __('Antwort löschen'),
+      message: __('Willst Du diese Antwort wirklich löschen?'),
       buttons: [
         {
-          text: 'Cancel',
+          text: __('Abbrechen'),
           role: 'cancel',
         }, {
-          text: 'Delete',
+          text: __('Löschen'),
           handler: async () => {
             this.isLoading = true;
             const sub = this.answerService.deleteAnswer(answer.id).subscribe(() => this.getQuestion(this.id));
@@ -208,22 +225,25 @@ export class ViewQuestionPage implements OnInit, OnDestroy {
   /**
    * Get a question
    * @param {number} id
+   * @param forceReload
    */
-  private getQuestion(id: number) {
+  private getQuestion(id: number, forceReload: boolean = false) {
     this.errormessage = null;
     this.isLoading = true;
-    const sub = this.questionService.getQuestion(id)
-      .subscribe((res: any) => {
-        this.isLoading = false;
-        if (!res) {
-          this.errormessage = e(res, 'message') || 'Keine Fragen verfügbar';
-          return;
-        }
-        this.question = res;
-      }, (res: any) => {
-        this.isLoading = false;
-        this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
-      });
+    const obs = this.questionService.getQuestion(id, forceReload);
+    const sub = obs.subscribe((res: any) => {
+      this.isLoading = false;
+      if (!res) {
+        this.errormessage = e(res, 'message') || __('Keine Fragen verfügbar');
+        return;
+      }
+      this.question = res;
+    }, (res: any) => {
+      this.isLoading = false;
+      this.errormessage = e(res, 'message') || __('Es ist ein Fehler aufgetreten');
+    });
     this.subs.push(sub);
+
+    return obs;
   }
 }

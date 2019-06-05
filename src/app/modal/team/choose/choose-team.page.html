@@ -9,7 +9,7 @@
     </ion-row>
 
     <ion-select *ngIf="groups.length > 0 && !isLoading"
-                placeholder="{{'Select a Group'}}"
+                placeholder="{{'Wähle eine Gruppe'}}"
                 interface="action-sheet"
                 [compareWith]="compareWith"
                 [(ngModel)]="group"
@@ -26,7 +26,7 @@
 
     <ion-select *ngIf="teams.length > 0 && !isLoadingTeams"
                 class="with"
-                placeholder="{{'Select a Team'}}"
+                placeholder="{{'Wähle ein Team'}}"
                 interface="action-sheet"
                 margin-top="1vh"
                 [compareWith]="compareWith"
@@ -42,9 +42,9 @@
 
     <ion-row class="ion-justify-content-end" margin-top="1vh">
         <div>
-            <ion-button fill="clear" (click)="close()">{{'Cancel'}}</ion-button>
+            <ion-button fill="clear" (click)="close()">{{'Abbrechen'}}</ion-button>
             <ion-button fill="clear" (click)="save()" [disabled]="isSaving || !isSaveable"
-                        requires-connection>{{'Save'}}</ion-button>
+                        requires-connection>{{'Speichern'}}</ion-button>
         </div>
     </ion-row>
 </div>

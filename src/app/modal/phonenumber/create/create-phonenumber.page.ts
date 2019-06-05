@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Modal } from '../../modal';
 import { ModalController } from '@ionic/angular';
 import { UserService } from '../../../services/user/user.service';
+import { __ } from '../../../services/functions';
 
 @Component({
   selector: 'app-email',
@@ -37,7 +38,7 @@ export class CreatePhonenumberPage extends Modal {
       component: CreatePhonenumberPage,
       componentProps: {
         userId: userId,
-        title: 'Add phonenumber',
+        title: __('Telefonnummer hinzufügen'),
       },
       showBackdrop: true,
       backdropDismiss: true,

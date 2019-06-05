@@ -20,10 +20,31 @@ export class ContactService {
   /**
    * Get contacts of a wave
    * @param waveId
+   * @param {boolean} forceReload Indicates if the request should not be taken from the cache
    * @returns {Observable<Object>}
    */
-  public getContacts(waveId): Observable<Object> {
+  public getContacts(waveId, forceReload: boolean = false): Observable<Object> {
     const url = `${this.url}/waves/${waveId}/contacts`;
-    return this.http.get(url);
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+    return this.http.get(url, {headers: headers});
+  }
+
+  /**
+   * Get a single contact.
+   * @param waveId
+   * @param contactId
+   * @param {boolean} forceReload
+   * @return {Observable<Object>}
+   */
+  public getContact(waveId, contactId, forceReload: boolean = false) {
+    const url = `${this.url}/waves/${waveId}/contacts/${contactId}`;
+    const headers = {};
+    if (forceReload) {
+      headers['Force-Reload'] = 'true';
+    }
+    return this.http.get(url, {headers: headers});
   }
 }

@@ -11,6 +11,10 @@
 </ion-header>
 
 <ion-content padding>
+    <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+        <ion-refresher-content pullingText="{{'Neu laden'}}"></ion-refresher-content>
+    </ion-refresher>
+
     <div *ngIf="question">
         <ion-row class="ion-justify-content-center">
             <h2 class="title">

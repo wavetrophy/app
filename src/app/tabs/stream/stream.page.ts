@@ -6,9 +6,11 @@ import { Subscription } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { ChooseTeamPage } from '../../modal/team/choose/choose-team.page';
 import { environment } from '../../../environments/environment';
-import * as moment from 'moment';
+import moment from 'moment-timezone';
 import { Event } from '../../services/stream/types/event';
-import { e, empty } from '../../services/functions';
+import { __, e, empty } from '../../services/functions';
+import { NetworkService } from '../../services/network/network.service';
+import { NetworkStatus } from '../../services/network/network-status';
 
 @Component({
   selector: 'app-stream',
@@ -22,7 +24,7 @@ import { e, empty } from '../../services/functions';
 export class StreamPage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   public errormessage = null;
-  public events: { [date: string]: Event };
+  public events: { [date: string]: Event[] };
   public server;
   public subs: Subscription[] = [];
   public isLoading = false;
@@ -37,6 +39,7 @@ export class StreamPage implements OnInit {
    * @param {Storage} storage
    * @param {ModalController} modal
    * @param {ChangeDetectorRef} cd
+   * @param {NetworkService} network
    */
   constructor(
     public auth: AuthService,
@@ -44,6 +47,7 @@ export class StreamPage implements OnInit {
     private storage: Storage,
     private modal: ModalController,
     private cd: ChangeDetectorRef,
+    private network: NetworkService,
   ) {
     this.server = environment.api.url;
   }
@@ -60,23 +64,37 @@ export class StreamPage implements OnInit {
   }
 
   /**
-   * Change stream
-   * @param type
+   * Reload the data
+   * @param event
    * @return {Promise<void>}
    */
-  public loadStream(type?: string) {
+  public async reload(event) {
+    if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
+      await this.loadStream(this.streamType, true);
+    }
+
+    event.target.complete();
+  }
+
+  /**
+   * Change stream
+   * @param type
+   * @param forceReload
+   * @return {Promise<void>}
+   */
+  public async loadStream(type?: string, forceReload: boolean = false) {
     const userId = this.auth.data.user_id;
     const waveId = this.auth.data.current_wave.id;
     this.streamType = type;
     switch (type) {
       case 'all':
-        this.getWaveStream(waveId);
+        await this.getWaveStream(waveId, forceReload).toPromise();
         break;
       case 'personal':
-        this.getPersonalStream(userId);
+        await this.getPersonalStream(userId, forceReload).toPromise();
         break;
       default:
-        this.getWaveStream(userId);
+        await this.getWaveStream(userId, forceReload).toPromise();
         break;
     }
   }
@@ -98,30 +116,38 @@ export class StreamPage implements OnInit {
    *
    * @param {number} userId
    *
-   * @returns {Promise<void>}
+   * @param forceReload
+   * @returns {Observable}
    */
-  public getPersonalStream(userId: number) {
+  public getPersonalStream(userId: number, forceReload: boolean = true) {
     this.isLoading = true;
     this.errormessage = '';
     this.events = null;
     this.cd.detectChanges();
 
-    const sub = this.stream.getByUser(userId).subscribe((res: any) => this.handleSuccess(res), (res: any) => this.handleError(res));
+    const obs = this.stream.getByUser(userId, forceReload);
+    const sub = obs.subscribe((res: any) => this.handleSuccess(res), (res: any) => this.handleError(res));
     this.subs.push(sub);
+
+    return obs;
   }
 
   /**
    * Get the stream by wave
    * @param {number} waveId
+   * @param forceReload
    */
-  public getWaveStream(waveId: number) {
+  public getWaveStream(waveId: number, forceReload: boolean = false) {
     this.isLoading = true;
     this.errormessage = '';
     this.events = null;
     this.cd.detectChanges();
 
-    const sub = this.stream.getByWave(waveId).subscribe((res: any) => this.handleSuccess(res), (res: any) => this.handleError(res));
+    const obs = this.stream.getByWave(waveId, forceReload);
+    const sub = obs.subscribe((res: any) => this.handleSuccess(res), (res: any) => this.handleError(res));
     this.subs.push(sub);
+
+    return obs;
   }
 
   /**
@@ -166,13 +192,23 @@ export class StreamPage implements OnInit {
   private handleSuccess(res: any) {
     this.isLoading = false;
     if (!e(res, 'success')) {
-      this.errormessage = e(res, 'message') || 'Keine Daten verfügbar';
+      this.errormessage = e(res, 'message') || __('Keine Daten verfügbar');
       return;
     }
-    this.events = res.events;
+
+    const events = {};
+    Object.keys(res.events).sort().forEach(function (key) {
+      const k = key.substr(0, 8);
+      if (!events[k]) {
+        events[k] = [];
+      }
+      events[k].push(res.events[key]);
+    });
+    this.events = events;
+
     if (empty(this.events)) {
-      this.errormessage = 'No Events available for your team';
-      this.joinTeamMessage = 'Join a different Team';
+      this.errormessage = __('Keine Events für Dein Team verfügbar');
+      this.joinTeamMessage = __('Team wechseln');
     }
     this.cd.detectChanges();
   }
@@ -183,8 +219,8 @@ export class StreamPage implements OnInit {
    */
   private handleError(res: any) {
     this.isLoading = false;
-    this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
-    this.joinTeamMessage = 'Join a Team';
+    this.errormessage = e(res, 'message') || __('Es ist ein Fehler aufgetreten');
+    this.joinTeamMessage = __('Team beitreten');
     this.cd.detectChanges();
   }
 }

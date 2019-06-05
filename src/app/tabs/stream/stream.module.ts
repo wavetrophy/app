@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { StreamPage } from './stream.page';
+import { DirectivesModule } from '../../directives/directives.module';
 
 const routes: Routes = [
   {path: '', component: StreamPage},
@@ -17,6 +18,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
+    DirectivesModule,
   ],
   declarations: [StreamPage],
 })

@@ -9,6 +9,20 @@ if (environment.production) {
   enableProdMode();
 }
 
+// @ts-ignore
+if (!String.prototype.format) {
+  // @ts-ignore
+  String.prototype.format = function () {
+    const args = arguments;
+    return this.replace(/{(\d+)}/g, function (match, number) {
+      return typeof args[number] !== 'undefined'
+        ? args[number]
+        : match
+        ;
+    });
+  };
+}
+
 const logger = new ConsoleLogger('MAIN');
 
 platformBrowserDynamic().bootstrapModule(AppModule)

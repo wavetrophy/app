@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
+import { __ } from '../../services/functions';
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ export class LoginPage implements OnInit {
     private loading: LoadingController,
     private router: Router,
     private notifications: NotificationService,
+    private nav: NavController,
   ) {
   }
 
@@ -53,7 +55,7 @@ export class LoginPage implements OnInit {
    */
   public async login() {
     const loader = await this.loading.create({
-      message: 'Logging in',
+      message: __('Laden'),
       spinner: 'crescent',
     });
     loader.present();
@@ -63,8 +65,7 @@ export class LoginPage implements OnInit {
       .subscribe(() => {
         this.isLoading = false;
         this.notifications.register();
-        this.router.navigate(['wave']);
-        loader.dismiss();
+        this.nav.navigateRoot(['/', 'wave']).then(() => loader.dismiss());
       }, () => {
         this.isLoading = false;
         loader.dismiss();

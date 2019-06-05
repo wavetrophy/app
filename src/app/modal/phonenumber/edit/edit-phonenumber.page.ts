@@ -4,6 +4,7 @@ import { UserService } from '../../../services/user/user.service';
 import { Modal } from '../../modal';
 import { Phonenumber } from '../../../services/user/types/phonenumber';
 import { AuthService } from '../../../services/auth/auth.service';
+import { __ } from '../../../services/functions';
 
 @Component({
   selector: 'app-phonenumber',
@@ -43,7 +44,7 @@ export class EditPhonenumberPage extends Modal {
       componentProps: {
         // clone object to prevent editing the regular phonenumber...
         phonenumber: Object.assign({}, phonenumber),
-        title: 'Edit phonenumber',
+        title: __('Telefonnnummer bearbeiten'),
       },
       showBackdrop: true,
       backdropDismiss: true,

@@ -4,18 +4,17 @@
         <ion-input type="text" [(ngModel)]="email.email" #focus></ion-input>
     </ion-item>
     <ion-label color="warning" *ngIf="isEmailEqualToUsername">
-        Your email equals your username, which is used for authentication. If you change it now, you have to log in
-        again!
+        {{'Deine Email entspricht deinem Benutzernamen, welcher für das Login gebraucht wird. Wenn du diese nun änderst, musst du dich erneut anmelden!'}}
     </ion-label>
     <ion-label color="danger" *ngIf="error">{{error}}</ion-label>
     <ion-row justify-content-end margin-top="1vh">
-        <p style="margin-top:.6rem">Public</p>
+        <p style="margin-top:.6rem">{{'Öffentlich'}}</p>
         <ion-toggle [(ngModel)]="email.is_public"></ion-toggle>
     </ion-row>
     <ion-row justify-content-end>
         <div>
-            <ion-button fill="clear" (click)="close()">Cancel</ion-button>
-            <ion-button fill="clear" (click)="save()" [disabled]="isSaving" requires-connection>Save</ion-button>
+            <ion-button fill="clear" (click)="close()">{{'Abbrechen'}}</ion-button>
+            <ion-button fill="clear" (click)="save()" [disabled]="isSaving" requires-connection>{{'Speichern'}}</ion-button>
         </div>
     </ion-row>
 </div>

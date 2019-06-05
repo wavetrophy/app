@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Modal } from '../../modal';
 import { ModalController } from '@ionic/angular';
 import { UserService } from '../../../services/user/user.service';
+import { __ } from '../../../services/functions';
 
 @Component({
   selector: 'app-password-change',
@@ -35,7 +36,7 @@ export class PasswordChangePage extends Modal {
       component: PasswordChangePage,
       componentProps: {
         userId: userId,
-        title: 'Change password',
+        title: __('Passwort ändern'),
       },
       showBackdrop: true,
       backdropDismiss: true,

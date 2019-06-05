@@ -9,26 +9,27 @@
             WAVETROPHY
         </ion-title>
     </ion-toolbar>
+
 </ion-header>
 
-<ion-content>
-
+<ion-content forceOverscroll="false">
     <super-tabs>
         <super-tabs-toolbar showIndicator>
             <super-tab-button>
-                <ion-label>{{ 'Events' }}</ion-label>
+                <ion-label>{{'Events'}}</ion-label>
             </super-tab-button>
             <super-tab-button>
-                <ion-label>{{ 'Hotels' }}</ion-label>
+                <ion-label>{{'Hotels'}}</ion-label>
             </super-tab-button>
             <super-tab-button>
-                <ion-label>{{ 'Contacts' }}</ion-label>
+                <ion-label>{{'Kontakte'}}</ion-label>
             </super-tab-button>
             <super-tab-button>
-                <ion-label>{{ 'FAQ' }}</ion-label>
+                <ion-label>{{'FAQ'}}</ion-label>
             </super-tab-button>
         </super-tabs-toolbar>
-        <super-tabs-container>
+
+        <super-tabs-container swipeEnabled>
             <super-tab>
                 <ion-nav [root]="streamPage"></ion-nav>
             </super-tab>
@@ -43,5 +44,4 @@
             </super-tab>
         </super-tabs-container>
     </super-tabs>
-
 </ion-content>

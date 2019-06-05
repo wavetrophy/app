@@ -4,7 +4,7 @@
   <ion-item>
     <ion-textarea [(ngModel)]="answer.answer"
                   rows="3"
-                  placeholder="Your response..." #focus>
+                  placeholder="{{'Deine Antwort...'}}" #focus>
     </ion-textarea>
   </ion-item>
 
@@ -12,8 +12,8 @@
 
   <ion-row justify-content-end>
     <div>
-      <ion-button fill="clear" (click)="close()">Cancel</ion-button>
-      <ion-button fill="clear" (click)="save()" [disabled]="isSaving" requires-connection>Save</ion-button>
+      <ion-button fill="clear" (click)="close()">{{'Abbrechen'}}</ion-button>
+      <ion-button fill="clear" (click)="save()" [disabled]="isSaving" requires-connection>{{'Speichern'}}</ion-button>
     </div>
   </ion-row>
 </div>

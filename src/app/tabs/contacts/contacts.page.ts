@@ -6,7 +6,9 @@ import { AuthService } from '../../services/auth/auth.service';
 import { environment } from '../../../environments/environment';
 import { ViewContactPage } from '../../modal/contacts/view/view-contact.page';
 import { ModalController } from '@ionic/angular';
-import { e } from '../../services/functions';
+import { __, e, empty } from '../../services/functions';
+import { NetworkStatus } from '../../services/network/network-status';
+import { NetworkService } from '../../services/network/network.service';
 
 @Component({
   selector: 'app-contacts',
@@ -15,7 +17,7 @@ import { e } from '../../services/functions';
 })
 export class ContactsPage implements OnInit, OnDestroy {
   public contacts: { group: Group, users: Contact[] }[] = [];
-  public errormessage: string;
+  public errormessage?: string;
   public isLoading = false;
   public readonly server: string;
   private subs: Subscription[] = [];
@@ -25,11 +27,13 @@ export class ContactsPage implements OnInit, OnDestroy {
    * @param {ContactService} contactService
    * @param {AuthService} auth
    * @param {ModalController} modal
+   * @param {NetworkService} network
    */
   public constructor(
     private contactService: ContactService,
     private auth: AuthService,
     private modal: ModalController,
+    private network: NetworkService,
   ) {
     this.server = environment.api.url;
   }
@@ -49,6 +53,18 @@ export class ContactsPage implements OnInit, OnDestroy {
   }
 
   /**
+   * Reload the data
+   * @param event
+   * @return {Promise<void>}
+   */
+  public async reload(event) {
+    if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
+      await this.getContacts(true);
+    }
+    event.target.complete();
+  }
+
+  /**
    * View a contact.
    * @param {Contact} contact
    */
@@ -59,13 +75,15 @@ export class ContactsPage implements OnInit, OnDestroy {
   /**
    * Get contacts.
    */
-  private getContacts() {
+  private getContacts(forceReload: boolean = false) {
     this.isLoading = true;
+    this.errormessage = null;
     // @ts-ignore
-    const sub = this.contactService.getContacts(this.auth.data.current_wave.id).subscribe((res: any) => {
+    const obs = this.contactService.getContacts(this.auth.data.current_wave.id, forceReload);
+    const sub = obs.subscribe((res: any) => {
       this.isLoading = false;
       if (!e(res, 'success')) {
-        this.errormessage = e(res, 'message') || 'Keine Kontakte verfügbar';
+        this.errormessage = e(res, 'message') || __('Keine Kontakte verfügbar');
         return;
       }
       const contacts = [];
@@ -86,9 +104,12 @@ export class ContactsPage implements OnInit, OnDestroy {
       this.contacts = contacts.filter(function (el) {
         return el != null;
       });
+      if (empty(this.contacts)) {
+        this.errormessage = __('Keine Kontakte verfügbar');
+      }
     }, (res: any) => {
       this.isLoading = false;
-      this.errormessage = e(res, 'message') || 'Es ist ein Fehler aufgetreten';
+      this.errormessage = e(res, 'message') || __('Es ist ein Fehler aufgetreten');
     });
     this.subs.push(sub);
   }

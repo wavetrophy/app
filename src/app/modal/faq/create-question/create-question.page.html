@@ -4,7 +4,7 @@
     <ion-item>
         <ion-input type="text"
                    [(ngModel)]="summary"
-                   placeholder="Summary: e.g. Where to charge in lucerne"
+                   placeholder="{{'Zusammenfassung: Wo lade ich das Auto in Luzern?'}}"
                    maxlength="40"
                    #focus>
         </ion-input>
@@ -15,7 +15,7 @@
     <ion-item>
         <ion-textarea [(ngModel)]="description"
                       rows="6"
-                      placeholder="Description: e.g. I just arrived at lucerne Bellevue and there are no chargers. Where do i charge my car overnight?">
+                      placeholder="{{'Beschreibung: Ich bin gerade in Luzern angekommen. Wo kann ich nun in der Nähe des Schwanenplatzes laden?'}}">
         </ion-textarea>
     </ion-item>
 
@@ -23,8 +23,8 @@
 
     <ion-row justify-content-end>
         <div>
-            <ion-button fill="clear" (click)="close()">Cancel</ion-button>
-            <ion-button fill="clear" (click)="save()" [disabled]="isSaving" requires-connection>Save</ion-button>
+            <ion-button fill="clear" (click)="close()">{{'Abbrechen'}}</ion-button>
+            <ion-button fill="clear" (click)="save()" [disabled]="isSaving" requires-connection>{{'Speichern'}}</ion-button>
         </div>
     </ion-row>
 </div>

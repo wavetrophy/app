@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Modal } from '../../modal';
 import { ModalController } from '@ionic/angular';
 import { UserService } from '../../../services/user/user.service';
+import { __ } from '../../../services/functions';
 
 @Component({
   selector: 'app-email',
@@ -36,7 +37,7 @@ export class CreateEmailPage extends Modal {
       component: CreateEmailPage,
       componentProps: {
         userId: userId,
-        title: 'Add email',
+        title: __('Email hinzufügen'),
       },
       showBackdrop: true,
       backdropDismiss: true,
@@ -54,7 +55,7 @@ export class CreateEmailPage extends Modal {
    */
   protected async onSave(): Promise<any> {
     if (!this.email) {
-      this.error = 'Required';
+      this.error = __('Erfordert');
       return;
     }
     const email = await this.user.createEmail(this.userId, this.email, this.isPublic).toPromise();

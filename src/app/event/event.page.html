@@ -7,14 +7,14 @@
         <ion-title>{{'Event'}}</ion-title>
 
         <ion-buttons slot="end" *ngIf="event">
-            <ion-button fill="clear" href="geo:{{event.lat}},{{event.lon}}">{{'Navigate'}}</ion-button>
+            <ion-button fill="clear" geo="{{event.lat}},{{event.lon}}">{{'Starten'}}</ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-        <ion-refresher-content pullingText="{{'Pull to reload'}}" refreshingSpinner="null"></ion-refresher-content>
+        <ion-refresher-content pullingText="{{'Neu laden'}}"></ion-refresher-content>
     </ion-refresher>
 
     <offline-img src="{{server}}/media/thumbnails/events/{{event.thumbnail}}"
@@ -39,25 +39,25 @@
 
         <ion-row padding-start>
             <p>
-                <ion-icon name="time"></ion-icon>&nbsp;{{moment(event.personal_participation.arrival).format('hh:mm')}}
-                - {{moment(event.personal_participation.departure).format('hh:mm')}}
+                <ion-icon name="time"></ion-icon>&nbsp;{{moment(event.personal_participation.arrival).format('HH:mm')}}
+                - {{moment(event.personal_participation.departure).format('HH:mm')}}
             </p>
         </ion-row>
 
         <div *ngIf="!empty(event.activities)">
             <ion-row>
-                <h4>{{'Activities'}}</h4>
+                <h4>{{'Aktivitäten'}}</h4>
             </ion-row>
 
             <ion-row>
-                <ion-list>
+                <ion-list style="width: 100%;">
                     <ion-item *ngFor="let activity of event.activities">
                         <ion-label>
                             <h5>{{activity.title}}</h5>
 
                             <p>
-                                <ion-icon name="time"></ion-icon>&nbsp;{{moment(activity.start).format('hh:mm')}}
-                                - {{moment(activity.end).format('hh:mm')}}
+                                <ion-icon name="time"></ion-icon>&nbsp;{{moment(activity.start).format('HH:mm')}}
+                                - {{moment(activity.end).format('HH:mm')}}
                             </p>
 
                             <p *ngIf="activity.description">{{activity.description}}</p>

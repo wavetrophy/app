@@ -11,8 +11,8 @@ export const environment = {
   url: 'http://localhost:8100',
   api: {
     // url: 'https://wave.d4rkmindz.ch',
-    // url: 'https://app.wavetrophy.com',
-    url: 'https://wavetrophy.dev',
+    url: 'https://app.wavetrophy.com',
+    // url: 'https://wavetrophy.dev',
   },
   firebase: {
     apiKey: 'AIzaSyDRPvblPfez5t1w0Qk8-IV83SG0lwdmrAA',

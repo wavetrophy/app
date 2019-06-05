@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Modal } from '../../modal';
 import { ModalController } from '@ionic/angular';
 import { QuestionService } from '../../../services/faq/question.service';
+import { __ } from '../../../services/functions';
 
 @Component({
   selector: 'app-create-question',
@@ -39,7 +40,7 @@ export class CreateQuestionPage extends Modal {
       componentProps: {
         groupId: groupId,
         userId: userId,
-        title: 'Ask a question',
+        title: __('Stelle eine Frage'),
       },
       showBackdrop: true,
       backdropDismiss: true,

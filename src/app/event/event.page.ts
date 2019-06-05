@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment-timezone';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { StreamService } from '../services/stream/stream.service';
 import { AuthService } from '../services/auth/auth.service';
 import { environment } from '../../environments/environment';
 import { Event } from '../services/stream/types/event';
-import { e, empty } from '../services/functions';
+import { __, e, empty } from '../services/functions';
+import { NetworkService } from '../services/network/network.service';
+import { NetworkStatus } from '../services/network/network-status';
 
 @Component({
   selector: 'app-event',
@@ -29,11 +31,13 @@ export class EventPage implements OnInit, OnDestroy {
    * @param {ActivatedRoute} ar
    * @param {StreamService} stream
    * @param {AuthService} auth
+   * @param network
    */
   public constructor(
     private ar: ActivatedRoute,
     private stream: StreamService,
     private auth: AuthService,
+    private network: NetworkService,
   ) {
     this.server = environment.api.url;
   }
@@ -59,29 +63,36 @@ export class EventPage implements OnInit, OnDestroy {
    * @return {Promise<void>}
    */
   public async reload(event) {
+    if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
+      await this.getEvent(this.auth.data.user_id, this.id, true).toPromise();
+    }
+
     event.target.complete();
-    this.getEvent(this.auth.data.user_id, this.id);
   }
 
   /**
    * Get a single event.
    * @param {number} userId
    * @param {number} id
+   * @param forceReload
    */
-  private
-  getEvent(userId: number, id: number) {
+  private getEvent(userId: number, id: number, forceReload: boolean = false) {
     this.isLoading = true;
     this.errormessage = '';
-    const sub = this.stream.getEventByUser(userId, id).subscribe((res: any) => {
+
+    const obs = this.stream.getEventByUser(userId, id, forceReload);
+    const sub = obs.subscribe((res: any) => {
       this.isLoading = false;
       if (!e(res, 'success')) {
-        this.errormessage = e(res, 'message') || 'Keine Daten verfügbar';
+        this.errormessage = e(res, 'message') || __('Keine Daten verfügbar');
         return;
       }
 
       this.event = res.event;
     });
     this.subs.push(sub);
+
+    return obs;
   }
 }
 

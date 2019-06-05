@@ -1,0 +1,151 @@
+#!/bin/node
+const inquirer = require('inquirer');
+const path = require('path');
+const fs = require('fs');
+const SplashScreen = require('../src/cli/file/splashscreen');
+const XML = require('../src/cli/file/xml');
+const shell = require('shelljs');
+const color = require('ansicolor');
+
+
+if (!shell.which('git')) {
+    const gitError = color.red('[ERROR]') + ' ' + color.italic('Git not found');
+    shell.echo(gitError);
+    shell.exit(1);
+}
+if (!shell.which('ionic')) {
+    const gitError = color.red('[ERROR]') + ' ' + color.italic('Ionic not found');
+    shell.echo(gitError);
+    shell.exit(1);
+}
+
+const welcome = color.green('Starting Release');
+shell.echo(welcome);
+
+(async () => {
+    const version = await askVersion();
+    await buildSplashScreen(version);
+    setVersionIntoConfigXML(version);
+    setVersionIntoPackageJSON(version);
+    build();
+    finish();
+    // TODO commit and upload to playstore, etc
+})();
+
+/**
+ * Ask for the current version
+ * @return {Promise<*>}
+ */
+async function askVersion() {
+    const configXML = path.resolve(__dirname, '..', 'config.xml');
+    const xml = new XML(configXML);
+    const current = xml.getAttribue('widget', 'version');
+    const major = parseInt(current.charAt(0), 10);
+    const minor = parseInt(current.charAt(2), 10);
+    let patch = parseInt(current.charAt(4), 10);
+    patch++;
+    const version = `${major}.${minor}.${patch}`;
+
+    const answer = await inquirer.prompt({
+        type: 'input',
+        name: 'version',
+        message: 'What is the semver version to release?',
+        default: version,
+        validate: async (input) => {
+            // found https://gist.github.com/jhorsman/62eeea161a13b80e39f5249281e17c39
+            return /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/.test(input);
+        }
+    });
+
+    return answer.version;
+}
+
+/**
+ * Build the splash screen
+ * @param version
+ */
+async function buildSplashScreen(version) {
+    const splashScreen = color.green('Building Splash Screen');
+    shell.echo(splashScreen);
+    const svg = new SplashScreen(path.resolve(__dirname, '..', 'resources', 'splash.svg'));
+    await svg.setVersion(version)
+        .toPNG(path.resolve(__dirname, '..', 'resources', 'splash.png'), 2732, 2732)
+
+
+    const ionic = color.green('Generating Splash Screens');
+    shell.echo(ionic);
+    shell.exec('ionic cordova resources --force --splash', {
+        silent: true,
+        cwd: path.resolve(__dirname, '..')
+    })
+}
+
+/**
+ * Set the version into config.xml
+ * @param version
+ */
+function setVersionIntoConfigXML(version) {
+    const info = color.green('Adjusting config.xml');
+    shell.echo(info);
+
+    const configXML = path.resolve(__dirname, '..', 'config.xml');
+    const xml = new XML(configXML);
+    const previousBuildVersion = xml.getAttribue('widget', 'version');
+    const previousBuildNumber = xml.getAttribue('widget', 'build');
+    let buildNumber = 1;
+    if (version.toString() === previousBuildVersion) {
+        buildNumber = parseInt(previousBuildNumber, 10) + 1;
+    }
+    const buildVersion = `${version}.${buildNumber}`;
+
+    const buildInfo = color.green(`Setting version ${version} (${buildVersion})`);
+    shell.echo(buildInfo);
+
+    xml.replaceAttribute('widget[version]', 'version', version)
+        .replaceAttribute('widget[version]', 'build', buildVersion)
+        .replaceAttribute('widget[version]', 'ios-CFBundleVersion', buildVersion)
+        .replaceAttribute('widget[version]', 'android-versionCode', buildVersion)
+        .save(configXML);
+}
+
+/**
+ * Set package version
+ * @param version
+ */
+function setVersionIntoPackageJSON(version) {
+    const info = color.green('Adjusting package.json');
+    shell.echo(info);
+    const packageJSON = path.resolve(__dirname, '..', 'package.json');
+    const json = fs.readFileSync(packageJSON, 'utf8');
+    const p = JSON.parse(json);
+    p.version = version;
+    const updated = JSON.stringify(p, null, 2);
+    fs.writeFileSync(packageJSON, updated);
+}
+
+/**
+ * Build app
+ */
+function build() {
+    const ios = color.green('Building iOS');
+    shell.echo(ios);
+    shell.exec('npm run ios:build:prod', {
+        silent: true,
+        cwd: path.resolve(__dirname, '..')
+    });
+
+    const android = color.green('Building Android');
+    shell.echo(android);
+    shell.exec('npm run android:build:prod', {
+        silent: true,
+        cwd: path.resolve(__dirname, '..')
+    });
+}
+
+/**
+ * Finish
+ */
+function finish() {
+    const ios = color.green('Done');
+    shell.echo(ios);
+}
