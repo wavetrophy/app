@@ -3,7 +3,7 @@
 PWD=$(pwd)
 BUILD_TOOLS=/Users/bjorn/Library/Android/sdk/build-tools/28.0.3
 NAME=WAVETROPHY
-KEYSTORE=/Users/bjorn/code/nodejs/wavetrophy/dist/google-play.der
+KEYSTORE=/Users/bjorn/code/nodejs/wavetrophy/dist/prod.keystore
 BUILD_APK=${PWD}/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
 RELEASE_APK=${PWD}/build/WAVETROPHY.apk
 ZIPALIGN=${BUILD_TOOLS}/zipalign

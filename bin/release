@@ -37,11 +37,20 @@ shell.echo(welcome);
  * @return {Promise<*>}
  */
 async function askVersion() {
+    const configXML = path.resolve(__dirname, '..', 'config.xml');
+    const xml = new XML(configXML);
+    const current = xml.getAttribue('widget', 'version');
+    const major = parseInt(current.charAt(0), 10);
+    const minor = parseInt(current.charAt(2), 10);
+    let patch = parseInt(current.charAt(4), 10);
+    patch++;
+    const version = `${major}.${minor}.${patch}`;
+
     const answer = await inquirer.prompt({
         type: 'input',
         name: 'version',
         message: 'What is the semver version to release?',
-        default: '1.0.0',
+        default: version,
         validate: async (input) => {
             // found https://gist.github.com/jhorsman/62eeea161a13b80e39f5249281e17c39
             return /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$/.test(input);
@@ -78,9 +87,24 @@ async function buildSplashScreen(version) {
 function setVersionIntoConfigXML(version) {
     const info = color.green('Adjusting config.xml');
     shell.echo(info);
+
     const configXML = path.resolve(__dirname, '..', 'config.xml');
     const xml = new XML(configXML);
+    const previousBuildVersion = xml.getAttribue('widget', 'version');
+    const previousBuildNumber = xml.getAttribue('widget', 'build');
+    let buildNumber = 1;
+    if (version.toString() === previousBuildVersion) {
+        buildNumber = parseInt(previousBuildNumber, 10) + 1;
+    }
+    const buildVersion = `${version}.${buildNumber}`;
+
+    const buildInfo = color.green(`Setting version ${version} (${buildVersion})`);
+    shell.echo(buildInfo);
+
     xml.replaceAttribute('widget[version]', 'version', version)
+        .replaceAttribute('widget[version]', 'build', buildVersion)
+        .replaceAttribute('widget[version]', 'ios-CFBundleVersion', buildVersion)
+        .replaceAttribute('widget[version]', 'android-versionCode', buildVersion)
         .save(configXML);
 }
 
