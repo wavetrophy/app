@@ -93,9 +93,9 @@ function setVersionIntoPackageJSON(version) {
     shell.echo(info);
     const packageJSON = path.resolve(__dirname, '..', 'package.json');
     const json = fs.readFileSync(packageJSON, 'utf8');
-    const package = JSON.parse(json);
-    package.version = version;
-    const updated = JSON.stringify(package, null, 2);
+    const p = JSON.parse(json);
+    p.version = version;
+    const updated = JSON.stringify(p, null, 2);
     fs.writeFileSync(packageJSON, updated);
 }
 
