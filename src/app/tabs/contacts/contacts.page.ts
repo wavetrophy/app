@@ -17,7 +17,7 @@ import { NetworkService } from '../../services/network/network.service';
 })
 export class ContactsPage implements OnInit, OnDestroy {
   public contacts: { group: Group, users: Contact[] }[] = [];
-  public errormessage: string;
+  public errormessage?: string;
   public isLoading = false;
   public readonly server: string;
   private subs: Subscription[] = [];
@@ -77,7 +77,7 @@ export class ContactsPage implements OnInit, OnDestroy {
    */
   private getContacts(forceReload: boolean = false) {
     this.isLoading = true;
-    this.errormessage = 'null';
+    this.errormessage = null;
     // @ts-ignore
     const obs = this.contactService.getContacts(this.auth.data.current_wave.id, forceReload);
     const sub = obs.subscribe((res: any) => {

@@ -2,14 +2,14 @@ const fs = require('fs');
 const cheerio = require('cheerio');
 const {convert} = require('convert-svg-to-png');
 
-class SVG {
+class SplashScreen {
     constructor(path) {
         const svg = fs.readFileSync(path, 'utf8');
         this.cheerio = cheerio.load(svg);
     }
 
-    replace(query, text) {
-        this.cheerio(query).innerText = text;
+    setVersion(version) {
+        this.cheerio('#Version text')[0].children[0].data = version;
 
         return this;
     }
@@ -20,4 +20,4 @@ class SVG {
     }
 }
 
-module.exports = SVG;
+module.exports = SplashScreen;
