@@ -3,7 +3,7 @@
 PWD=$(pwd)
 BUILD_TOOLS=/Users/bjorn/Library/Android/sdk/build-tools/28.0.3
 NAME=WAVETROPHY
-KEYSTORE=/Users/bjorn/code/nodejs/wavetrophy/dist/prod.keystore
+KEYSTORE=/Users/bjorn/code/nodejs/wavetrophy/dist/google-play.der
 BUILD_APK=${PWD}/platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk
 RELEASE_APK=${PWD}/build/WAVETROPHY.apk
 ZIPALIGN=${BUILD_TOOLS}/zipalign
@@ -27,7 +27,7 @@ echo App built
 echo "Signing ..."
 #${JARSIGNER} -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${KEYSTORE} -storepass ${PASS} ${BUILD_APK} ${NAME} | tee ${PWD}/build.log
 ${ZIPALIGN} -f -v 4 ${BUILD_APK} ${BUILD_APK}.tmp | tee ${PWD}/build.log
-${APKSIGNER} sign --ks ${KEYSTORE} --ks-pass stdin --v2-signing-enabled=true --out ${RELEASE_APK} ${BUILD_APK}.tmp | tee ${PWD}/build.log
+${APKSIGNER} sign --ks ${KEYSTORE} --v2-signing-enabled=true --out ${RELEASE_APK} ${BUILD_APK}.tmp | tee ${PWD}/build.log
 #rm -f $TMP
 echo "Signed"
 echo "Zipping ..."
