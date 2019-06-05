@@ -15,6 +15,10 @@ class XML {
         return this;
     }
 
+    getAttribue(query, attribute) {
+        return this.cheerio(query).attr(attribute);
+    }
+
     save(path) {
         const xml = this.cheerio.xml();
         fs.writeFileSync(path, xml);
