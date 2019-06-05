@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { CreateQuestionPage } from '../../modal/faq/create-question/create-question.page';
 import { ModalController } from '@ionic/angular';
 import { environment } from '../../../environments/environment';
-import * as moment from 'moment';
+import moment from 'moment-timezone';
 import { PushNotificationService } from '../../services/firebase/cloud-messaging/push-notification.service';
 import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
 import { __, e } from '../../services/functions';

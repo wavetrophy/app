@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IonInfiniteScroll } from '@ionic/angular';
 import { Subscription } from 'rxjs';
-import * as moment from 'moment';
+import moment from 'moment-timezone';
 import { Hotel } from '../../services/stream/types/hotel';
 import { StreamService } from '../../services/stream/stream.service';
 import { __, e, empty } from '../../services/functions';

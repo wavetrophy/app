@@ -7,14 +7,14 @@ import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { NotificationService } from './services/firebase/cloud-messaging/notification.service';
-import * as moment from 'moment';
-import 'moment/locale/de-ch';
-import 'moment/locale/en-gb';
 import { NetworkService } from './services/network/network.service';
 import { NetworkStatus } from './services/network/network-status';
 import { ImageCacheConfig } from './services/image-cache';
 import { PasswordChangePage } from './modal/user/password-change/password-change.page';
 import { __ } from './services/functions';
+import * as moment from 'moment-timezone';
+import 'moment/locale/de-ch';
+import 'moment/locale/en-gb';
 
 @Component({
   selector: 'app-root',
@@ -69,7 +69,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.imageCacheConfig.setFallbackUrl('assets/logo.jpg');
     this.imageCacheConfig.useImg = true;
     this.platform.ready().then(() => {
+      // moment.locale(this.authService.data.locale.short);
       moment.locale('de-CH');
+      // This is to set all dates per default to -01:00, so the dates from the server will be displayed correctly (+01:00)
+      moment.tz.setDefault('Atlantic/Azores');
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
@@ -88,6 +91,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this.notifications.register();
       // moment.locale(this.authService.data.locale.short);
       moment.locale('de-CH');
+      // This is to set all dates per default to -01:00, so the dates from the server will be displayed correctly (+01:00)
+      moment.tz.setDefault('Atlantic/Azores');
       this.nav.navigateRoot(['/', 'wave']);
     } else {
       this.nav.navigateRoot(['/', 'auth', 'login']);

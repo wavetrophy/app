@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment-timezone';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { StreamService } from '../services/stream/stream.service';

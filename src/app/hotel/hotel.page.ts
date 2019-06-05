@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import moment from 'moment-timezone';
 import { Hotel } from '../services/stream/types/hotel';
 import { Subscription } from 'rxjs';
 import { __, e, empty } from '../services/functions';

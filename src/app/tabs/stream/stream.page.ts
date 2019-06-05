@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { ChooseTeamPage } from '../../modal/team/choose/choose-team.page';
 import { environment } from '../../../environments/environment';
-import * as moment from 'moment';
+import moment from 'moment-timezone';
 import { Event } from '../../services/stream/types/event';
 import { __, e, empty } from '../../services/functions';
 import { NetworkService } from '../../services/network/network.service';

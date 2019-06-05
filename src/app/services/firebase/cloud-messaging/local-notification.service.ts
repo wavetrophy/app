@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ILocalNotification, LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { LocalNotification } from './types/local-notification';
-import * as moment from 'moment';
+import moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 
 @Injectable({
