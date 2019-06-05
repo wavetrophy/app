@@ -39,8 +39,10 @@
 
         <ion-row padding-start>
             <p>
-                <ion-icon name="time"></ion-icon>&nbsp;{{moment(hotel.check_in).format('HH:mm')}}
-                - {{moment(hotel.check_out).format('HH:mm')}}
+                {{'Ankunft bis:'}}&nbsp;{{moment(hotel.check_in).format('HH:mm')}}<br>
+                <span *ngIf="hotel['check_out']">
+                    {{'Abfahrt bis:'}}&nbsp;{{moment(hotel.check_out).format('HH:mm')}}
+                </span>
             </p>
         </ion-row>
 

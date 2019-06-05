@@ -1,32 +1,36 @@
 <ion-content padding>
-  <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-    <ion-refresher-content pullingText="{{'Neu laden'}}"></ion-refresher-content>
-  </ion-refresher>
+    <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
+        <ion-refresher-content pullingText="{{'Neu laden'}}"></ion-refresher-content>
+    </ion-refresher>
 
-  <ion-row class="ion-justify-content-center" *ngIf="isLoading === true" margin-bottom="1rem">
-    <ion-spinner name="crescent"></ion-spinner>
-  </ion-row>
+    <ion-row class="ion-justify-content-center" *ngIf="isLoading === true" margin-bottom="1rem">
+        <ion-spinner name="crescent"></ion-spinner>
+    </ion-row>
 
-  <ion-row class="ion-justify-content-center" *ngIf="errormessage">
-    <p>{{errormessage}}</p>
-  </ion-row>
+    <ion-row class="ion-justify-content-center" *ngIf="errormessage">
+        <p>{{errormessage}}</p>
+    </ion-row>
 
-  <ion-list *ngIf="hotels !== null">
-    <ion-item-sliding *ngFor="let key of objectKeys(hotels)">
-      <ion-item [routerLink]="['/', 'hotel', hotels[key].id]" routerDirection="forward">
-        <ion-label>
-          <h2>{{hotels[key].name}}</h2>
-          <p>
-            <ion-icon name="time"></ion-icon>&nbsp;{{moment(hotels[key].check_in).format('HH:mm')}}
-            - {{moment(hotels[key].check_out).format('HH:mm')}}
-          </p>
-        </ion-label>
-      </ion-item>
+    <ion-list *ngIf="hotels !== null">
+        <ion-item-sliding *ngFor="let key of objectKeys(hotels)">
+            <ion-item [routerLink]="['/', 'hotel', hotels[key].id]" routerDirection="forward">
+                <ion-label>
+                    <h2>{{hotels[key].name}}</h2>
+                    <p>
+                        <ion-icon name="arrow-round-forward">
+                        </ion-icon>&nbsp;{{moment(hotels[key].check_in).format('HH:mm')}}<br>
+                        <span *ngIf="hotels[key]['check_out']">
+                            <ion-icon name="arrow-round-back">
+                            </ion-icon>&nbsp;{{moment(hotels[key].check_out).format('HH:mm')}}
+                        </span>
+                    </p>
+                </ion-label>
+            </ion-item>
 
-      <ion-item-options side="start">
-        <ion-item-option geo="{{hotels[key].lat}},{{hotels[key].lon}}">{{'Starten'}}</ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
+            <ion-item-options side="start">
+                <ion-item-option geo="{{hotels[key].lat}},{{hotels[key].lon}}">{{'Starten'}}</ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
 
 </ion-content>
