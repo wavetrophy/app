@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="end">
+            <ion-button (click)="close()">{{'Schliessen'}}</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-row class="ion-justify-content-center">
+        <h3>{{title}}</h3>
+    </ion-row>
+    <ion-row>
+        <p>{{'Eine Registrierung ist wie folgt möglich:'}}</p>
+        <h3>{{'Als Teilnehmer der WAVE Trophy'}}</h3>
+        <p>{{'Als Teilnehmer der WAVE Trophy Rally bist Du bereits mit Deiner Anmeldung automatisch registriert worden. Du erhälst kurz vor der WAVE ein Email mit Zugangsdaten mit welchen du dich dann hier anmelden kannst'}}</p>
+        <h3>{{'Bist Du kein Teilnehmer?'}}</h3>
+        <p>{{'Dann kannstDu dich auf der Webseite der WAVETROPHY (www.wavetrophy.com) anmelden. Dazu musst du den Organisator Louis kontaktieren.'}}</p>
+    </ion-row>
+    <ion-button href="https://wavetrophy.com/kontakt" color="primary" expand="full">
+        {{'WAVETROPHY.com öffnen'}}
+    </ion-button>
+</ion-content>

@@ -88,7 +88,7 @@ export class HotelsPage implements OnInit, OnDestroy {
       }
       this.hotels = res.hotels;
       if (empty(this.hotels)) {
-        this.errormessage = __('Keine Hotels für dein Team verfügbar');
+        this.errormessage = __('Keine Hotels für Dein Team verfügbar');
       }
       this.cd.detectChanges();
     }, (res: any) => {

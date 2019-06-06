@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoadingController, NavController } from '@ionic/angular';
+import { LoadingController, ModalController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
 import { __ } from '../../services/functions';
+import { RegisterPage } from '../../modal/auth/register/register.page';
 
 @Component({
   selector: 'app-login',
@@ -37,6 +38,7 @@ export class LoginPage implements OnInit {
     private router: Router,
     private notifications: NotificationService,
     private nav: NavController,
+    private modal: ModalController,
   ) {
   }
 
@@ -70,5 +72,13 @@ export class LoginPage implements OnInit {
         this.isLoading = false;
         loader.dismiss();
       });
+  }
+
+  /**
+   *
+   * @return {Promise<void>}
+   */
+  public async openRegistration() {
+    const modal = RegisterPage.asModal(this.modal);
   }
 }

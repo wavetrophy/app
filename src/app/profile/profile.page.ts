@@ -157,7 +157,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       await error.present();
       return;
     }
-    const message = __('Die Email wird auch von deinem öffentlichen Kontakt entfernt. Andere Teilnehmer der WAVE können nun deine Email (wenn diese öffentlich ist) nicht mehr sehen. Bist Du sicher?');
+    const message = __('Die Email wird auch von Deinem öffentlichen Kontakt entfernt. Andere Teilnehmer der WAVE können nun deine Email (wenn diese öffentlich ist) nicht mehr sehen. Bist Du sicher?');
     const alert = await this.alert.create({
       header: __('Email löschen'),
       message: message,
@@ -221,7 +221,7 @@ export class ProfilePage implements OnInit, OnDestroy {
    * @param {Phonenumber} phonenumber
    * @returns {Promise<void>}
    */
-  public async removePhonenumber(phonenumber: Phonenumber) {const message = __('Die Telefonnummer wird auch von deinem öffentlichen Kontakt entfernt. Andere Teilnehmer der WAVE können nun deine Telefonnummer (wenn diese öffentlich ist) nicht mehr sehen. Bist Du sicher?');
+  public async removePhonenumber(phonenumber: Phonenumber) {const message = __('Die Telefonnummer wird auch von Deinem öffentlichen Kontakt entfernt. Andere Teilnehmer der WAVE können nun deine Telefonnummer (wenn diese öffentlich ist) nicht mehr sehen. Bist Du sicher?');
     const alert = await this.alert.create({
       header: __('Telefonnummer löschen'),
       message: message,

@@ -126,7 +126,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if ('must_reset_password' in data && data.must_reset_password) {
       const alert = await this.alert.create({
         header: __('Passwort ändern'),
-        message: __('Bitte ändere dein Passwort'),
+        message: __('Bitte ändere Dein Passwort'),
         buttons: [
           {
             text: 'OK',

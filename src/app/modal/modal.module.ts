@@ -11,6 +11,7 @@ import { EditQuestionPageModule } from './faq/edit-question/edit-question.module
 import { EditAnswerPageModule } from './faq/edit-answer/edit-answer.module';
 import { ChooseTeamPageModule } from './team/choose/choose-team.module';
 import { PasswordChangePageModule } from './user/password-change/password-change.module';
+import { RegisterPageModule } from './auth/register/register.module';
 
 @NgModule({
   declarations: [],
@@ -27,6 +28,7 @@ import { PasswordChangePageModule } from './user/password-change/password-change
     CreateQuestionPageModule,
     ViewContactPageModule,
     PasswordChangePageModule,
+    RegisterPageModule,
   ],
   exports: [
     ChooseTeamPageModule,
@@ -40,6 +42,7 @@ import { PasswordChangePageModule } from './user/password-change/password-change
     CreateQuestionPageModule,
     ViewContactPageModule,
     PasswordChangePageModule,
+    RegisterPageModule,
   ],
 })
 export class ModalModule {

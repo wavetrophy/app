@@ -16,7 +16,6 @@
         </ion-item>
 
         <ion-button expand="full" type="submit" [disabled]="!form.valid && !isLoading">{{'Login'}}</ion-button>
-        <ion-button class="ion-margin-top" color="light" expand="full"
-                    href="https://wavetrophy.com/kontakt">{{'Sign Up?'}}</ion-button>
+        <ion-button class="ion-margin-top" color="light" expand="full" (click)="openRegistration()">{{'Keinen Account?'}}</ion-button>
     </form>
 </ion-content>

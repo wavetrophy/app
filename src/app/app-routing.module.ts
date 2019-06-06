@@ -30,6 +30,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {path: '**', redirectTo: '', pathMatch: 'full'},
+  { path: 'register', loadChildren: './modal/auth/register/register.module#RegisterPageModule' },
 ];
 
 @NgModule({

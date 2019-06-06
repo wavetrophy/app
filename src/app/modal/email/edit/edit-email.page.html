@@ -4,7 +4,7 @@
         <ion-input type="text" [(ngModel)]="email.email" #focus></ion-input>
     </ion-item>
     <ion-label color="warning" *ngIf="isEmailEqualToUsername">
-        {{'Deine Email entspricht deinem Benutzernamen, welcher für das Login gebraucht wird. Wenn du diese nun änderst, musst du dich erneut anmelden!'}}
+        {{'Deine Email entspricht Deinem Benutzernamen, welcher für das Login gebraucht wird. Wenn du diese nun änderst, musst du dich erneut anmelden!'}}
     </ion-label>
     <ion-label color="danger" *ngIf="error">{{error}}</ion-label>
     <ion-row justify-content-end margin-top="1vh">
