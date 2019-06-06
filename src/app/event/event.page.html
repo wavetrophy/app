@@ -14,7 +14,7 @@
 
 <ion-content>
     <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-        <ion-refresher-content pullingText="{{'Neu laden'}}"></ion-refresher-content>
+        <ion-refresher-content pullingText="{{'Neu laden'}}"[refreshingSpinner]="null"></ion-refresher-content>
     </ion-refresher>
 
     <offline-img src="{{server}}/media/thumbnails/events/{{event.thumbnail}}"

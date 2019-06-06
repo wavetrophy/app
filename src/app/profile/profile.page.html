@@ -9,7 +9,7 @@
 
 <ion-content>
     <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-        <ion-refresher-content pullingText="{{'Neuladen'}}"></ion-refresher-content>
+        <ion-refresher-content pullingText="{{'Neuladen'}}"[refreshingSpinner]="null"></ion-refresher-content>
     </ion-refresher>
 
     <ion-row class="ion-justify-content-center avatar-row" text-center>
