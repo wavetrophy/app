@@ -15,6 +15,7 @@ import { NetworkService } from '../services/network/network.service';
 import { PasswordChangePage } from '../modal/user/password-change/password-change.page';
 import { NetworkStatus } from '../services/network/network-status';
 import { __ } from '../services/functions';
+import { Pro } from '@ionic/pro';
 
 @Component({
   selector: 'profile',
@@ -27,6 +28,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   public username: string;
   public profilePicture: { url: string } | any;
   public server = '';
+  public version = '1.0.0-default';
   private subs: Subscription[] = [];
 
   /**
@@ -52,12 +54,16 @@ export class ProfilePage implements OnInit, OnDestroy {
   /**
    * On init hook.
    */
-  public ngOnInit() {
+  public async ngOnInit() {
     this.getEmails();
     this.getPhonenumbers();
     this.username = this.auth.data.username;
     this.profilePicture = this.auth.data.profile_picture || {url: 'default/profile-picture.svg'};
     // todo add profile picture upload from gallery
+    const version = await Pro.deploy.getCurrentVersion();
+    if (version) {
+      this.version = version.binaryVersion + '-' + version.buildId + '.' + version.channel.toLowerCase();
+    }
   }
 
   /**
@@ -221,7 +227,8 @@ export class ProfilePage implements OnInit, OnDestroy {
    * @param {Phonenumber} phonenumber
    * @returns {Promise<void>}
    */
-  public async removePhonenumber(phonenumber: Phonenumber) {const message = __('Die Telefonnummer wird auch von Deinem öffentlichen Kontakt entfernt. Andere Teilnehmer der WAVE können nun deine Telefonnummer (wenn diese öffentlich ist) nicht mehr sehen. Bist Du sicher?');
+  public async removePhonenumber(phonenumber: Phonenumber) {
+    const message = __('Die Telefonnummer wird auch von Deinem öffentlichen Kontakt entfernt. Andere Teilnehmer der WAVE können nun deine Telefonnummer (wenn diese öffentlich ist) nicht mehr sehen. Bist Du sicher?');
     const alert = await this.alert.create({
       header: __('Telefonnummer löschen'),
       message: message,

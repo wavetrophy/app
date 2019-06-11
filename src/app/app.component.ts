@@ -15,6 +15,7 @@ import { __ } from './services/functions';
 import * as moment from 'moment-timezone';
 import 'moment/locale/de-ch';
 import 'moment/locale/en-gb';
+import { Pro } from '@ionic/pro';
 
 @Component({
   selector: 'app-root',
@@ -85,6 +86,9 @@ export class AppComponent implements OnInit, OnDestroy {
   public async ngOnInit() {
     await this.authService.checkToken();
     const state = this.authService.authenticationState.getValue();
+    Pro.init('b87b16f8', {
+      'channel': 'Master',
+    });
 
     if (state === true) {
       // Dont setup notifications if the user is not logged in.
