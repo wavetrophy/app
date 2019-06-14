@@ -165,11 +165,19 @@ export class StreamPage implements OnInit {
    * @return {Date}
    */
   public getStart(event: Event) {
+    let date = null;
     if ('personal_participation' in event && event.personal_participation !== null) {
-      return event.personal_participation.arrival;
+      date = event.personal_participation.arrival;
+    } else {
+      date = event.start;
     }
 
-    return event.start;
+    const formatted = moment(date).format('HH:mm');
+    if (formatted === '00:00') {
+      return __('keine Fixe Startzeit');
+    }
+
+    return formatted;
   }
 
   /**
@@ -178,11 +186,20 @@ export class StreamPage implements OnInit {
    * @return {Date}
    */
   public getEnd(event: Event) {
+    let date = null;
     if ('personal_participation' in event && event.personal_participation !== null) {
-      return event.personal_participation.departure;
+      date = event.personal_participation.departure;
+    } else {
+      date = event.end;
     }
 
-    return event.end;
+
+    const formatted = moment(date).format('HH:mm');
+    if (formatted === '00:00') {
+      return __('keine Fixe Endzeit');
+    }
+
+    return formatted;
   }
 
   /**

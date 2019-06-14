@@ -14,7 +14,7 @@
 
 <ion-content>
     <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-        <ion-refresher-content pullingText="{{'Neu laden'}}"[refreshingSpinner]="null"></ion-refresher-content>
+        <ion-refresher-content pullingText="{{'Neu laden'}}" [refreshingSpinner]="null"></ion-refresher-content>
     </ion-refresher>
 
     <offline-img src="{{server}}/media/thumbnails/events/{{event.thumbnail}}"
@@ -39,8 +39,8 @@
 
         <ion-row padding-start>
             <p>
-                <ion-icon name="time"></ion-icon>&nbsp;{{moment(event.personal_participation.arrival).format('HH:mm')}}
-                - {{moment(event.personal_participation.departure).format('HH:mm')}}
+                <ion-icon name="time"></ion-icon>&nbsp;{{getStart(event.personal_participation.arrival)}}
+                - {{getEnd(event.personal_participation.departure)}}
             </p>
         </ion-row>
 

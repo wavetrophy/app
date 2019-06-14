@@ -12,7 +12,6 @@ import { HTTP_INTERCEPTORS, HttpBackend, HttpClientModule, HttpXhrBackend } from
 import { IonicStorageModule, Storage } from '@ionic/storage';
 import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { JwtHttpInterceptor } from './services/interceptors/jwt-http.interceptor';
-import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { ModalModule } from './modal/modal.module';
 import { Firebase } from '@ionic-native/firebase/ngx';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -64,7 +63,6 @@ export function jwtOptionsFactory(storage) {
     PipeModule.forRoot(),
     ImageCacheModule.forRoot(),
     IonicStorageModule.forRoot(),
-    SuperTabsModule.forRoot(),
     MainOptionsPageModule,
     AnswerOptionsPageModule,
     JwtModule.forRoot({

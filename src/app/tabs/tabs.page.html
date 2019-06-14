@@ -13,35 +13,12 @@
 </ion-header>
 
 <ion-content forceOverscroll="false">
-    <super-tabs>
-        <super-tabs-toolbar showIndicator>
-            <super-tab-button>
-                <ion-label>{{'Events'}}</ion-label>
-            </super-tab-button>
-            <super-tab-button>
-                <ion-label>{{'Hotels'}}</ion-label>
-            </super-tab-button>
-            <super-tab-button>
-                <ion-label>{{'Kontakte'}}</ion-label>
-            </super-tab-button>
-            <super-tab-button>
-                <ion-label>{{'FAQ'}}</ion-label>
-            </super-tab-button>
-        </super-tabs-toolbar>
-
-        <super-tabs-container swipeEnabled>
-            <super-tab>
-                <ion-nav [root]="streamPage"></ion-nav>
-            </super-tab>
-            <super-tab>
-                <ion-nav [root]="hotelsPage"></ion-nav>
-            </super-tab>
-            <super-tab>
-                <ion-nav [root]="contactsPage"></ion-nav>
-            </super-tab>
-            <super-tab>
-                <ion-nav [root]="faqPage"></ion-nav>
-            </super-tab>
-        </super-tabs-container>
-    </super-tabs>
+    <ion-tabs>
+        <ion-tab-bar slot="top" color="primary">
+            <ion-tab-button tab="stream">{{'Events'}}</ion-tab-button>
+            <ion-tab-button tab="hotels">{{'Hotels'}}</ion-tab-button>
+            <ion-tab-button tab="contacts">{{'Kontakte'}}</ion-tab-button>
+            <ion-tab-button tab="faq">{{'FAQ'}}</ion-tab-button>
+        </ion-tab-bar>
+    </ion-tabs>
 </ion-content>

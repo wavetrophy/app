@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoadingController, ModalController, NavController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../services/firebase/cloud-messaging/notification.service';
 import { __ } from '../../services/functions';
 import { RegisterPage } from '../../modal/auth/register/register.page';
+import { NetworkService } from '../../services/network/network.service';
+import { NetworkStatus } from '../../services/network/network-status';
 
 @Component({
   selector: 'app-login',
@@ -39,6 +41,8 @@ export class LoginPage implements OnInit {
     private notifications: NotificationService,
     private nav: NavController,
     private modal: ModalController,
+    private network: NetworkService,
+    private alert: AlertController,
   ) {
   }
 
@@ -56,6 +60,19 @@ export class LoginPage implements OnInit {
    * Login
    */
   public async login() {
+    if (this.network.currentNetworkStatus() === NetworkStatus.OFFLINE) {
+      const alert = await this.alert.create({
+        header: __('Offline'),
+        message: __('Du bist offline. Bitte gehe wieder online um dich anmelden zu können'),
+        buttons: [{
+          text: __('OK'),
+          role: 'dismiss',
+        }],
+      });
+      alert.present();
+      return;
+    }
+
     const loader = await this.loading.create({
       message: __('Laden'),
       spinner: 'crescent',
@@ -79,6 +96,6 @@ export class LoginPage implements OnInit {
    * @return {Promise<void>}
    */
   public async openRegistration() {
-    const modal = RegisterPage.asModal(this.modal);
+    RegisterPage.asModal(this.modal);
   }
 }

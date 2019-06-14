@@ -94,5 +94,33 @@ export class EventPage implements OnInit, OnDestroy {
 
     return obs;
   }
+
+  /**
+   * Get the start time
+   * @param time
+   * @return {string | any}
+   */
+  private getStart(time) {
+    const date = moment(time).format('HH:mm');
+    if (date === '00:00') {
+      return 'Keine fixe Startzeit';
+    }
+
+    return date;
+  }
+
+  /**
+   * Get the end time
+   * @param time
+   * @return {string | any}
+   */
+  public getEnd(time) {
+    const date = moment(time).format('HH:mm');
+    if (date === '00:00') {
+      return 'Keine fixe Endzeit';
+    }
+
+    return date;
+  }
 }
 

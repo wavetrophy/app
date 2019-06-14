@@ -1,3 +1,11 @@
-super-tabs-container {
-  height: 100%;
+ion-tab-bar {
+  border: none;
+
+  ion-tab-button {
+    font-size: 1rem;
+
+    &.tab-selected {
+      border-bottom: 2px solid white;
+    }
+  }
 }

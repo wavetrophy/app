@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { TabsPageRoutingModule } from './tabs.router.module';
 
 import { TabsPage } from './tabs.page';
-import { SuperTabsModule } from '@ionic-super-tabs/angular';
 import { StreamPageModule } from './stream/stream.module';
 import { ContactsPageModule } from './contacts/contacts.module';
 import { FaqPageModule } from './faq/faq.module';
@@ -18,7 +17,7 @@ import { HotelsPageModule } from './hotels/hotels.module';
     CommonModule,
     FormsModule,
     TabsPageRoutingModule,
-    SuperTabsModule,
+    // SuperTabsModule,
     StreamPageModule,
     FaqPageModule,
     HotelsPageModule,
