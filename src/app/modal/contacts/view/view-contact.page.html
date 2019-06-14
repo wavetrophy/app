@@ -8,13 +8,12 @@
 
 <ion-content class="modal-content" padding>
     <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-        <ion-refresher-content pullingText="{{'Neu laden'}}"[refreshingSpinner]="null"></ion-refresher-content>
+        <ion-refresher-content pullingText="{{'Neu laden'}}" [refreshingSpinner]="null"></ion-refresher-content>
     </ion-refresher>
 
     <ion-row class="ion-justify-content-center avatar-row" text-center>
         <ion-avatar>
-            <ion-img src="{{server}}/{{contact.profile_picture.url}}" class="profile-picture">
-            </ion-img>
+            <offline-img src="{{server}}{{contact.profile_picture.url}}" class="profile-picture"></offline-img>
         </ion-avatar>
     </ion-row>
     <ion-row class="ion-justify-content-center">

@@ -9,13 +9,12 @@
 
 <ion-content>
     <ion-refresher slot="fixed" (ionRefresh)="reload($event)">
-        <ion-refresher-content pullingText="{{'Neuladen'}}"[refreshingSpinner]="null"></ion-refresher-content>
+        <ion-refresher-content pullingText="{{'Neuladen'}}" [refreshingSpinner]="null"></ion-refresher-content>
     </ion-refresher>
 
     <ion-row class="ion-justify-content-center avatar-row" text-center>
         <ion-avatar>
-            <ion-img src="{{server}}/{{profilePicture.url}}" class="profile-picture">
-            </ion-img>
+            <offline-img src="{{server}}{{profilePicture.url}}" class="profile-picture"></offline-img>
         </ion-avatar>
         <!--Disabled for now-->
         <!--<ion-fab-button color="primary" (click)="changeProfileImage()" requires-connection>-->
@@ -128,6 +127,8 @@
             {{'Dies sind Deine registrierten Telefonnummern. Diese Telefonnummern werden öffentlich allen WAVE Fahrern angezeigt, sofern Du dies mit dem "Öffentlich" Schalter aktiviert hast.'}}
         </p>
     </ion-text>
+
+    <ion-button expand="block" fill="outline" color="dark" (click)="clearCache()" margin>{{'Cache leeren'}}</ion-button>
 
     <ion-row class="ion-justify-content-center">
         <p class="small">{{'Version'}} {{version}}</p>

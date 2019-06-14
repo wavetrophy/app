@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProfilePage } from './profile.page';
 import { DirectivesModule } from '../directives/directives.module';
+import { ImageCacheModule } from '../services/image-cache';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     DirectivesModule,
+    ImageCacheModule,
   ],
   declarations: [ProfilePage],
 })

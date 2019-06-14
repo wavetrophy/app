@@ -64,6 +64,12 @@ ion-modal {
   line-height: .8rem;
 }
 
+.break {
+  word-break: break-all;
+  overflow: initial;
+  white-space: initial;
+}
+
 // fix
 .action-sheet-group {
   overflow: auto !important;

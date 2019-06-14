@@ -138,8 +138,7 @@ export class AuthService {
         }),
         catchError(e => {
           this.showAlert(__('Falsche Zugangsdaten'));
-          this._authenticationState.next(false);
-          this._authenticationState.next(null);
+          this.logout();
           throw new Error(e);
         }),
       );

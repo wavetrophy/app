@@ -16,6 +16,7 @@ import { PasswordChangePage } from '../modal/user/password-change/password-chang
 import { NetworkStatus } from '../services/network/network-status';
 import { __ } from '../services/functions';
 import { Pro } from '@ionic/pro';
+import { CacheService } from '../services/network/cache.service';
 
 @Component({
   selector: 'profile',
@@ -39,6 +40,7 @@ export class ProfilePage implements OnInit, OnDestroy {
    * @param {AlertController} alert
    * @param {LoadingController} loading
    * @param {NetworkService} network
+   * @param {CacheService} cache
    */
   public constructor(
     private userService: UserService,
@@ -47,6 +49,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     private alert: AlertController,
     private loading: LoadingController,
     private network: NetworkService,
+    private cache: CacheService,
   ) {
     this.server = environment.api.url;
   }
@@ -157,7 +160,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     if (email.is_primary) {
       const error = await this.alert.create({
         header: 'Error',
-        message: 'You cannot delete your primary email.',
+        message: 'Du kannst nicht deine primäre Emailadresse löschen.',
         buttons: [{text: 'OK', role: 'dismiss'}],
       });
       await error.present();
@@ -259,6 +262,40 @@ export class ProfilePage implements OnInit, OnDestroy {
         },
       ],
     });
+    alert.present();
+  }
+
+  /**
+   * Clear the cache
+   */
+  public async clearCache() {
+    let alert;
+    if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
+      const loader = await this.loading.create({
+        message: __('Laden'),
+        spinner: 'crescent',
+      });
+      loader.present();
+      await this.cache.clear();
+      await loader.dismiss();
+      alert = await this.alert.create({
+        header: __('Cache geleert'),
+        message: __('Der cache wurde erfolgreich geleert'),
+        buttons: [{
+          text: __('OK'),
+          role: 'dismiss',
+        }],
+      });
+    } else {
+      alert = await this.alert.create({
+        header: __('Cache nicht geleert'),
+        message: __('Es scheint, als ob Du offline wärst. Deshalb wurde der Cache nicht geleert'),
+        buttons: [{
+          text: __('OK'),
+          role: 'dismiss',
+        }],
+      });
+    }
     alert.present();
   }
 

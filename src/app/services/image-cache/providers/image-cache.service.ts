@@ -5,6 +5,9 @@ import { fromEvent } from 'rxjs/observable/fromEvent';
 import { first } from 'rxjs/operators';
 import { ImageCacheConfig } from './image-cache-config.service';
 import { Platform } from '@ionic/angular';
+import { ConsoleLogger } from '../../logger/logger';
+
+const logger = new ConsoleLogger('CSERV');
 
 interface IndexItem {
   name: string;
@@ -335,6 +338,7 @@ export class ImageCache {
             headers: this.config.httpHeaders,
           }).subscribe(
             (data: Blob) => {
+              logger.info('Fetched image ' + currentItem.imageUrl);
               this.file.writeFile(localDir, fileName, data, {replace: true}).then((file: FileEntry) => {
                 if (this.isCacheSpaceExceeded) {
                   this.maintainCacheSize();

@@ -1,6 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2 } from '@angular/core';
 import { ImageCache } from '../providers/image-cache.service'; // against circular dependency
-import { ImageCacheConfig } from '../providers/image-cache-config.service'; // against circular dependency
+import { ImageCacheConfig } from '../providers/image-cache-config.service';
+import { ConsoleLogger } from '../../logger/logger'; // against circular dependency
+
+const logger = new ConsoleLogger('IMG');
 
 const propMap: any = {
   display: 'display',
