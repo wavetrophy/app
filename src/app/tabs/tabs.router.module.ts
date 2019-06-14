@@ -9,31 +9,19 @@ const routes: Routes = [
     children: [
       {
         path: 'stream',
-        children: [{
-          path: '',
-          loadChildren: './stream/stream.module#StreamPageModule',
-        }],
+        loadChildren: './stream/stream.module#StreamPageModule',
       },
       {
         path: 'contacts',
-        children: [{
-          path: '',
-          loadChildren: './contacts/contacts.module#ContactsPageModule',
-        }],
+        loadChildren: './contacts/contacts.module#ContactsPageModule',
       },
       {
         path: 'faq',
-        children: [{
-          path: '',
-          loadChildren: './faq/faq.module#FaqPageModule',
-        }],
+        loadChildren: './faq/faq.module#FaqPageModule',
       },
       {
         path: 'hotels',
-        children: [{
-          path: '',
-          loadChildren: './hotels/hotels.module#HotelsPageModule',
-        }],
+        loadChildren: './hotels/hotels.module#HotelsPageModule',
       },
       {path: '', redirectTo: '/wave/stream', pathMatch: 'full'},
     ],

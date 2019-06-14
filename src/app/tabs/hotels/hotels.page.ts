@@ -86,7 +86,14 @@ export class HotelsPage implements OnInit, OnDestroy {
         this.errormessage = e(res, 'message') || __('Keine Daten verfügbar');
         return;
       }
-      this.hotels = res.hotels;
+
+      const hotels = {};
+      Object.keys(res.hotels).sort().forEach(function (key) {
+        const k = key.substr(0, 8);
+        hotels[k] = res.hotels[key];
+      });
+
+      this.hotels = hotels;
       if (empty(this.hotels)) {
         this.errormessage = __('Keine Hotels für Dein Team verfügbar');
       }

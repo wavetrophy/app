@@ -15,7 +15,6 @@ export class TabsPage {
   public constructor(private popover: PopoverController) {
   }
 
-
   /**
    * Open options page
    * @param event

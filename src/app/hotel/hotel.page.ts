@@ -85,6 +85,7 @@ export class HotelPage implements OnInit, OnDestroy {
         this.errormessage = e(res, 'message') || __('Keine Daten verfügbar');
         return;
       }
+
       this.hotel = res.hotel;
     });
     this.subs.push(sub);
