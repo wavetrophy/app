@@ -31,7 +31,7 @@
     <div *ngIf="events !== null">
         <div *ngFor="let day of objectKeys(events)">
             <h4>
-                {{moment(day, "YYYYMMDD").format('Do MMMM YYYY')}}<br></h4>
+                {{moment(day, "YYYYMMDD").format('ddd Do MMMM YYYY')}}<br></h4>
             <ion-list>
                 <ion-item *ngFor="let event of events[day]" [routerLink]="['/', 'event', event.id]"
                           routerDirection="forward">

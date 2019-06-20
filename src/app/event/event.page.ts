@@ -103,7 +103,7 @@ export class EventPage implements OnInit, OnDestroy {
   private getStart(time) {
     const date = moment(time).format('HH:mm');
     if (date === '00:00') {
-      return 'Keine fixe Startzeit';
+      return 'Keine fixe Ankunftszeit';
     }
 
     return date;
@@ -117,7 +117,7 @@ export class EventPage implements OnInit, OnDestroy {
   public getEnd(time) {
     const date = moment(time).format('HH:mm');
     if (date === '00:00') {
-      return 'Keine fixe Endzeit';
+      return 'Keine fixe Abfahrtszeit';
     }
 
     return date;

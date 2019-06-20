@@ -37,12 +37,17 @@
             <h1>{{event.name}}</h1>
         </ion-row>
 
-        <ion-row padding-start>
-            <p>
-                <ion-icon name="time"></ion-icon>&nbsp;{{getStart(event.personal_participation.arrival)}}
-                - {{getEnd(event.personal_participation.departure)}}
-            </p>
-        </ion-row>
+        <h5>{{'Zeiten'}}</h5>
+        <table>
+            <tr>
+                <td>{{'Ankunftszeit:'}} </td>
+                <td text-right>{{getStart(event.personal_participation.arrival)}}</td>
+            </tr>
+            <tr>
+                <td>{{'Abfahrtszeit:'}} </td>
+                <td>{{getEnd(event.personal_participation.departure)}}</td>
+            </tr>
+        </table>
 
         <div *ngIf="!empty(event.activities)">
             <ion-row>

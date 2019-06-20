@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import { Firebase } from '@ionic-native/firebase/ngx';
 import { __, e } from '../functions';
 import { CacheService } from '../network/cache.service';
+import { NetworkService } from '../network/network.service';
+import { NetworkStatus } from '../network/network-status';
 
 @Injectable({
   providedIn: 'root',

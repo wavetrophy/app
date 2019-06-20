@@ -84,8 +84,20 @@ export class AppComponent implements OnInit, OnDestroy {
    * @returns {Promise<void>}
    */
   public async ngOnInit() {
-    await this.authService.checkToken();
-    const state = this.authService.authenticationState.getValue();
+    let state = true;
+    if (this.network.currentNetworkStatus() === NetworkStatus.ONLINE) {
+      await this.authService.checkToken();
+      state = this.authService.authenticationState.getValue();
+    } else {
+      const sub = this.network.onNetworkChange().subscribe((status: NetworkStatus) => {
+        if (status === NetworkStatus.ONLINE) {
+          this.authService.checkToken();
+          sub.unsubscribe();
+        }
+      });
+      this.subs.push(sub);
+      state = this.authService.authenticationState.getValue();
+    }
     Pro.init('b87b16f8', {
       'channel': 'Master',
     });
@@ -123,7 +135,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (!this.authService.isAuthenticated()) {
       return;
     }
-    if (!('data' in this.authService)) {
+    if (!('data' in this.authService) && !this.authService['data']) {
       return;
     }
     const data = this.authService.data;
