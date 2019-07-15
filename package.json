@@ -110,7 +110,7 @@
     "@angular/compiler-cli": "^7.2.15",
     "@angular/language-service": "^7.2.15",
     "@ionic/angular-toolkit": "~1.4.0",
-    "@ionic/app-scripts": "^3.2.3",
+    "@ionic/app-scripts": "^3.2.4",
     "@ionic/lab": "1.0.23",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
