@@ -112,7 +112,7 @@
     "@ionic/angular-toolkit": "~1.4.0",
     "@ionic/app-scripts": "^3.2.4",
     "@ionic/lab": "1.0.23",
-    "@types/jasmine": "~2.8.8",
+    "@types/jasmine": "~3.3.13",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~12.6.2",
     "cheerio": "^1.0.0-rc.3",
