@@ -84,7 +84,7 @@
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
     "node-sass": "^4.12.0",
-    "rxjs": "~6.3.3",
+    "rxjs": "~6.5.2",
     "rxjs-compat": "^6.5.2",
     "sentry-cordova": "^0.15.0",
     "uk.co.workingedge.phonegap.plugin.launchnavigator": "^5.0.4",
