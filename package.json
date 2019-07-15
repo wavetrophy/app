@@ -59,7 +59,7 @@
     "@ionic/pro": "2.0.4",
     "@ionic/storage": "^2.2.0",
     "ansicolor": "^1.1.84",
-    "cordova-android": "7.1.4",
+    "cordova-android": "8.0.0",
     "cordova-ios": "4.5.5",
     "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-advanced-http": "^2.0.9",
