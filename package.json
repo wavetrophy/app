@@ -114,7 +114,7 @@
     "@ionic/lab": "1.0.23",
     "@types/jasmine": "~3.3.13",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "~12.6.2",
+    "@types/node": "~12.12.18",
     "cheerio": "^1.0.0-rc.3",
     "codelyzer": "~5.1.0",
     "conf": "^4.1.0",
