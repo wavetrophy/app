@@ -129,7 +129,7 @@
     "karma-jasmine-html-reporter": "^1.4.2",
     "listr": "^0.14.3",
     "listr-inquirer": "^0.1.0",
-    "ora": "^3.4.0",
+    "ora": "^4.0.4",
     "protractor": "~5.4.0",
     "shelljs": "^0.8.4",
     "ts-node": "~8.3.0",
